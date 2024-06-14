@@ -43,6 +43,14 @@ docker-compose run --rm api sh
 docker-compose exec api sh
 ```
 
+# ライブラリのインストール
+
+コンテナを立ち上げた状態で  
+
+```shell
+npm install
+```
+
 # テスト
 
 ```shell
