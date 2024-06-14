@@ -9,4 +9,9 @@ export class StringController {
   getUpperCase(@Body() body: { message: string }): string {
     return this.stringService.upperCase(body.message);
   }
+
+  @Get('lowercase')
+  getLowerCase(@Body() body: { message: string }): string {
+    return this.stringService.lowerCase(body.message);
+  }
 }

@@ -31,4 +31,17 @@ describe('StringController', () => {
       expect(service.upperCase).toHaveBeenCalledWith('test');
     });
   });
+
+  describe('getLowerCaseのテスト', () => {
+    it('getLowerCaseを実行するとstringServiceのlowerCaseが指定された引数で実行される', () => {
+      const body = {
+        message: 'TEST',
+      };
+      // controller はmockのメソッド
+      controller.getLowerCase(body);
+      // service はmockのメソッド
+      expect(service.lowerCase).toHaveBeenCalledWith('TEST');
+    });
+  });
+
 });
