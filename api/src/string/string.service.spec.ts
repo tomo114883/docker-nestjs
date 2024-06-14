@@ -16,30 +16,30 @@ describe('StringService', () => {
   describe('StringServiceのテスト', () => {
     describe('upperCaseのテスト', () => {
       it('大文字に変換されること', () => {
-        const message: string = "hogehoge";
+        const message: string = 'hogehoge';
         const upperString = service.upperCase(message);
-        expect(upperString).toBe("HOGEHOGE");
-      })
+        expect(upperString).toBe('HOGEHOGE');
+      });
 
       it('2バイト文字が入力されたとき、そのままであること', () => {
-        const message: string = "ほげほげ";
+        const message: string = 'ほげほげ';
         const upperString = service.upperCase(message);
-        expect(upperString).toBe("ほげほげ");
-      })
+        expect(upperString).toBe('ほげほげ');
+      });
     });
-    
+
     describe('lowerCaseのテスト', () => {
       it('小文字に変換されていること', () => {
-        const message: string = "HOGEHOGE";
+        const message: string = 'HOGEHOGE';
         const lowerString = service.lowerCase(message);
-        expect(lowerString).toBe("hogehoge");
-      })
-      
+        expect(lowerString).toBe('hogehoge');
+      });
+
       it('2バイト文字が入力されたとき、そのままであること', () => {
-        const message: string = "ほげほげ";
+        const message: string = 'ほげほげ';
         const lowerString = service.upperCase(message);
-        expect(lowerString).toBe("ほげほげ");
-      })
+        expect(lowerString).toBe('ほげほげ');
+      });
     });
-  })
+  });
 });
