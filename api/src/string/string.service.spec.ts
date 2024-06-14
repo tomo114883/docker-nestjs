@@ -13,17 +13,33 @@ describe('StringService', () => {
     service = module.get<StringService>(StringService);
   });
 
-  describe('文字列操作のテスト', () => {
-    it('messageの"hogehoge"を受けとったとき、すべて大文字に変換していること。', () => {
-      const message: string = "hogehoge";
-      const upperString = service.upperCase(message);
-      expect(upperString).toBe("HOGEHOGE");
-    });
+  describe('StringServiceのテスト', () => {
+    describe('upperCaseのテスト', () => {
+      it('大文字に変換されること', () => {
+        const message: string = "hogehoge";
+        const upperString = service.upperCase(message);
+        expect(upperString).toBe("HOGEHOGE");
+      })
 
-    it('messageをすべて小文字に変換していること。', () => {
-      const message: string = "HOGEHOGE";
-      const lowerString = service.lowerCase(message);
-      expect(lowerString).toBe("hogehoge");
+      it('2バイト文字が入力されたとき、そのままであること', () => {
+        const message: string = "ほげほげ";
+        const upperString = service.upperCase(message);
+        expect(upperString).toBe("ほげほげ");
+      })
+    });
+    
+    describe('lowerCaseのテスト', () => {
+      it('小文字に変換されていること', () => {
+        const message: string = "HOGEHOGE";
+        const lowerString = service.lowerCase(message);
+        expect(lowerString).toBe("hogehoge");
+      })
+      
+      it('2バイト文字が入力されたとき、そのままであること', () => {
+        const message: string = "ほげほげ";
+        const lowerString = service.upperCase(message);
+        expect(lowerString).toBe("ほげほげ");
+      })
     });
   })
 });
