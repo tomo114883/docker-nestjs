@@ -1,13 +1,12 @@
-import { Controller, Get, Req } from '@nestjs/common';
-import { get } from 'http';
+import { Body, Controller, Get } from '@nestjs/common';
 import { StringService } from './string.service';
 
 @Controller('string')
 export class StringController {
-  constructor(private readonly stringService: StringService) {}
+  constructor(private stringService: StringService) {}
 
   @Get('uppercase')
-  getUpperCase(): string {
-    return "";
+  getUpperCase(@Body() body: { message: string }): string {
+    return this.stringService.upperCase(body.message);
   }
 }
