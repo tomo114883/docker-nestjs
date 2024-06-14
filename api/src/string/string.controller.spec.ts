@@ -37,11 +37,9 @@ describe('StringController', () => {
       const body = {
         message: 'TEST',
       };
-      // controller はmockのメソッド
       controller.getLowerCase(body);
       // service はmockのメソッド
       expect(service.lowerCase).toHaveBeenCalledWith('TEST');
     });
   });
-
 });

@@ -6,9 +6,9 @@ export class StringService {
   readonly upperCase = (message: string): string => {
     // TODO: uppercaseに変換。
     return message.toUpperCase();
-  }
+  };
 
   readonly lowerCase = (message: string): string => {
     return message.toLowerCase();
-  }
+  };
 }
