@@ -1,0 +1,42 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+      target: development
+    volumes:
+      - ./api:/api
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+    restart: always
+    user: "1000"
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/web/Dockerfile
+  #     target: development
+  #   ports:
+  #     - 8080:3000
+  #   user: "1000"
+  #   stdin_open: true
+  #   tty: true
+  #   restart: always
+  db:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.data/db:/var/lib/postgresql/data
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+    stdin_open: true
+    tty: true
+    restart: always
+volumes:
+  db:
