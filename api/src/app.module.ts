@@ -10,12 +10,12 @@ import { APP_PIPE } from '@nestjs/core';
   imports: [StringModule],
   controllers: [AppController],
   providers: [
-    AppService,
-    StringService,
     {
       provide: APP_PIPE,
       useClass: ZodValidationPipe,
     },
+    AppService,
+    StringService,
   ],
 })
 export class AppModule {}

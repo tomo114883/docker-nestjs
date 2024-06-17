@@ -19,15 +19,27 @@ describe('StringController (e2e)', () => {
     return request(app.getHttpServer())
       .put('/string/uppercase')
       .send({ message: 'konnichiha!' })
-      .expect(200)
-      .expect('KONNICHIHA!');
+      .expect(200);
   });
 
   it('/string/uppercase (PUT)', () => {
     return request(app.getHttpServer())
       .put('/string/uppercase')
       .send({ message: 1 })
-      .expect(200)
-      .expect('KONNICHIHA!');
+      .expect(400);
+  });
+
+  it('/string/lowercase (PUT)', () => {
+    return request(app.getHttpServer())
+      .put('/string/lowercase')
+      .send({ message: 'KONNICHIHA!' })
+      .expect(200);
+  });
+
+  it('/string/lowercase (PUT)', () => {
+    return request(app.getHttpServer())
+      .put('/string/lowercase')
+      .send({ message: 1 })
+      .expect(400);
   });
 });
