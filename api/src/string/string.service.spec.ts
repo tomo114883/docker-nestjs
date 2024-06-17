@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StringService } from './string.service';
-import { resourceLimits } from 'worker_threads';
 
 describe('StringService', () => {
   let service: StringService;
