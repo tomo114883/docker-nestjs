@@ -14,17 +14,6 @@ services:
     tty: true
     restart: always
     user: "1000"
-  # web:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/web/Dockerfile
-  #     target: development
-  #   ports:
-  #     - 8080:3000
-  #   user: "1000"
-  #   stdin_open: true
-  #   tty: true
-  #   restart: always
   db:
     build:
       context: .
