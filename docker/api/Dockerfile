@@ -1,19 +1,38 @@
-FROM node:18.17-alpine AS development
+# syntax=docker/dockerfile:1
+FROM node:20-alpine AS base
 
 WORKDIR /api
 
+# このレイヤーに変更がなければキャッシュを利用。
+COPY ./api/package*.json ./
+
+# Alpine Linuxイメージを使用しているため,
+# `apk`パッケージマネージャを利用。
 RUN apk update && \
     apk upgrade && \
-    apk add tzdata git
+    # --no-cacheオプにより、キャッシュを自動で削除。
+    apk add --no-cache tzdata git
+
+# package*.json に変更がなければ、
+# このレイヤーもキャッシュとして再利用。
+RUN npm install
+
+# プロジェクト全体をコピー
+COPY ./api ./
 
 ENV TZ=UTC
+
+# 開発用のステージ
+FROM base AS dev
+
 ENV NODE_ENV=development
 
 CMD ["npm", "run", "start:dev"]
 
-FROM development AS production
-WORKDIR /api
-COPY ./api .
+# 本番用のステージ
+FROM base AS prod
+
+ENV NODE_ENV=production
 
 RUN npm ci
 RUN npm run build
