@@ -1,0 +1,6 @@
+# volumes
+.data/
+.pgadmin/
+
+# settings
+.env
