@@ -6,9 +6,10 @@ import { StringModule } from './string/string.module';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './users/users.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
-  imports: [StringModule, UsersModule],
+  imports: [StringModule, UsersModule, PostsModule],
   controllers: [AppController],
   providers: [
     {

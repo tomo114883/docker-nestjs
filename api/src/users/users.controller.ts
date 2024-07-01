@@ -10,34 +10,37 @@ import {
 import { UsersService } from './users.service';
 // import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
-import { Prisma } from '@prisma/client';
+import { User, Prisma } from '@prisma/client';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() data: Prisma.UserCreateInput) {
+  async create(@Body() data: Prisma.UserCreateInput): Promise<User> {
     return this.usersService.create(data);
   }
 
   @Get()
-  findAll() {
+  async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Prisma.UserUpdateInput) {
+  async update(
+    @Param('id') id: string,
+    @Body() data: Prisma.UserUpdateInput,
+  ): Promise<User> {
     return this.usersService.update(+id, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(+id);
   }
 }
