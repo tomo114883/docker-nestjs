@@ -9,7 +9,7 @@ services:
       # これはバインドマウント。
       - ./api:/api
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/practice?schema=public"
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/app?schema=public"
     ports:
       - 3001:3000
     stdin_open: true
@@ -25,7 +25,7 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "practice"
+      POSTGRES_DB: "app"
     ports:
       - 5433:5432
     volumes:
@@ -55,9 +55,9 @@ services:
       - ./.pgadmin:/var/lib/pgadmin
       - ./config/servers.json:/pgadmin4/servers.json
       - ./config/preferences.json:/pgadmin4/preferences.json
+    restart: always
     depends_on:
       - db
-    restart: always
 # volumes:
 # 開発環境ではボリュームはなし。
 # 本番環境ではボリュームを利用する。
