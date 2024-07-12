@@ -27,7 +27,7 @@ FROM base AS dev
 
 ENV NODE_ENV=development
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "dev"]
 
 # 本番用のステージ
 FROM base AS prod
@@ -37,4 +37,4 @@ ENV NODE_ENV=production
 RUN npm ci
 RUN npm run build
 
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start"]
