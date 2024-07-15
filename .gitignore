@@ -4,3 +4,6 @@
 
 # settings
 .env
+
+# project
+node_modules
