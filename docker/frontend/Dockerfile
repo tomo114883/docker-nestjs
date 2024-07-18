@@ -22,6 +22,8 @@ COPY ./frontend ./
 
 ENV TZ=UTC
 
+EXPOSE 5173
+
 # 開発用のステージ
 FROM base AS dev
 
