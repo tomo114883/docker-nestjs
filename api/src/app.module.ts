@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { APP_PIPE } from '@nestjs/core';
-import { UsersModule } from './src/users/users.module';
 import { UsersModule } from './users/users.module';
 import { MotivationsModule } from './motivations/motivations.module';
 

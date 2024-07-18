@@ -67,7 +67,7 @@ services:
     volumes:
       - ./frontend:/frontend
     ports:
-      - 3002:3000
+      - 5173:5173
     stdin_open: true
     tty: true
     restart: always
@@ -90,7 +90,7 @@ services:
 
 networks:
   default:
-    name: docker-nestjs_default
+    name: d-n_default
 # volumes:
 # 開発環境ではボリュームはなし。
 # 本番環境ではボリュームを利用する。
