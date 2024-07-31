@@ -39,6 +39,7 @@
     "@nestjs/testing": "^10.0.0",
     "@quramy/jest-prisma": "^1.8.1",
     "@quramy/jest-prisma-node": "^1.8.1",
+    "@quramy/prisma-fabbrica": "^2.2.1",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
@@ -80,6 +81,9 @@
       "<rootDir>"
     ],
     "preset": "ts-jest",
-    "testEnvironment": "@quramy/jest-prisma-node/environment"
+    "testEnvironment": "@quramy/jest-prisma-node/environment",
+    "setupFilesAfterEnv": [
+      "@quramy/prisma-fabbrica/scripts/jest-prisma"
+    ]
   }
 }
