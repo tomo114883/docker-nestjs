@@ -33,6 +33,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@golevelup/ts-jest": "^0.5.0",
     "@nestjs/cli": "^10.3.2",
     "@nestjs/schematics": "^10.0.0",

@@ -3,7 +3,7 @@ import { MotivationsService } from './motivations.service';
 import { CreateMotivationDto } from './dto/create-motivation.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
-import { defineUserFactory } from 'src/__generated__/fabbrica';
+import { UserModelFactory } from 'src/test.utils/factory';
 
 describe('MotivationsService', () => {
   let service: MotivationsService;
@@ -20,13 +20,9 @@ describe('MotivationsService', () => {
     service = module.get<MotivationsService>(MotivationsService);
   });
 
-  const UserFactory = defineUserFactory();
-
   describe('createメソッドのテスト', () => {
     it('dataが入力されたとき、DBにモチベーションが新規作成されること', async () => {
-      const user = await UserFactory.create({
-        email: 'a@example.com',
-      });
+      const user = await UserModelFactory.create();
 
       const data: CreateMotivationDto = {
         name: 'a',
