@@ -12,7 +12,10 @@ describe('MotivationsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [PrismaModule],
       providers: [MotivationsService],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue(jestPrisma.client)
+      .compile();
 
     service = module.get<MotivationsService>(MotivationsService);
     prisma = module.get<PrismaService>(PrismaService);
