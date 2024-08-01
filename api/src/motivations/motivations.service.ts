@@ -15,6 +15,9 @@ export class MotivationsService {
         weight: data.weight,
         userId: data.userId,
         typeId: data.typeId,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
+        deletedAt: data.deletedAt,
       },
     });
   }
