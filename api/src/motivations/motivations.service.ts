@@ -30,11 +30,11 @@ export class MotivationsService {
     return await this.prisma.motivation.findUnique({ where: { id } });
   }
 
-  async update(id: number, data: UpdateMotivationDto) {
+  async update(id: number, data: UpdateMotivationDto): Promise<Motivation> {
     return await this.prisma.motivation.update({ where: { id }, data });
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<number> {
     const deletedMotiv = await this.prisma.motivation.delete({ where: { id } });
     return deletedMotiv.id;
   }
