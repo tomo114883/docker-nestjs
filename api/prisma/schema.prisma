@@ -8,9 +8,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator fabbrica {
+  provider = "prisma-fabbrica"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
@@ -25,8 +30,7 @@ model User {
 }
 
 model Motivation {
-                  // Scalar Type
-  id              Int           @default(autoincrement()) @id
+  id              Int           @default(autoincrement()) @id // Scalar Type
   name            String
   weight          Int?
   userId          Int
@@ -36,8 +40,7 @@ model Motivation {
   deletedAt       DateTime?
   user            User          @relation(fields: [userId], references: [id])
   type            Type?         @relation(fields: [typeId], references: [id])
-                  // Model Type
-  typesOnMotivations TypesOnMotivations[]
+  typesOnMotivations TypesOnMotivations[] // Model Type
 }
 
 model Stress {

@@ -1,26 +1,75 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: CreateUserDto): Promise<User> {
+    return this.prisma.user.create({
+      data: {
+        email: data.email,
+        name: data.name,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number): Promise<User> {
+    return this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, data: UpdateUserDto): Promise<User> {
+    // 更新対象のユーザー自身が持つemailを確認
+    const currentUser = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!currentUser) {
+      throw new Error('更新対象のユーザーが見つかりません。');
+    }
+
+    // 入力されたemailが他のユーザーに存在するか確認
+    const existingUser = await this.prisma.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+
+    // 他のユーザーが同じemailを持っている場合エラーを投げる
+    if (existingUser && existingUser.id !== id) {
+      throw new Error('このメールアドレスは既に存在しています。');
+    }
+
+    // ユーザー情報の更新
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number): Promise<number> {
+    const user = await this.prisma.user.findUnique({ where: { id: id } });
+    if (!user) {
+      return id;
+    }
+    const deletedUser = await this.prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedUser.id;
   }
 }

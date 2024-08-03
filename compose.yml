@@ -10,8 +10,6 @@ services:
       # ホスト側のファイルシステムのパスを直接、指定しているため、
       # これはバインドマウント。
       - ./api:/api
-    environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/app?schema=public"
     ports:
       - 3001:3000
     stdin_open: true

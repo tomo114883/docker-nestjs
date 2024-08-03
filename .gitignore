@@ -4,6 +4,8 @@
 
 # settings
 .env
+.env.test
 
 # project
 node_modules
+migrations
