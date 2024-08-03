@@ -11,6 +11,7 @@ import { faker } from '@faker-js/faker';
 
 describe('MotivationsService', () => {
   let service: MotivationsService;
+  let prisma: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,6 +24,7 @@ describe('MotivationsService', () => {
       .compile();
 
     service = module.get<MotivationsService>(MotivationsService);
+    prisma = module.get<PrismaService>(PrismaService);
   });
 
   describe('create-method', () => {
@@ -140,6 +142,26 @@ describe('MotivationsService', () => {
 
       // Assert if the deleted ID of motiv is correct with the motiv ID.
       expect(deletedId).toBe(motivation.id);
+    });
+  });
+
+  describe('totalCalculation-method', () => {
+    it('Calculate sum of weight per user.', async () => {
+      // Same above.
+      const user = await UserModelFactory.create();
+
+      const createdMotivator = await prisma.motivation.create({
+        data: {
+          name: faker.word.noun(),
+          weight: faker.number.int({ min: 1, max: 5 }),
+          userId: user.id,
+        },
+      });
+
+      // Calculate motivation level that is sum of each motivator's weight per user.
+      const motivationLevel = await service.totalCalculation(user.id);
+
+      expect(motivationLevel).toBe(createdMotivator.weight);
     });
   });
 });
