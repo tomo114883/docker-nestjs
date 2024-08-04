@@ -1,7 +1,7 @@
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
-export const CreateMotivationSchema = z.object({
+export const CreateMotivatorSchema = z.object({
   id: z.number().optional(), // Is optional because of auto-generated.
   name: z.string(),
   weight: z.number().nullable().optional(),
@@ -12,4 +12,4 @@ export const CreateMotivationSchema = z.object({
   deletedAt: z.date().nullable().optional(),
 });
 
-export class CreateMotivationDto extends createZodDto(CreateMotivationSchema) {}
+export class CreateMotivatorDto extends createZodDto(CreateMotivatorSchema) {}

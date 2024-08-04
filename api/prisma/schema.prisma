@@ -25,11 +25,11 @@ model User {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   deletedAt       DateTime?
-  motivations     Motivation[]
-  stresses        Stress[]
+  motivators     Motivator[]
+  Stressors        Stressor[]
 }
 
-model Motivation {
+model Motivator {
   id              Int           @default(autoincrement()) @id // Scalar Type
   name            String
   weight          Int?
@@ -40,10 +40,10 @@ model Motivation {
   deletedAt       DateTime?
   user            User          @relation(fields: [userId], references: [id])
   type            Type?         @relation(fields: [typeId], references: [id])
-  typesOnMotivations TypesOnMotivations[] // Model Type
+  typesOnMotivators TypesOnMotivators[] // Model Type
 }
 
-model Stress {
+model Stressor {
   id              Int           @default(autoincrement()) @id
   name            String
   weight          Int?
@@ -54,7 +54,7 @@ model Stress {
   deletedAt       DateTime?
   user            User          @relation(fields: [userId], references: [id])
   type            Type?         @relation(fields: [typeId], references: [id])
-  typesOnStresses   TypesOnStresses[]
+  typesOnStressors   TypesOnStressors[]
 }
 
 model Type {
@@ -63,30 +63,30 @@ model Type {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   deletedAt       DateTime?
-  motivations     Motivation[]
-  stresses        Stress[]
-  typesOnMotivations TypesOnMotivations[]
-  typesOnStresses   TypesOnStresses[]
+  motivators     Motivator[]
+  Stressors        Stressor[]
+  typesOnMotivators TypesOnMotivators[]
+  typesOnStressors   TypesOnStressors[]
 }
 
-model TypesOnMotivations {
+model TypesOnMotivators {
   id              Int           @default(autoincrement()) @id
-  motivationId    Int
+  motivatorId    Int
   typeId          Int
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   deletedAt       DateTime?
-  motivation      Motivation    @relation(fields: [motivationId], references: [id])
+  motivator      Motivator    @relation(fields: [motivatorId], references: [id])
   type            Type          @relation(fields: [typeId], references: [id])
 }
 
-model TypesOnStresses {
+model TypesOnStressors {
   id              Int           @default(autoincrement()) @id
-  stressId        Int
+  StressorId        Int
   typeId          Int
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   deletedAt       DateTime?
-  stress          Stress        @relation(fields: [stressId], references: [id])
+  Stressor          Stressor        @relation(fields: [StressorId], references: [id])
   type            Type          @relation(fields: [typeId], references: [id])
 }
