@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defineTypesOnStressesFactory = exports.defineTypesOnMotivationsFactory = exports.defineTypeFactory = exports.defineStressFactory = exports.defineMotivationFactory = exports.defineUserFactory = exports.initialize = exports.resetScalarFieldValueGenerator = exports.registerScalarFieldValueGenerator = exports.resetSequence = void 0;
+exports.defineTypesOnStressesFactory = exports.defineTypesOnMotivatorsFactory = exports.defineTypeFactory = exports.defineStressFactory = exports.defineMotivatorFactory = exports.defineUserFactory = exports.initialize = exports.resetScalarFieldValueGenerator = exports.registerScalarFieldValueGenerator = exports.resetSequence = void 0;
 const internal_1 = require("@quramy/prisma-fabbrica/lib/internal");
 var internal_2 = require("@quramy/prisma-fabbrica/lib/internal");
 Object.defineProperty(exports, "resetSequence", { enumerable: true, get: function () { return internal_2.resetSequence; } });
@@ -12,28 +12,28 @@ exports.initialize = initializer.initialize;
 const modelFieldDefinitions = [{
         name: "User",
         fields: [{
-                name: "motivations",
-                type: "Motivation",
-                relationName: "MotivationToUser"
+                name: "motivators",
+                type: "Motivator",
+                relationName: "MotivatorToUser"
             }, {
                 name: "stresses",
                 type: "Stress",
                 relationName: "StressToUser"
             }]
     }, {
-        name: "Motivation",
+        name: "Motivator",
         fields: [{
                 name: "user",
                 type: "User",
-                relationName: "MotivationToUser"
+                relationName: "MotivatorToUser"
             }, {
                 name: "type",
                 type: "Type",
-                relationName: "MotivationToType"
+                relationName: "MotivatorToType"
             }, {
-                name: "typesOnMotivations",
-                type: "TypesOnMotivations",
-                relationName: "MotivationToTypesOnMotivations"
+                name: "typesOnMotivators",
+                type: "TypesOnMotivators",
+                relationName: "MotivatorToTypesOnMotivators"
             }]
     }, {
         name: "Stress",
@@ -53,32 +53,32 @@ const modelFieldDefinitions = [{
     }, {
         name: "Type",
         fields: [{
-                name: "motivations",
-                type: "Motivation",
-                relationName: "MotivationToType"
+                name: "motivators",
+                type: "Motivator",
+                relationName: "MotivatorToType"
             }, {
                 name: "stresses",
                 type: "Stress",
                 relationName: "StressToType"
             }, {
-                name: "typesOnMotivations",
-                type: "TypesOnMotivations",
-                relationName: "TypeToTypesOnMotivations"
+                name: "typesOnMotivators",
+                type: "TypesOnMotivators",
+                relationName: "TypeToTypesOnMotivators"
             }, {
                 name: "typesOnStresses",
                 type: "TypesOnStresses",
                 relationName: "TypeToTypesOnStresses"
             }]
     }, {
-        name: "TypesOnMotivations",
+        name: "TypesOnMotivators",
         fields: [{
-                name: "motivation",
-                type: "Motivation",
-                relationName: "MotivationToTypesOnMotivations"
+                name: "motivator",
+                type: "Motivator",
+                relationName: "MotivatorToTypesOnMotivators"
             }, {
                 name: "type",
                 type: "Type",
-                relationName: "TypeToTypesOnMotivations"
+                relationName: "TypeToTypesOnMotivators"
             }]
     }, {
         name: "TypesOnStresses",
@@ -172,22 +172,22 @@ exports.defineUserFactory = ((options) => {
     return defineUserFactoryInternal(options ?? {}, {});
 });
 exports.defineUserFactory.withTransientFields = defaultTransientFieldValues => options => defineUserFactoryInternal(options ?? {}, defaultTransientFieldValues);
-function isMotivationuserFactory(x) {
+function isMotivatoruserFactory(x) {
     return x?._factoryFor === "User";
 }
-function isMotivationtypeFactory(x) {
+function isMotivatortypeFactory(x) {
     return x?._factoryFor === "Type";
 }
-function autoGenerateMotivationScalarsOrEnums({ seq }) {
+function autoGenerateMotivatorScalarsOrEnums({ seq }) {
     return {
-        name: (0, internal_1.getScalarFieldValueGenerator)().String({ modelName: "Motivation", fieldName: "name", isId: false, isUnique: false, seq })
+        name: (0, internal_1.getScalarFieldValueGenerator)().String({ modelName: "Motivator", fieldName: "name", isId: false, isUnique: false, seq })
     };
 }
-function defineMotivationFactoryInternal({ defaultData: defaultDataResolver, onAfterBuild, onBeforeCreate, onAfterCreate, traits: traitsDefs = {} }, defaultTransientFieldValues) {
+function defineMotivatorFactoryInternal({ defaultData: defaultDataResolver, onAfterBuild, onBeforeCreate, onAfterCreate, traits: traitsDefs = {} }, defaultTransientFieldValues) {
     const getFactoryWithTraits = (traitKeys = []) => {
         const seqKey = {};
         const getSeq = () => (0, internal_1.getSequenceCounter)(seqKey);
-        const screen = (0, internal_1.createScreener)("Motivation", modelFieldDefinitions);
+        const screen = (0, internal_1.createScreener)("Motivator", modelFieldDefinitions);
         const handleAfterBuild = (0, internal_1.createCallbackChain)([
             onAfterBuild,
             ...traitKeys.map(traitKey => traitsDefs[traitKey]?.onAfterBuild),
@@ -202,7 +202,7 @@ function defineMotivationFactoryInternal({ defaultData: defaultDataResolver, onA
         ]);
         const build = async (inputData = {}) => {
             const seq = getSeq();
-            const requiredScalarData = autoGenerateMotivationScalarsOrEnums({ seq });
+            const requiredScalarData = autoGenerateMotivatorScalarsOrEnums({ seq });
             const resolveValue = (0, internal_1.normalizeResolver)(defaultDataResolver);
             const [transientFields, filteredInputData] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
             const resolverInput = { seq, ...transientFields };
@@ -216,10 +216,10 @@ function defineMotivationFactoryInternal({ defaultData: defaultDataResolver, onA
                 };
             }, resolveValue(resolverInput));
             const defaultAssociations = {
-                user: isMotivationuserFactory(defaultData.user) ? {
+                user: isMotivatoruserFactory(defaultData.user) ? {
                     create: await defaultData.user.build()
                 } : defaultData.user,
-                type: isMotivationtypeFactory(defaultData.type) ? {
+                type: isMotivatortypeFactory(defaultData.type) ? {
                     create: await defaultData.type.build()
                 } : defaultData.type
             };
@@ -235,14 +235,14 @@ function defineMotivationFactoryInternal({ defaultData: defaultDataResolver, onA
             const [transientFields] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
             const data = await build(inputData).then(screen);
             await handleBeforeCreate(data, transientFields);
-            const createdData = await getClient().motivation.create({ data });
+            const createdData = await getClient().motivator.create({ data });
             await handleAfterCreate(createdData, transientFields);
             return createdData;
         };
         const createList = (...args) => Promise.all((0, internal_1.normalizeList)(...args).map(data => create(data)));
         const createForConnect = (inputData = {}) => create(inputData).then(pickForConnect);
         return {
-            _factoryFor: "Motivation",
+            _factoryFor: "Motivator",
             build,
             buildList,
             buildCreateInput: build,
@@ -261,10 +261,10 @@ function defineMotivationFactoryInternal({ defaultData: defaultDataResolver, onA
         use: useTraits,
     };
 }
-exports.defineMotivationFactory = ((options) => {
-    return defineMotivationFactoryInternal(options, {});
+exports.defineMotivatorFactory = ((options) => {
+    return defineMotivatorFactoryInternal(options, {});
 });
-exports.defineMotivationFactory.withTransientFields = defaultTransientFieldValues => options => defineMotivationFactoryInternal(options, defaultTransientFieldValues);
+exports.defineMotivatorFactory.withTransientFields = defaultTransientFieldValues => options => defineMotivatorFactoryInternal(options, defaultTransientFieldValues);
 function isStressuserFactory(x) {
     return x?._factoryFor === "User";
 }
@@ -438,20 +438,20 @@ exports.defineTypeFactory = ((options) => {
     return defineTypeFactoryInternal(options ?? {}, {});
 });
 exports.defineTypeFactory.withTransientFields = defaultTransientFieldValues => options => defineTypeFactoryInternal(options ?? {}, defaultTransientFieldValues);
-function isTypesOnMotivationsmotivationFactory(x) {
-    return x?._factoryFor === "Motivation";
+function isTypesOnMotivatorsmotivatorFactory(x) {
+    return x?._factoryFor === "Motivator";
 }
-function isTypesOnMotivationstypeFactory(x) {
+function isTypesOnMotivatorstypeFactory(x) {
     return x?._factoryFor === "Type";
 }
-function autoGenerateTypesOnMotivationsScalarsOrEnums({ seq }) {
+function autoGenerateTypesOnMotivatorsScalarsOrEnums({ seq }) {
     return {};
 }
-function defineTypesOnMotivationsFactoryInternal({ defaultData: defaultDataResolver, onAfterBuild, onBeforeCreate, onAfterCreate, traits: traitsDefs = {} }, defaultTransientFieldValues) {
+function defineTypesOnMotivatorsFactoryInternal({ defaultData: defaultDataResolver, onAfterBuild, onBeforeCreate, onAfterCreate, traits: traitsDefs = {} }, defaultTransientFieldValues) {
     const getFactoryWithTraits = (traitKeys = []) => {
         const seqKey = {};
         const getSeq = () => (0, internal_1.getSequenceCounter)(seqKey);
-        const screen = (0, internal_1.createScreener)("TypesOnMotivations", modelFieldDefinitions);
+        const screen = (0, internal_1.createScreener)("TypesOnMotivators", modelFieldDefinitions);
         const handleAfterBuild = (0, internal_1.createCallbackChain)([
             onAfterBuild,
             ...traitKeys.map(traitKey => traitsDefs[traitKey]?.onAfterBuild),
@@ -466,7 +466,7 @@ function defineTypesOnMotivationsFactoryInternal({ defaultData: defaultDataResol
         ]);
         const build = async (inputData = {}) => {
             const seq = getSeq();
-            const requiredScalarData = autoGenerateTypesOnMotivationsScalarsOrEnums({ seq });
+            const requiredScalarData = autoGenerateTypesOnMotivatorsScalarsOrEnums({ seq });
             const resolveValue = (0, internal_1.normalizeResolver)(defaultDataResolver);
             const [transientFields, filteredInputData] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
             const resolverInput = { seq, ...transientFields };
@@ -480,10 +480,10 @@ function defineTypesOnMotivationsFactoryInternal({ defaultData: defaultDataResol
                 };
             }, resolveValue(resolverInput));
             const defaultAssociations = {
-                motivation: isTypesOnMotivationsmotivationFactory(defaultData.motivation) ? {
-                    create: await defaultData.motivation.build()
-                } : defaultData.motivation,
-                type: isTypesOnMotivationstypeFactory(defaultData.type) ? {
+                motivator: isTypesOnMotivatorsmotivatorFactory(defaultData.motivator) ? {
+                    create: await defaultData.motivator.build()
+                } : defaultData.motivator,
+                type: isTypesOnMotivatorstypeFactory(defaultData.type) ? {
                     create: await defaultData.type.build()
                 } : defaultData.type
             };
@@ -499,14 +499,14 @@ function defineTypesOnMotivationsFactoryInternal({ defaultData: defaultDataResol
             const [transientFields] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
             const data = await build(inputData).then(screen);
             await handleBeforeCreate(data, transientFields);
-            const createdData = await getClient().typesOnMotivations.create({ data });
+            const createdData = await getClient().typesOnMotivators.create({ data });
             await handleAfterCreate(createdData, transientFields);
             return createdData;
         };
         const createList = (...args) => Promise.all((0, internal_1.normalizeList)(...args).map(data => create(data)));
         const createForConnect = (inputData = {}) => create(inputData).then(pickForConnect);
         return {
-            _factoryFor: "TypesOnMotivations",
+            _factoryFor: "TypesOnMotivators",
             build,
             buildList,
             buildCreateInput: build,
@@ -525,10 +525,10 @@ function defineTypesOnMotivationsFactoryInternal({ defaultData: defaultDataResol
         use: useTraits,
     };
 }
-exports.defineTypesOnMotivationsFactory = ((options) => {
-    return defineTypesOnMotivationsFactoryInternal(options, {});
+exports.defineTypesOnMotivatorsFactory = ((options) => {
+    return defineTypesOnMotivatorsFactoryInternal(options, {});
 });
-exports.defineTypesOnMotivationsFactory.withTransientFields = defaultTransientFieldValues => options => defineTypesOnMotivationsFactoryInternal(options, defaultTransientFieldValues);
+exports.defineTypesOnMotivatorsFactory.withTransientFields = defaultTransientFieldValues => options => defineTypesOnMotivatorsFactoryInternal(options, defaultTransientFieldValues);
 function isTypesOnStressesstressFactory(x) {
     return x?._factoryFor === "Stress";
 }

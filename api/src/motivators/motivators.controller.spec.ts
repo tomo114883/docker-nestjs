@@ -1,32 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MotivationsController } from './motivations.controller';
-import { MotivationsService } from './motivations.service';
+import { MotivatorsController } from './motivators.controller';
+import { MotivatorsService } from './motivators.service';
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { faker } from '@faker-js/faker';
 import {
-  MotivationModelFactory,
+  MotivatorModelFactory,
   TypeModelFactory,
   UserModelFactory,
 } from 'src/test.utils/factory';
 
-describe('MotivationsController', () => {
-  let controller: MotivationsController;
-  let motivationsService: DeepMocked<MotivationsService>;
+describe('MotivatorsController', () => {
+  let controller: MotivatorsController;
+  let motivatorsService: DeepMocked<MotivatorsService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [MotivationsController],
+      controllers: [MotivatorsController],
       providers: [
         {
-          provide: MotivationsService,
-          useValue: createMock<MotivationsService>(),
+          provide: MotivatorsService,
+          useValue: createMock<MotivatorsService>(),
         },
       ],
     }).compile();
 
-    controller = module.get<MotivationsController>(MotivationsController);
-    motivationsService =
-      module.get<DeepMocked<MotivationsService>>(MotivationsService);
+    controller = module.get<MotivatorsController>(MotivatorsController);
+    motivatorsService =
+      module.get<DeepMocked<MotivatorsService>>(MotivatorsService);
   });
 
   describe('create-method', () => {
@@ -50,7 +50,7 @@ describe('MotivationsController', () => {
       await controller.create(input);
 
       // Verify that the appropriate Service mothod is called and given the argument.
-      expect(motivationsService.create).toHaveBeenCalledWith(input);
+      expect(motivatorsService.create).toHaveBeenCalledWith(input);
     });
   });
 
@@ -58,26 +58,26 @@ describe('MotivationsController', () => {
     it('Call the appropriate method and use the input data.', async () => {
       await controller.findAll();
 
-      expect(motivationsService.findAll).toHaveBeenCalledWith();
+      expect(motivatorsService.findAll).toHaveBeenCalledWith();
     });
   });
 
   describe('findOne-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
-      const motivation = await MotivationModelFactory.create();
+      const motivator = await MotivatorModelFactory.create();
 
       // Same above.
-      await controller.findOne(motivation.id);
+      await controller.findOne(motivator.id);
 
       // Same above.
-      expect(motivationsService.findOne).toHaveBeenCalledWith(motivation.id);
+      expect(motivatorsService.findOne).toHaveBeenCalledWith(motivator.id);
     });
   });
 
   describe('update-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
       // Same above.
-      const motivation = await MotivationModelFactory.create();
+      const motivator = await MotivatorModelFactory.create();
       const type = await TypeModelFactory.create();
 
       // Same above.
@@ -88,11 +88,11 @@ describe('MotivationsController', () => {
       };
 
       // Same above.
-      await controller.update(motivation.id, input);
+      await controller.update(motivator.id, input);
 
       // Same above.
-      expect(motivationsService.update).toHaveBeenCalledWith(
-        motivation.id,
+      expect(motivatorsService.update).toHaveBeenCalledWith(
+        motivator.id,
         input,
       );
     });
@@ -101,13 +101,13 @@ describe('MotivationsController', () => {
   describe('remove-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
       // Same above.
-      const motivation = await MotivationModelFactory.create();
+      const motivator = await MotivatorModelFactory.create();
 
       // Same above.
-      await controller.remove(motivation.id);
+      await controller.remove(motivator.id);
 
       // Same above.
-      expect(motivationsService.remove).toHaveBeenCalledWith(motivation.id);
+      expect(motivatorsService.remove).toHaveBeenCalledWith(motivator.id);
     });
   });
 });

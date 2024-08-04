@@ -1,8 +1,8 @@
 import type { User } from "@prisma/client";
-import type { Motivation } from "@prisma/client";
+import type { Motivator } from "@prisma/client";
 import type { Stress } from "@prisma/client";
 import type { Type } from "@prisma/client";
-import type { TypesOnMotivations } from "@prisma/client";
+import type { TypesOnMotivators } from "@prisma/client";
 import type { TypesOnStresses } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 import type { Resolver } from "@quramy/prisma-fabbrica/lib/internal";
@@ -23,7 +23,7 @@ type UserFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    motivations?: Prisma.MotivationCreateNestedManyWithoutUserInput;
+    motivators?: Prisma.MotivatorCreateNestedManyWithoutUserInput;
     stresses?: Prisma.StressCreateNestedManyWithoutUserInput;
 };
 type UserTransientFields = Record<string, unknown> & Partial<Record<keyof UserFactoryDefineInput, never>>;
@@ -57,55 +57,55 @@ interface UserFactoryBuilder {
     withTransientFields: <TTransients extends UserTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends UserFactoryDefineOptions<TTransients>>(options?: TOptions) => UserFactoryInterface<TTransients, UserTraitKeys<TOptions>>;
 }
 export declare const defineUserFactory: UserFactoryBuilder;
-type MotivationuserFactory = {
+type MotivatoruserFactory = {
     _factoryFor: "User";
-    build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutMotivationsInput["create"]>;
+    build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutMotivatorsInput["create"]>;
 };
-type MotivationtypeFactory = {
+type MotivatortypeFactory = {
     _factoryFor: "Type";
-    build: () => PromiseLike<Prisma.TypeCreateNestedOneWithoutMotivationsInput["create"]>;
+    build: () => PromiseLike<Prisma.TypeCreateNestedOneWithoutMotivatorsInput["create"]>;
 };
-type MotivationFactoryDefineInput = {
+type MotivatorFactoryDefineInput = {
     name?: string;
     weight?: number | null;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    user: MotivationuserFactory | Prisma.UserCreateNestedOneWithoutMotivationsInput;
-    type?: MotivationtypeFactory | Prisma.TypeCreateNestedOneWithoutMotivationsInput;
-    typesOnMotivations?: Prisma.TypesOnMotivationsCreateNestedManyWithoutMotivationInput;
+    user: MotivatoruserFactory | Prisma.UserCreateNestedOneWithoutMotivatorsInput;
+    type?: MotivatortypeFactory | Prisma.TypeCreateNestedOneWithoutMotivatorsInput;
+    typesOnMotivators?: Prisma.TypesOnMotivatorsCreateNestedManyWithoutMotivatorInput;
 };
-type MotivationTransientFields = Record<string, unknown> & Partial<Record<keyof MotivationFactoryDefineInput, never>>;
-type MotivationFactoryTrait<TTransients extends Record<string, unknown>> = {
-    data?: Resolver<Partial<MotivationFactoryDefineInput>, BuildDataOptions<TTransients>>;
-} & CallbackDefineOptions<Motivation, Prisma.MotivationCreateInput, TTransients>;
-type MotivationFactoryDefineOptions<TTransients extends Record<string, unknown> = Record<string, unknown>> = {
-    defaultData: Resolver<MotivationFactoryDefineInput, BuildDataOptions<TTransients>>;
+type MotivatorTransientFields = Record<string, unknown> & Partial<Record<keyof MotivatorFactoryDefineInput, never>>;
+type MotivatorFactoryTrait<TTransients extends Record<string, unknown>> = {
+    data?: Resolver<Partial<MotivatorFactoryDefineInput>, BuildDataOptions<TTransients>>;
+} & CallbackDefineOptions<Motivator, Prisma.MotivatorCreateInput, TTransients>;
+type MotivatorFactoryDefineOptions<TTransients extends Record<string, unknown> = Record<string, unknown>> = {
+    defaultData: Resolver<MotivatorFactoryDefineInput, BuildDataOptions<TTransients>>;
     traits?: {
-        [traitName: string | symbol]: MotivationFactoryTrait<TTransients>;
+        [traitName: string | symbol]: MotivatorFactoryTrait<TTransients>;
     };
-} & CallbackDefineOptions<Motivation, Prisma.MotivationCreateInput, TTransients>;
-type MotivationTraitKeys<TOptions extends MotivationFactoryDefineOptions<any>> = Exclude<keyof TOptions["traits"], number>;
-export interface MotivationFactoryInterfaceWithoutTraits<TTransients extends Record<string, unknown>> {
-    readonly _factoryFor: "Motivation";
-    build(inputData?: Partial<Prisma.MotivationCreateInput & TTransients>): PromiseLike<Prisma.MotivationCreateInput>;
-    buildCreateInput(inputData?: Partial<Prisma.MotivationCreateInput & TTransients>): PromiseLike<Prisma.MotivationCreateInput>;
-    buildList(list: readonly Partial<Prisma.MotivationCreateInput & TTransients>[]): PromiseLike<Prisma.MotivationCreateInput[]>;
-    buildList(count: number, item?: Partial<Prisma.MotivationCreateInput & TTransients>): PromiseLike<Prisma.MotivationCreateInput[]>;
-    pickForConnect(inputData: Motivation): Pick<Motivation, "id">;
-    create(inputData?: Partial<Prisma.MotivationCreateInput & TTransients>): PromiseLike<Motivation>;
-    createList(list: readonly Partial<Prisma.MotivationCreateInput & TTransients>[]): PromiseLike<Motivation[]>;
-    createList(count: number, item?: Partial<Prisma.MotivationCreateInput & TTransients>): PromiseLike<Motivation[]>;
-    createForConnect(inputData?: Partial<Prisma.MotivationCreateInput & TTransients>): PromiseLike<Pick<Motivation, "id">>;
+} & CallbackDefineOptions<Motivator, Prisma.MotivatorCreateInput, TTransients>;
+type MotivatorTraitKeys<TOptions extends MotivatorFactoryDefineOptions<any>> = Exclude<keyof TOptions["traits"], number>;
+export interface MotivatorFactoryInterfaceWithoutTraits<TTransients extends Record<string, unknown>> {
+    readonly _factoryFor: "Motivator";
+    build(inputData?: Partial<Prisma.MotivatorCreateInput & TTransients>): PromiseLike<Prisma.MotivatorCreateInput>;
+    buildCreateInput(inputData?: Partial<Prisma.MotivatorCreateInput & TTransients>): PromiseLike<Prisma.MotivatorCreateInput>;
+    buildList(list: readonly Partial<Prisma.MotivatorCreateInput & TTransients>[]): PromiseLike<Prisma.MotivatorCreateInput[]>;
+    buildList(count: number, item?: Partial<Prisma.MotivatorCreateInput & TTransients>): PromiseLike<Prisma.MotivatorCreateInput[]>;
+    pickForConnect(inputData: Motivator): Pick<Motivator, "id">;
+    create(inputData?: Partial<Prisma.MotivatorCreateInput & TTransients>): PromiseLike<Motivator>;
+    createList(list: readonly Partial<Prisma.MotivatorCreateInput & TTransients>[]): PromiseLike<Motivator[]>;
+    createList(count: number, item?: Partial<Prisma.MotivatorCreateInput & TTransients>): PromiseLike<Motivator[]>;
+    createForConnect(inputData?: Partial<Prisma.MotivatorCreateInput & TTransients>): PromiseLike<Pick<Motivator, "id">>;
 }
-export interface MotivationFactoryInterface<TTransients extends Record<string, unknown> = Record<string, unknown>, TTraitName extends TraitName = TraitName> extends MotivationFactoryInterfaceWithoutTraits<TTransients> {
-    use(name: TTraitName, ...names: readonly TTraitName[]): MotivationFactoryInterfaceWithoutTraits<TTransients>;
+export interface MotivatorFactoryInterface<TTransients extends Record<string, unknown> = Record<string, unknown>, TTraitName extends TraitName = TraitName> extends MotivatorFactoryInterfaceWithoutTraits<TTransients> {
+    use(name: TTraitName, ...names: readonly TTraitName[]): MotivatorFactoryInterfaceWithoutTraits<TTransients>;
 }
-interface MotivationFactoryBuilder {
-    <TOptions extends MotivationFactoryDefineOptions>(options: TOptions): MotivationFactoryInterface<{}, MotivationTraitKeys<TOptions>>;
-    withTransientFields: <TTransients extends MotivationTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends MotivationFactoryDefineOptions<TTransients>>(options: TOptions) => MotivationFactoryInterface<TTransients, MotivationTraitKeys<TOptions>>;
+interface MotivatorFactoryBuilder {
+    <TOptions extends MotivatorFactoryDefineOptions>(options: TOptions): MotivatorFactoryInterface<{}, MotivatorTraitKeys<TOptions>>;
+    withTransientFields: <TTransients extends MotivatorTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends MotivatorFactoryDefineOptions<TTransients>>(options: TOptions) => MotivatorFactoryInterface<TTransients, MotivatorTraitKeys<TOptions>>;
 }
-export declare const defineMotivationFactory: MotivationFactoryBuilder;
+export declare const defineMotivatorFactory: MotivatorFactoryBuilder;
 type StressuserFactory = {
     _factoryFor: "User";
     build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutStressesInput["create"]>;
@@ -160,9 +160,9 @@ type TypeFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    motivations?: Prisma.MotivationCreateNestedManyWithoutTypeInput;
+    motivators?: Prisma.MotivatorCreateNestedManyWithoutTypeInput;
     stresses?: Prisma.StressCreateNestedManyWithoutTypeInput;
-    typesOnMotivations?: Prisma.TypesOnMotivationsCreateNestedManyWithoutTypeInput;
+    typesOnMotivators?: Prisma.TypesOnMotivatorsCreateNestedManyWithoutTypeInput;
     typesOnStresses?: Prisma.TypesOnStressesCreateNestedManyWithoutTypeInput;
 };
 type TypeTransientFields = Record<string, unknown> & Partial<Record<keyof TypeFactoryDefineInput, never>>;
@@ -196,52 +196,52 @@ interface TypeFactoryBuilder {
     withTransientFields: <TTransients extends TypeTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends TypeFactoryDefineOptions<TTransients>>(options?: TOptions) => TypeFactoryInterface<TTransients, TypeTraitKeys<TOptions>>;
 }
 export declare const defineTypeFactory: TypeFactoryBuilder;
-type TypesOnMotivationsmotivationFactory = {
-    _factoryFor: "Motivation";
-    build: () => PromiseLike<Prisma.MotivationCreateNestedOneWithoutTypesOnMotivationsInput["create"]>;
+type TypesOnMotivatorsmotivatorFactory = {
+    _factoryFor: "Motivator";
+    build: () => PromiseLike<Prisma.MotivatorCreateNestedOneWithoutTypesOnMotivatorsInput["create"]>;
 };
-type TypesOnMotivationstypeFactory = {
+type TypesOnMotivatorstypeFactory = {
     _factoryFor: "Type";
-    build: () => PromiseLike<Prisma.TypeCreateNestedOneWithoutTypesOnMotivationsInput["create"]>;
+    build: () => PromiseLike<Prisma.TypeCreateNestedOneWithoutTypesOnMotivatorsInput["create"]>;
 };
-type TypesOnMotivationsFactoryDefineInput = {
+type TypesOnMotivatorsFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    motivation: TypesOnMotivationsmotivationFactory | Prisma.MotivationCreateNestedOneWithoutTypesOnMotivationsInput;
-    type: TypesOnMotivationstypeFactory | Prisma.TypeCreateNestedOneWithoutTypesOnMotivationsInput;
+    motivator: TypesOnMotivatorsmotivatorFactory | Prisma.MotivatorCreateNestedOneWithoutTypesOnMotivatorsInput;
+    type: TypesOnMotivatorstypeFactory | Prisma.TypeCreateNestedOneWithoutTypesOnMotivatorsInput;
 };
-type TypesOnMotivationsTransientFields = Record<string, unknown> & Partial<Record<keyof TypesOnMotivationsFactoryDefineInput, never>>;
-type TypesOnMotivationsFactoryTrait<TTransients extends Record<string, unknown>> = {
-    data?: Resolver<Partial<TypesOnMotivationsFactoryDefineInput>, BuildDataOptions<TTransients>>;
-} & CallbackDefineOptions<TypesOnMotivations, Prisma.TypesOnMotivationsCreateInput, TTransients>;
-type TypesOnMotivationsFactoryDefineOptions<TTransients extends Record<string, unknown> = Record<string, unknown>> = {
-    defaultData: Resolver<TypesOnMotivationsFactoryDefineInput, BuildDataOptions<TTransients>>;
+type TypesOnMotivatorsTransientFields = Record<string, unknown> & Partial<Record<keyof TypesOnMotivatorsFactoryDefineInput, never>>;
+type TypesOnMotivatorsFactoryTrait<TTransients extends Record<string, unknown>> = {
+    data?: Resolver<Partial<TypesOnMotivatorsFactoryDefineInput>, BuildDataOptions<TTransients>>;
+} & CallbackDefineOptions<TypesOnMotivators, Prisma.TypesOnMotivatorsCreateInput, TTransients>;
+type TypesOnMotivatorsFactoryDefineOptions<TTransients extends Record<string, unknown> = Record<string, unknown>> = {
+    defaultData: Resolver<TypesOnMotivatorsFactoryDefineInput, BuildDataOptions<TTransients>>;
     traits?: {
-        [traitName: string | symbol]: TypesOnMotivationsFactoryTrait<TTransients>;
+        [traitName: string | symbol]: TypesOnMotivatorsFactoryTrait<TTransients>;
     };
-} & CallbackDefineOptions<TypesOnMotivations, Prisma.TypesOnMotivationsCreateInput, TTransients>;
-type TypesOnMotivationsTraitKeys<TOptions extends TypesOnMotivationsFactoryDefineOptions<any>> = Exclude<keyof TOptions["traits"], number>;
-export interface TypesOnMotivationsFactoryInterfaceWithoutTraits<TTransients extends Record<string, unknown>> {
-    readonly _factoryFor: "TypesOnMotivations";
-    build(inputData?: Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>): PromiseLike<Prisma.TypesOnMotivationsCreateInput>;
-    buildCreateInput(inputData?: Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>): PromiseLike<Prisma.TypesOnMotivationsCreateInput>;
-    buildList(list: readonly Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>[]): PromiseLike<Prisma.TypesOnMotivationsCreateInput[]>;
-    buildList(count: number, item?: Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>): PromiseLike<Prisma.TypesOnMotivationsCreateInput[]>;
-    pickForConnect(inputData: TypesOnMotivations): Pick<TypesOnMotivations, "id">;
-    create(inputData?: Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>): PromiseLike<TypesOnMotivations>;
-    createList(list: readonly Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>[]): PromiseLike<TypesOnMotivations[]>;
-    createList(count: number, item?: Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>): PromiseLike<TypesOnMotivations[]>;
-    createForConnect(inputData?: Partial<Prisma.TypesOnMotivationsCreateInput & TTransients>): PromiseLike<Pick<TypesOnMotivations, "id">>;
+} & CallbackDefineOptions<TypesOnMotivators, Prisma.TypesOnMotivatorsCreateInput, TTransients>;
+type TypesOnMotivatorsTraitKeys<TOptions extends TypesOnMotivatorsFactoryDefineOptions<any>> = Exclude<keyof TOptions["traits"], number>;
+export interface TypesOnMotivatorsFactoryInterfaceWithoutTraits<TTransients extends Record<string, unknown>> {
+    readonly _factoryFor: "TypesOnMotivators";
+    build(inputData?: Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>): PromiseLike<Prisma.TypesOnMotivatorsCreateInput>;
+    buildCreateInput(inputData?: Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>): PromiseLike<Prisma.TypesOnMotivatorsCreateInput>;
+    buildList(list: readonly Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>[]): PromiseLike<Prisma.TypesOnMotivatorsCreateInput[]>;
+    buildList(count: number, item?: Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>): PromiseLike<Prisma.TypesOnMotivatorsCreateInput[]>;
+    pickForConnect(inputData: TypesOnMotivators): Pick<TypesOnMotivators, "id">;
+    create(inputData?: Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>): PromiseLike<TypesOnMotivators>;
+    createList(list: readonly Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>[]): PromiseLike<TypesOnMotivators[]>;
+    createList(count: number, item?: Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>): PromiseLike<TypesOnMotivators[]>;
+    createForConnect(inputData?: Partial<Prisma.TypesOnMotivatorsCreateInput & TTransients>): PromiseLike<Pick<TypesOnMotivators, "id">>;
 }
-export interface TypesOnMotivationsFactoryInterface<TTransients extends Record<string, unknown> = Record<string, unknown>, TTraitName extends TraitName = TraitName> extends TypesOnMotivationsFactoryInterfaceWithoutTraits<TTransients> {
-    use(name: TTraitName, ...names: readonly TTraitName[]): TypesOnMotivationsFactoryInterfaceWithoutTraits<TTransients>;
+export interface TypesOnMotivatorsFactoryInterface<TTransients extends Record<string, unknown> = Record<string, unknown>, TTraitName extends TraitName = TraitName> extends TypesOnMotivatorsFactoryInterfaceWithoutTraits<TTransients> {
+    use(name: TTraitName, ...names: readonly TTraitName[]): TypesOnMotivatorsFactoryInterfaceWithoutTraits<TTransients>;
 }
-interface TypesOnMotivationsFactoryBuilder {
-    <TOptions extends TypesOnMotivationsFactoryDefineOptions>(options: TOptions): TypesOnMotivationsFactoryInterface<{}, TypesOnMotivationsTraitKeys<TOptions>>;
-    withTransientFields: <TTransients extends TypesOnMotivationsTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends TypesOnMotivationsFactoryDefineOptions<TTransients>>(options: TOptions) => TypesOnMotivationsFactoryInterface<TTransients, TypesOnMotivationsTraitKeys<TOptions>>;
+interface TypesOnMotivatorsFactoryBuilder {
+    <TOptions extends TypesOnMotivatorsFactoryDefineOptions>(options: TOptions): TypesOnMotivatorsFactoryInterface<{}, TypesOnMotivatorsTraitKeys<TOptions>>;
+    withTransientFields: <TTransients extends TypesOnMotivatorsTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends TypesOnMotivatorsFactoryDefineOptions<TTransients>>(options: TOptions) => TypesOnMotivatorsFactoryInterface<TTransients, TypesOnMotivatorsTraitKeys<TOptions>>;
 }
-export declare const defineTypesOnMotivationsFactory: TypesOnMotivationsFactoryBuilder;
+export declare const defineTypesOnMotivatorsFactory: TypesOnMotivatorsFactoryBuilder;
 type TypesOnStressesstressFactory = {
     _factoryFor: "Stress";
     build: () => PromiseLike<Prisma.StressCreateNestedOneWithoutTypesOnStressesInput["create"]>;

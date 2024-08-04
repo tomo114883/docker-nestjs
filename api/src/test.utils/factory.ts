@@ -1,7 +1,7 @@
 import { fakerJA as faker } from '@faker-js/faker';
 import {
   defineUserFactory,
-  defineMotivationFactory,
+  defineMotivatorFactory,
   defineStressFactory,
   defineTypeFactory,
 } from 'src/__generated__/fabbrica';
@@ -18,7 +18,7 @@ export const UserModelFactory = defineUserFactory({
 });
 
 // Same above
-export const MotivationModelFactory = defineMotivationFactory({
+export const MotivatorModelFactory = defineMotivatorFactory({
   defaultData: () => ({
     name: faker.word.noun(),
     weight: faker.number.int({ min: 1, max: 5 }),
