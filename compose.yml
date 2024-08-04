@@ -1,4 +1,4 @@
-# compose.ymlファイル
+# compose.yml
 
 services:
   api:
@@ -7,15 +7,14 @@ services:
       dockerfile: docker/api/Dockerfile
       target: dev
     volumes:
-      # ホスト側のファイルシステムのパスを直接、指定しているため、
-      # これはバインドマウント。
+      # This is a bind mount because it directry specifies the PATH on the host side.
       - ./api:/api
     ports:
       - 3001:3000
     stdin_open: true
     tty: true
     restart: always
-    # dbを先に起動
+    # Start db first.
     depends_on:
       - db
 
@@ -31,8 +30,7 @@ services:
       - 5433:5432
     volumes:
       - ./.data/db:/var/lib/postgresql/data
-      # ファイルを変更した際に再ビルドするのは手間なため、
-      # Dockerfileではなくvolumesでマウント
+      # Mounting with volumes eliminates the need to build each time.
       - ./docker/db/init-scrips:/docker-entrypoint-initdb.d
     stdin_open: true
     tty: true
@@ -82,13 +80,10 @@ services:
     depends_on:
       - api
       - frontend
-    # environment:
-    #   - NGINX_HOST=foobar.com
-    #   - NGINX_PORT=80
 
 networks:
   default:
     name: d-n_default
 # volumes:
-# 開発環境ではボリュームはなし。
-# 本番環境ではボリュームを利用する。
+# In development environment, no volumes.
+# In deployment environment, using volumes.
