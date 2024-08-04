@@ -38,4 +38,17 @@ export class MotivationsService {
     const deletedMotiv = await this.prisma.motivation.delete({ where: { id } });
     return deletedMotiv.id;
   }
+
+  // Calculate motivation level that is sum of each motivator's weight per person.
+  async totalCalculation(userId: number): Promise<number> {
+    const motivators = await this.prisma.motivation.findMany({
+      where: { userId },
+    });
+
+    const motivationLevel = motivators.reduce(
+      (sum, motivator) => sum + motivator.weight,
+      0,
+    );
+    return motivationLevel;
+  }
 }
