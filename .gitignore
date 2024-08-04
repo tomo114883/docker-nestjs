@@ -5,6 +5,7 @@
 # settings
 .env
 .env.test
+.zshrc
 
 # project
 node_modules

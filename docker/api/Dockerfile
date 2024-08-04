@@ -3,33 +3,31 @@ FROM node:20-alpine AS base
 
 WORKDIR /api
 
-# このレイヤーに変更がなければキャッシュを利用。
+# if this layer is not changed, the cache is used.
 COPY ./api/package*.json ./
 
-# Alpine Linuxイメージを使用しているため,
-# `apk`パッケージマネージャを利用。
+# Use the "apk" package manager for "Alpine Linux" image.
 RUN apk update && \
     apk upgrade && \
-    # --no-cacheオプにより、キャッシュを自動で削除。
+    # This "--no-cache" option automatically removes the cache.
     apk add --no-cache tzdata curl
 
-# package*.json に変更がなければ、
-# このレイヤーもキャッシュとして再利用。
+# If the package*.json are not changed, this layer is also reused.
 RUN npm install
 
-# プロジェクト全体をコピー
+# Copy the entire project.
 COPY ./api ./
 
 ENV TZ=UTC
 
-# 開発用のステージ
+# Stage for Development
 FROM base AS dev
 
 ENV NODE_ENV=development
 
 CMD ["npm", "run", "start:dev"]
 
-# 本番用のステージ
+# Stage for Deployment
 FROM base AS prod
 
 ENV NODE_ENV=production
