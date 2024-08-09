@@ -9,4 +9,5 @@
 
 ### Settings
 - PATH: /api/src/auth/constants.example.ts
+
 copy the constants.example.ts file and create the constants.ts file to setting JWT.
