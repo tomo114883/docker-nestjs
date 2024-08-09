@@ -11,7 +11,7 @@ COPY ./frontend/package*.json ./
 RUN apk update && \
     apk upgrade && \
     # --no-cacheオプにより、キャッシュを自動で削除。
-    apk add --no-cache tzdata
+    apk add --no-cache tzdata curl
 
 # package*.json に変更がなければ、
 # このレイヤーもキャッシュとして再利用。
