@@ -15,12 +15,14 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  // Endpoint to /auth/login, and return the signIn-method of the service.
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 
+  // Endpoint to /auth/profile, and return a User in request.
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {

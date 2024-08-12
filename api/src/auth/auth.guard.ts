@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    // Get a request and a token input by a user as a object.
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -24,14 +25,11 @@ export class AuthGuard implements CanActivate {
         secret: jwtConstants.secret,
       });
 
-      if (!payload) {
-        throw new UnauthorizedException(`no payload.`);
-      }
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request['user'] = payload;
-    } catch {
-      throw new UnauthorizedException();
+    } catch (error) {
+      throw new UnauthorizedException(error.message);
     }
     return true;
   }

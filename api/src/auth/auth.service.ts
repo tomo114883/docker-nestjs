@@ -9,6 +9,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  // SignIn-method
   async signIn(
     username: string,
     pass: string,
