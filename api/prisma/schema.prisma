@@ -21,7 +21,7 @@ datasource db {
 model User {
   id              Int           @default(autoincrement()) @id
   email           String        @unique
-  passward        String 
+  passward        String? 
   name            String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
