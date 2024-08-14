@@ -7,14 +7,14 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  // Endpoint to /auth/signIn, and return the signIn-method of the service.
+  // Endpoint to /auth/signIn, and returning the signIn-method of the service.
   @UseGuards(LocalAuthGuard)
   @Post('signIn')
   async signIn(@Request() req) {
     return this.authService.signIn(req.user);
   }
 
-  // Endpoint to /auth/profile, and return a User in request.
+  // Endpoint to /auth/profile, and returning a User in request.
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
