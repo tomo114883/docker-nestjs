@@ -94,7 +94,8 @@ const modelFieldDefinitions = [{
     }];
 function autoGenerateUserScalarsOrEnums({ seq }) {
     return {
-        email: (0, internal_1.getScalarFieldValueGenerator)().String({ modelName: "User", fieldName: "email", isId: false, isUnique: true, seq })
+        email: (0, internal_1.getScalarFieldValueGenerator)().String({ modelName: "User", fieldName: "email", isId: false, isUnique: true, seq }),
+        passward: (0, internal_1.getScalarFieldValueGenerator)().String({ modelName: "User", fieldName: "passward", isId: false, isUnique: false, seq })
     };
 }
 function defineUserFactoryInternal({ defaultData: defaultDataResolver, onAfterBuild, onBeforeCreate, onAfterCreate, traits: traitsDefs = {} }, defaultTransientFieldValues) {
