@@ -27,18 +27,10 @@ export class UsersService {
   }
 
   // Pass the arg either id or email.
-  async findOne(queryParam: number | string): Promise<User> {
-    // Either id or email is passed here.
-    if (typeof queryParam === 'number') {
-      return this.prisma.user.findUnique({
-        where: { id: queryParam },
-      });
-    }
-    if (typeof queryParam === 'string') {
-      return this.prisma.user.findUnique({
-        where: { email: queryParam },
-      });
-    }
+  async findOne(id: number): Promise<User> {
+    return this.prisma.user.findUnique({
+      where: { id: id },
+    });
   }
 
   async update(id: number, data: UpdateUserDto): Promise<User> {

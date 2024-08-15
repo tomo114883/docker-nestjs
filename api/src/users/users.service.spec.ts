@@ -35,7 +35,9 @@ describe('UsersService', () => {
       expect(result.id).not.toBeNull();
       expect(result.email).toBe(data.email);
       expect(result.password).not.toBeNull();
+      expect(result.password).not.toEqual(data.password);
     });
+
     it('Get the user was created from the DB when the data was input.', async () => {
       const data: CreateUserDto = {
         email: faker.internet.exampleEmail(),
@@ -48,6 +50,7 @@ describe('UsersService', () => {
       expect(result.id).not.toBeNull();
       expect(result.email).toBe(data.email);
       expect(result.password).not.toBeNull();
+      expect(result.password).not.toEqual(data.password);
     });
   });
   describe('findAllのテスト', () => {
@@ -84,23 +87,24 @@ describe('UsersService', () => {
       expect(result.name).toBe(user.name);
     });
 
-    it('When email is input, returning a user.', async () => {
-      // 作成済みユーザーの情報
-      // ユーザーの事前作成と取得
-      const user = await UserModelFactory.create();
-      const foundUser = await prisma.user.findUnique({
-        where: {
-          email: user.email,
-        },
-      });
+    //   it('When email is input, returning a user.', async () => {
+    //     // 作成済みユーザーの情報
+    //     // ユーザーの事前作成と取得
+    //     const user = await UserModelFactory.create();
+    //     const foundUser = await prisma.user.findUnique({
+    //       where: {
+    //         email: user.email,
+    //       },
+    //     });
 
-      // ユーザー情報の取得
-      const result = await service.findOne(foundUser.email);
-      expect(result.id).not.toBeNull();
-      expect(result.email).toBe(user.email);
-      expect(result.name).toBe(user.name);
-    });
+    //     // ユーザー情報の取得
+    //     const result = await service.findOne(foundUser.email);
+    //     expect(result.id).not.toBeNull();
+    //     expect(result.email).toBe(user.email);
+    //     expect(result.name).toBe(user.name);
+    //   });
   });
+
   describe('updateのテスト', () => {
     it('入力した情報で、ユーザー情報が更新されること', async () => {
       // 作成済みユーザーの情報
