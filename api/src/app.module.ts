@@ -6,6 +6,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './users/users.module';
 import { MotivatorsModule } from './motivators/motivators.module';
 import { AuthModule } from './auth/auth.module';
+import { TestService } from './test/test.service';
 
 @Module({
   imports: [UsersModule, MotivatorsModule, AuthModule],
@@ -16,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
       useClass: ZodValidationPipe,
     },
     AppService,
+    TestService,
   ],
 })
 export class AppModule {}

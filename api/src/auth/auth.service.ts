@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { accessTokenDto, nonPassUserDto, signInDto } from './dto/auth.dto';
 
 // The AuthService has to retrieve a user and verify the password.
 @Injectable()
@@ -11,9 +13,13 @@ export class AuthService {
   ) {}
 
   // validateUser-method
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(username);
-    if (user && user.password === pass) {
+  async validateUser(
+    email: string,
+    pass: string,
+  ): Promise<nonPassUserDto | null> {
+    const user = await this.usersService.findOne(email);
+    if (user && user.password && bcrypt.compareSync(pass, user.password)) {
+      // Exclude the password not to expose the plane password.
       // Destructuring assignment.
       const {
         password: {},
@@ -25,13 +31,10 @@ export class AuthService {
   }
 
   // signIn-method
-  async signIn(user: any): Promise<{ access_token: string }> {
-    const payload = { username: user.username, sub: user.userId };
+  async signIn(user: signInDto): Promise<accessTokenDto> {
+    const payload = { username: user.name, sub: user.id };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
-
-  // Need to hashing.
-  async signOut() {}
 }

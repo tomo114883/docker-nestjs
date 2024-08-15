@@ -3,34 +3,21 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
-
-  // Temporary
-  async findOne(username: string): Promise<any> {
-    return this.users.find((user) => user.username === username);
-  }
-
   async create(data: CreateUserDto): Promise<User> {
+    // Hash the password with salt.
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+
     return this.prisma.user.create({
       data: {
         email: data.email,
-        name: data.name,
+        password: hashedPassword,
       },
     });
   }
@@ -39,13 +26,20 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
-  // async findOne(id: number): Promise<User> {
-  //   return this.prisma.user.findUnique({
-  //     where: {
-  //       id: id,
-  //     },
-  //   });
-  // }
+  // Pass the arg either id or email.
+  async findOne(queryParam: number | string): Promise<User> {
+    // Either id or email is passed here.
+    if (typeof queryParam === 'number') {
+      return this.prisma.user.findUnique({
+        where: { id: queryParam },
+      });
+    }
+    if (typeof queryParam === 'string') {
+      return this.prisma.user.findUnique({
+        where: { email: queryParam },
+      });
+    }
+  }
 
   async update(id: number, data: UpdateUserDto): Promise<User> {
     // 更新対象のユーザー自身が持つemailを確認

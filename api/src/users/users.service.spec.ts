@@ -16,6 +16,7 @@ describe('UsersService', () => {
       imports: [PrismaModule],
       providers: [UsersService],
     })
+      // Add to be auto-transaction.
       .overrideProvider(PrismaService)
       .useValue(jestPrisma.client)
       .compile();
@@ -24,28 +25,29 @@ describe('UsersService', () => {
     prisma = module.get<PrismaService>(PrismaService);
   });
 
-  describe('Createのテスト', () => {
-    it('CreateUserDtoを入力すると、ユーザーが返ってくる', async () => {
+  describe('create-method', () => {
+    it('Create a new user when the data was input.', async () => {
       const data: CreateUserDto = {
         email: faker.internet.exampleEmail(),
-        name: faker.person.fullName(),
+        password: faker.internet.password(),
       };
-      const user = await service.create(data);
-      expect(user.id).not.toBeNull();
-      expect(user.email).toBe(data.email);
-      expect(user.name).toBe(data.name);
+      const result = await service.create(data);
+      expect(result.id).not.toBeNull();
+      expect(result.email).toBe(data.email);
+      expect(result.password).not.toBeNull();
     });
-    it('createUserDTOを入力すると、DBにユーザー情報が入ること', async () => {
+    it('Get the user was created from the DB when the data was input.', async () => {
       const data: CreateUserDto = {
         email: faker.internet.exampleEmail(),
-        name: faker.person.fullName(),
+        password: faker.internet.password(),
       };
       const user = await service.create(data);
-      const result = await prisma.user.findFirstOrThrow({
+      const result = await prisma.user.findUnique({
         where: { id: user.id },
       });
+      expect(result.id).not.toBeNull();
       expect(result.email).toBe(data.email);
-      expect(result.name).toBe(data.name);
+      expect(result.password).not.toBeNull();
     });
   });
   describe('findAllのテスト', () => {
@@ -54,36 +56,57 @@ describe('UsersService', () => {
       const user1 = await UserModelFactory.create();
       const user2 = await UserModelFactory.create();
 
-      const users = await service.findAll();
-      expect(users.length).toBe(2);
-      expect(users[0].id).not.toBeNull();
-      expect(users[0].email).toBe(user1.email);
-      expect(users[0].name).toBe(user1.name);
-      expect(users[1].id).not.toBeNull();
-      expect(users[1].email).toBe(user2.email);
-      expect(users[1].name).toBe(user2.name);
+      const results = await service.findAll();
+      expect(results.length).toBe(2);
+      expect(results[0].id).not.toBeNull();
+      expect(results[0].email).toBe(user1.email);
+      expect(results[0].name).toBe(user1.name);
+      expect(results[1].id).not.toBeNull();
+      expect(results[1].email).toBe(user2.email);
+      expect(results[1].name).toBe(user2.name);
     });
   });
-  // describe('findOneのテスト', () => {
-  //   it('単一のユーザーが返ってくること', async () => {
-  //     // 作成済みユーザーの情報
-  //     // ユーザーの事前作成と取得
-  //     const user = await UserModelFactory.create();
-  //     const foundUser = await prisma.user.findFirstOrThrow();
+  describe('findOneのテスト', () => {
+    it('単一のユーザーが返ってくること', async () => {
+      // 作成済みユーザーの情報
+      // ユーザーの事前作成と取得
+      const user = await UserModelFactory.create();
+      const foundUser = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
 
-  //     // ユーザー情報の取得
-  //     const result = await service.findOne(createdUser.id);
-  //     expect(result.id).not.toBeNull();
-  //     expect(result.email).toBe(user.email);
-  //     expect(result.name).toBe(user.name);
-  //   });
-  // });
+      // ユーザー情報の取得
+      const result = await service.findOne(foundUser.id);
+      expect(result.id).not.toBeNull();
+      expect(result.email).toBe(user.email);
+      expect(result.name).toBe(user.name);
+    });
+
+    it('When email is input, returning a user.', async () => {
+      // 作成済みユーザーの情報
+      // ユーザーの事前作成と取得
+      const user = await UserModelFactory.create();
+      const foundUser = await prisma.user.findUnique({
+        where: {
+          email: user.email,
+        },
+      });
+
+      // ユーザー情報の取得
+      const result = await service.findOne(foundUser.email);
+      expect(result.id).not.toBeNull();
+      expect(result.email).toBe(user.email);
+      expect(result.name).toBe(user.name);
+    });
+  });
   describe('updateのテスト', () => {
     it('入力した情報で、ユーザー情報が更新されること', async () => {
       // 作成済みユーザーの情報
       // ユーザーの事前作成と取得
       const user = await await UserModelFactory.create();
-      const foundUser = await prisma.user.findFirst({
+      const foundUser = await prisma.user.findUnique({
         where: {
           id: user.id,
         },
@@ -106,7 +129,7 @@ describe('UsersService', () => {
       // 作成済みユーザーの情報
       // ユーザーの事前作成と取得
       const user = await UserModelFactory.create();
-      const foundUser = await prisma.user.findFirst({
+      const foundUser = await prisma.user.findUnique({
         where: {
           id: user.id,
         },
@@ -117,9 +140,13 @@ describe('UsersService', () => {
         name: faker.person.fullName(),
       };
       // ユーザー情報の更新
-      await service.update(foundUser.id, updateData);
+      const updatedUser = await service.update(foundUser.id, updateData);
 
-      const result = await prisma.user.findFirstOrThrow();
+      const result = await prisma.user.findUnique({
+        where: {
+          id: updatedUser.id,
+        },
+      });
       expect(result.id).not.toBeNull();
       expect(result.email).toBe(updateData.email);
       expect(result.name).toBe(updateData.name);
@@ -165,8 +192,8 @@ describe('UsersService', () => {
     // ユーザー情報の削除
     await service.remove(user.id);
 
-    // Nullの値を期待する場合は、findFirst()メソッドを使用。
-    const result = await prisma.user.findFirst({
+    // Nullの値を期待する場合は、findUnique()メソッドを使用。
+    const result = await prisma.user.findUnique({
       where: {
         id: user.id,
       },

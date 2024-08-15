@@ -11,8 +11,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   // Provide the verify callback by implementing a validate() method.
-  async validate(username: string, passward: string): Promise<any> {
-    const user = this.authService.validateUser(username, passward);
+  async validate(username: string, password: string): Promise<any> {
+    const user = this.authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException();
     }

@@ -19,7 +19,7 @@ type CallbackDefineOptions<TCreated, TCreateInput, TTransients extends Record<st
 export declare const initialize: (options: import("@quramy/prisma-fabbrica/lib/initialize").InitializeOptions) => void;
 type UserFactoryDefineInput = {
     email?: string;
-    passward?: string | null;
+    password?: string | null;
     name?: string | null;
     createdAt?: Date;
     updatedAt?: Date;

@@ -17,7 +17,7 @@ export class AuthController {
   // Endpoint to /auth/profile, and returning a User in request.
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  async getProfile(@Request() req) {
     return req.user;
   }
 }
