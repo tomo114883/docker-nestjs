@@ -43,7 +43,7 @@ describe('AuthService', () => {
     prismaService = authModule.get<PrismaService>(PrismaService);
   });
 
-  describe('ValidateUser', () => {
+  describe('validateUser', () => {
     it('verify if the password is hashed.', async () => {
       // Create a plane password to compare with the hashed password..
       const planePassword = faker.internet.password();
@@ -73,7 +73,7 @@ describe('AuthService', () => {
     });
   });
 
-  describe('SignIn', () => {
+  describe('signIn', () => {
     it('return the access token when the data was input.', async () => {
       const user: signInDto = {
         id: faker.number.int(),

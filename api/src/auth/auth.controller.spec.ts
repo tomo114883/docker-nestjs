@@ -24,8 +24,8 @@ describe('AuthController', () => {
     jest.clearAllMocks();
   });
 
-  describe('signIn-method', () => {
-    it('Call the appropriate method and use the input data.', async () => {
+  describe('signIn', () => {
+    it('call the appropriate method and use the input data.', async () => {
       const input = {
         user: await UserModelFactory.create(),
       };
@@ -35,8 +35,8 @@ describe('AuthController', () => {
     });
   });
 
-  describe('getProfile-method', () => {
-    it('When inputting data, a user is returned.a', async () => {
+  describe('getProfile', () => {
+    it('return a user when inputting data.', async () => {
       const input = {
         user: await UserModelFactory.create(),
       };

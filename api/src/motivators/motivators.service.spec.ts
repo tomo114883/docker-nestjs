@@ -28,10 +28,9 @@ describe('MotivatorsService', () => {
     prismaService = motivatorsModule.get<PrismaService>(PrismaService);
   });
 
-  describe('create-method', () => {
-    it('When data is entered, a new motivator must be created in the DB.', async () => {
-      // console.log('🙌_start!!!!!');
-      // Create a user and use type.
+  describe('create', () => {
+    it('create a new motivator in the DB when data is entered.', async () => {
+      // Create a user and use a type.
       const user = await UserModelFactory.create();
       const type = await TypeModelFactory.create();
 
@@ -45,7 +44,6 @@ describe('MotivatorsService', () => {
 
       // Use create-method from motivatorsService and create a motiv.
       const motivator = await motivatorsService.create(data);
-      // console.log('🙌_check!!!!!', motivator);
 
       // Assert if the created motiv is correct with the input data.
       expect(motivator.id).not.toBeNull();
@@ -59,16 +57,14 @@ describe('MotivatorsService', () => {
     });
   });
 
-  describe('findAll-method', () => {
-    it('All motiv must be obtained.', async () => {
-      // console.log('🙌_start!!!!!');
+  describe('findAll', () => {
+    it('get all motiv when data is entered.', async () => {
       // Create a Motivator.
       const motivator = await MotivatorModelFactory.create();
 
       // Obtain all motivators.
       const fetchedMotivator = await motivatorsService.findAll();
-      // console.log('🙌_check!!!!!', fetchedMotivator);
-      // Same above
+
       expect(fetchedMotivator[0].id).toBe(motivator.id);
       expect(fetchedMotivator[0].name).toBe(motivator.name);
       expect(fetchedMotivator[0].weight).toBe(motivator.weight);
@@ -80,15 +76,12 @@ describe('MotivatorsService', () => {
     });
   });
 
-  describe('findOne-method', () => {
-    it('When id is entered, the appropriate motiv must be fetched.', async () => {
-      // Sama above.
+  describe('findOne', () => {
+    it('fetch the appropriate motiv when id is entered.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
-      // Same above.
       const fetchedMotivator = await motivatorsService.findOne(motivator.id);
 
-      // Same above.
       expect(fetchedMotivator.id).toBe(motivator.id);
       expect(fetchedMotivator.name).toBe(motivator.name);
       expect(fetchedMotivator.weight).toBe(motivator.weight);
@@ -100,8 +93,8 @@ describe('MotivatorsService', () => {
     });
   });
 
-  describe('update-method', () => {
-    it('When id and data are entered, the appropriate motiv must be updated.', async () => {
+  describe('update', () => {
+    it('update the appropriate motiv when id and data are entered.', async () => {
       // Create a motiv.
       const motivator = await MotivatorModelFactory.create();
 
@@ -120,7 +113,6 @@ describe('MotivatorsService', () => {
         data,
       );
 
-      // Same above.
       expect(updatedMotivator.id).toBe(motivator.id);
       expect(updatedMotivator.weight).toBe(data.weight);
       expect(updatedMotivator.typeId).toBe(data.typeId);
@@ -130,9 +122,8 @@ describe('MotivatorsService', () => {
     });
   });
 
-  describe('remove-method', () => {
-    it('When id is entered, the deleted motiv must be returned.', async () => {
-      // Same above.
+  describe('remove', () => {
+    it('return the deleted motiv when id is entered.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
       // Remove a motiv.
@@ -143,9 +134,8 @@ describe('MotivatorsService', () => {
     });
   });
 
-  describe('totalCalculation-method', () => {
-    it('Calculate sum of weight per user.', async () => {
-      // Same above.
+  describe('totalCalculation', () => {
+    it('calculate sum of weight per user when the id is entered.', async () => {
       const user = await UserModelFactory.create();
 
       const createdMotivator = await prismaService.motivator.create({
