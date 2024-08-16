@@ -67,31 +67,25 @@ describe('MotivatorsController', () => {
     it('Call the appropriate method and use the input data.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
-      // Same above.
       await motivatorsController.findOne(motivator.id);
 
-      // Same above.
       expect(motivatorsService.findOne).toHaveBeenCalledWith(motivator.id);
     });
   });
 
   describe('update-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
-      // Same above.
       const motivator = await MotivatorModelFactory.create();
       const type = await TypeModelFactory.create();
 
-      // Same above.
       const input = {
         name: faker.word.noun(),
         weight: faker.number.int({ min: 1, max: 5 }),
         typeId: type.id,
       };
 
-      // Same above.
       await motivatorsController.update(motivator.id, input);
 
-      // Same above.
       expect(motivatorsService.update).toHaveBeenCalledWith(
         motivator.id,
         input,
@@ -101,13 +95,10 @@ describe('MotivatorsController', () => {
 
   describe('remove-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
-      // Same above.
       const motivator = await MotivatorModelFactory.create();
 
-      // Same above.
       await motivatorsController.remove(motivator.id);
 
-      // Same above.
       expect(motivatorsService.remove).toHaveBeenCalledWith(motivator.id);
     });
   });
