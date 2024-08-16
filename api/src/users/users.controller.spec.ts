@@ -6,11 +6,11 @@ import { faker } from '@faker-js/faker';
 import { UserModelFactory } from 'src/test.utils/factory';
 
 describe('UsersController', () => {
-  let controller: UsersController;
+  let usersController: UsersController;
   let usersService: DeepMocked<UsersService>; // UsersServiceのディープモックを宣言する。
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const usersModule: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
         {
@@ -20,8 +20,8 @@ describe('UsersController', () => {
       ],
     }).compile();
 
-    controller = module.get<UsersController>(UsersController);
-    usersService = module.get<DeepMocked<UsersService>>(UsersService); // Substitute the deep-mock for the UsersService.
+    usersController = usersModule.get<UsersController>(UsersController);
+    usersService = usersModule.get<DeepMocked<UsersService>>(UsersService); // Substitute the deep-mock for the UsersService.
     jest.clearAllMocks();
   });
 
@@ -35,7 +35,7 @@ describe('UsersController', () => {
 
       // コントローラメソッドをトリガーして、その機能をテストする。
       // このメソッドを呼び出すことで、モックしたusersServiceを利用できる。
-      await controller.create(input);
+      await usersController.create(input);
 
       // 結果としてusersService.findAllメソッドが呼び出されることを確認する。
       expect(usersService.create).toHaveBeenCalledWith(input);
@@ -44,7 +44,7 @@ describe('UsersController', () => {
 
   describe('findAll-method', () => {
     it('適切にusersServiceのメソッドが呼び出され、引数が与えられていること。', async () => {
-      await controller.findAll();
+      await usersController.findAll();
 
       expect(usersService.findAll).toHaveBeenCalledWith();
     });
@@ -54,7 +54,7 @@ describe('UsersController', () => {
   //   it('適切にusersServiceのメソッドが呼び出され、引数が与えられていること。', async () => {
   //     const user = await UserModelFactory.create();
 
-  //     await controller.findOne(user.id);
+  //     await usersController.findOne(user.id);
 
   //     expect(usersService.findOne).toHaveBeenCalledWith(user.id);
   //   });
@@ -69,7 +69,7 @@ describe('UsersController', () => {
         name: faker.person.fullName(),
       };
 
-      await controller.update(user.id, input);
+      await usersController.update(user.id, input);
 
       expect(usersService.update).toHaveBeenCalledWith(user.id, input);
     });
@@ -79,7 +79,7 @@ describe('UsersController', () => {
     it('適切にusersServiceのメソッドが呼び出され、引数が与えられていること。', async () => {
       const user = await UserModelFactory.create();
 
-      await controller.remove(user.id);
+      await usersController.remove(user.id);
 
       expect(usersService.remove).toHaveBeenCalledWith(user.id);
     });

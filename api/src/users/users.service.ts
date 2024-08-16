@@ -7,14 +7,14 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
 
   async create(data: CreateUserDto): Promise<User> {
     // Hash the password with salt.
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(data.password, salt);
 
-    return this.prisma.user.create({
+    return this.prismaService.user.create({
       data: {
         email: data.email,
         password: hashedPassword,
@@ -23,19 +23,19 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+    return this.prismaService.user.findMany();
   }
 
   // Pass the arg either id or email.
   async findOne(id: number): Promise<User> {
-    return this.prisma.user.findUnique({
+    return this.prismaService.user.findUnique({
       where: { id: id },
     });
   }
 
   async update(id: number, data: UpdateUserDto): Promise<User> {
     // 更新対象のユーザー自身が持つemailを確認
-    const currentUser = await this.prisma.user.findUnique({
+    const currentUser = await this.prismaService.user.findUnique({
       where: { id },
     });
 
@@ -44,7 +44,7 @@ export class UsersService {
     }
 
     // 入力されたemailが他のユーザーに存在するか確認
-    const existingUser = await this.prisma.user.findUnique({
+    const existingUser = await this.prismaService.user.findUnique({
       where: {
         email: data.email,
       },
@@ -56,7 +56,7 @@ export class UsersService {
     }
 
     // ユーザー情報の更新
-    return this.prisma.user.update({
+    return this.prismaService.user.update({
       where: {
         id,
       },
@@ -65,11 +65,13 @@ export class UsersService {
   }
 
   async remove(id: number): Promise<number> {
-    const user = await this.prisma.user.findUnique({ where: { id: id } });
+    const user = await this.prismaService.user.findUnique({
+      where: { id: id },
+    });
     if (!user) {
       return id;
     }
-    const deletedUser = await this.prisma.user.delete({
+    const deletedUser = await this.prismaService.user.delete({
       where: {
         id: id,
       },

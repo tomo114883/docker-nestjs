@@ -5,11 +5,11 @@ import { AuthService } from './auth.service';
 import { UserModelFactory } from 'src/test.utils/factory';
 
 describe('AuthController', () => {
-  let controller: AuthController;
+  let authController: AuthController;
   let authService: DeepMocked<AuthService>;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const authModule: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
         {
@@ -19,8 +19,8 @@ describe('AuthController', () => {
       ],
     }).compile();
 
-    controller = module.get<AuthController>(AuthController);
-    authService = module.get<DeepMocked<AuthService>>(AuthService);
+    authController = authModule.get<AuthController>(AuthController);
+    authService = authModule.get<DeepMocked<AuthService>>(AuthService);
     jest.clearAllMocks();
   });
 
@@ -29,7 +29,7 @@ describe('AuthController', () => {
       const input = {
         user: await UserModelFactory.create(),
       };
-      await controller.signIn(input);
+      await authController.signIn(input);
 
       expect(await authService.signIn).toHaveBeenCalledWith(input.user);
     });
@@ -41,7 +41,7 @@ describe('AuthController', () => {
         user: await UserModelFactory.create(),
       };
 
-      const result = await controller.getProfile(input);
+      const result = await authController.getProfile(input);
 
       expect(result).toBe(input.user);
     });

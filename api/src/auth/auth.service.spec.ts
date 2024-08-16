@@ -1,31 +1,50 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { UsersService } from 'src/users/users.service';
-import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
+import { signInDto } from './dto/auth.dto';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './local.strategy';
+import { JwtStrategy } from './jwt.strategy';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 describe('AuthService', () => {
-  let service: AuthService;
-  let prisma: PrismaService;
+  let authService: AuthService;
+  let prismaService: PrismaService;
 
+  // Code here runs before each test cases in this suite.
+  // and this function, beforeEach(), is used in testing like Jest.
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      // Dependencies for the AuthService.
-      providers: [AuthService, UsersService, JwtService, PrismaService],
+    const authModule: TestingModule = await Test.createTestingModule({
+      // Dependencies from @Module in the AuthModule to set env.
+      imports: [
+        JwtModule.register({
+          // Setting JWT, especially the Expiration time.
+          secret: 'secret-for-test',
+          signOptions: { expiresIn: '180s' },
+        }),
+        // Import the PassportModule.
+        PassportModule,
+        // Imports the PrismaModule has access to the PrismaService.
+        PrismaModule,
+      ],
+      // Setting the LocalStrategy and the JwtStrategy as the providers.
+      providers: [AuthService, LocalStrategy, JwtStrategy],
     })
       // Add to be auto-transaction.
       .overrideProvider(PrismaService)
       .useValue(jestPrisma.client)
       .compile();
 
-    service = module.get<AuthService>(AuthService);
-    prisma = module.get<PrismaService>(PrismaService);
+    // This "module" was declared above.
+    authService = authModule.get<AuthService>(AuthService);
+    prismaService = authModule.get<PrismaService>(PrismaService);
   });
 
-  describe('validateUser-method', () => {
-    it('Verify if the password is hashed.', async () => {
+  describe('ValidateUser', () => {
+    it('verify if the password is hashed.', async () => {
       // Create a plane password to compare with the hashed password..
       const planePassword = faker.internet.password();
 
@@ -34,7 +53,7 @@ describe('AuthService', () => {
       const hashedPassword = await bcrypt.hash(planePassword, salt);
 
       // Create a user has the hashed password in the DB to compare with the plane password.
-      const user = await prisma.user.create({
+      const user = await prismaService.user.create({
         data: {
           email: faker.internet.exampleEmail(),
           password: hashedPassword,
@@ -47,25 +66,25 @@ describe('AuthService', () => {
         password: planePassword,
       };
 
-      const result = await service.validateUser(input);
+      const result = await authService.validateUser(input);
 
       expect(result.email).toBe(user.email);
       expect(result.name).toBe(user.name);
     });
   });
 
-  // TODO: Maybe i have to add a mocked service.
-  // TODO: I wanna know hew mock works, especially DeepMocked.
-  // describe('signIn-method', () => {
-  //   it('Return is not null when the data was input.', () => {
-  //     const user: signInDto = {
-  //       id: faker.number.int(),
-  //       name: faker.person.firstName(),
-  //     };
+  describe('SignIn', () => {
+    it('return the access token when the data was input.', async () => {
+      const user: signInDto = {
+        id: faker.number.int(),
+        name: faker.person.firstName(),
+      };
 
-  //     const result = service.signIn(user);
+      // Return a access token to signIn.
+      const result = await authService.signIn(user);
 
-  //     expect(result).not.toBeNull();
-  //   });
-  // });
+      // Verify if returned a access token.
+      expect(result).toHaveProperty('access_token');
+    });
+  });
 });

@@ -10,11 +10,11 @@ import {
 import { faker } from '@faker-js/faker';
 
 describe('MotivatorsService', () => {
-  let service: MotivatorsService;
-  let prisma: PrismaService;
+  let motivatorsService: MotivatorsService;
+  let prismaService: PrismaService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const motivatorsModule: TestingModule = await Test.createTestingModule({
       imports: [PrismaModule],
       providers: [MotivatorsService],
     })
@@ -23,8 +23,9 @@ describe('MotivatorsService', () => {
       .useValue(jestPrisma.client)
       .compile();
 
-    service = module.get<MotivatorsService>(MotivatorsService);
-    prisma = module.get<PrismaService>(PrismaService);
+    motivatorsService =
+      motivatorsModule.get<MotivatorsService>(MotivatorsService);
+    prismaService = motivatorsModule.get<PrismaService>(PrismaService);
   });
 
   describe('create-method', () => {
@@ -42,8 +43,8 @@ describe('MotivatorsService', () => {
         typeId: type.id,
       };
 
-      // Use create-method from service and create a motiv.
-      const motivator = await service.create(data);
+      // Use create-method from motivatorsService and create a motiv.
+      const motivator = await motivatorsService.create(data);
       // console.log('🙌_check!!!!!', motivator);
 
       // Assert if the created motiv is correct with the input data.
@@ -65,7 +66,7 @@ describe('MotivatorsService', () => {
       const motivator = await MotivatorModelFactory.create();
 
       // Obtain all motivators.
-      const fetchedMotivator = await service.findAll();
+      const fetchedMotivator = await motivatorsService.findAll();
       // console.log('🙌_check!!!!!', fetchedMotivator);
       // Same above
       expect(fetchedMotivator[0].id).toBe(motivator.id);
@@ -85,7 +86,7 @@ describe('MotivatorsService', () => {
       const motivator = await MotivatorModelFactory.create();
 
       // Same above.
-      const fetchedMotivator = await service.findOne(motivator.id);
+      const fetchedMotivator = await motivatorsService.findOne(motivator.id);
 
       // Same above.
       expect(fetchedMotivator.id).toBe(motivator.id);
@@ -114,7 +115,10 @@ describe('MotivatorsService', () => {
       };
 
       // Update a motiv by the data i created.
-      const updatedMotivator = await service.update(motivator.id, data);
+      const updatedMotivator = await motivatorsService.update(
+        motivator.id,
+        data,
+      );
 
       // Same above.
       expect(updatedMotivator.id).toBe(motivator.id);
@@ -132,7 +136,7 @@ describe('MotivatorsService', () => {
       const motivator = await MotivatorModelFactory.create();
 
       // Remove a motiv.
-      const deletedId = await service.remove(motivator.id);
+      const deletedId = await motivatorsService.remove(motivator.id);
 
       // Assert if the deleted ID of motiv is correct with the motiv ID.
       expect(deletedId).toBe(motivator.id);
@@ -144,7 +148,7 @@ describe('MotivatorsService', () => {
       // Same above.
       const user = await UserModelFactory.create();
 
-      const createdMotivator = await prisma.motivator.create({
+      const createdMotivator = await prismaService.motivator.create({
         data: {
           name: faker.word.noun(),
           weight: faker.number.int({ min: 1, max: 5 }),
@@ -153,7 +157,7 @@ describe('MotivatorsService', () => {
       });
 
       // Calculate motivator level that is sum of each motivator's weight per user.
-      const motivatorLevel = await service.totalCalculation(user.id);
+      const motivatorLevel = await motivatorsService.totalCalculation(user.id);
 
       expect(motivatorLevel).toBe(createdMotivator.weight);
     });

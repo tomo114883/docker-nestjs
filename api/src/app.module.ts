@@ -6,9 +6,9 @@ import { APP_PIPE } from '@nestjs/core';
 import { UsersModule } from './users/users.module';
 import { MotivatorsModule } from './motivators/motivators.module';
 import { AuthModule } from './auth/auth.module';
-import { TestService } from './test/test.service';
 
 @Module({
+  // Import all modules was created into the root module.
   imports: [UsersModule, MotivatorsModule, AuthModule],
   controllers: [AppController],
   providers: [
@@ -17,7 +17,6 @@ import { TestService } from './test/test.service';
       useClass: ZodValidationPipe,
     },
     AppService,
-    TestService,
   ],
 })
 export class AppModule {}
