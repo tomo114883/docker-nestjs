@@ -8,6 +8,7 @@ import {
   TypeModelFactory,
   UserModelFactory,
 } from 'src/test.utils/factory';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 describe('MotivatorsController', () => {
   let motivatorsController: MotivatorsController;
@@ -15,6 +16,7 @@ describe('MotivatorsController', () => {
 
   beforeEach(async () => {
     const motivatorsModule: TestingModule = await Test.createTestingModule({
+      imports: [PrismaModule],
       controllers: [MotivatorsController],
       providers: [
         {

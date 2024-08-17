@@ -10,9 +10,10 @@ entity users {
   --
   * name : text
   * email : text <<unique>>
+  * password : text <<encrypted>>
   * created_at
   * updated_at
-  * deleted_at
+    deleted_at
 }
 
 entity motivations {
@@ -24,7 +25,7 @@ entity motivations {
   type_id : number
   * created_at
   * updated_at
-  * deleted_at
+    deleted_at
 }
 
 entity stresses {
@@ -36,7 +37,7 @@ entity stresses {
   type_id : number
   * created_at
   * updated_at
-  * deleted_at
+    deleted_at
 }
 
 entity types {
@@ -45,7 +46,7 @@ entity types {
   * name : text
   * created_at
   * updated_at
-  * deleted_at
+    deleted_at
 }
 
 entity types_motivations {
@@ -55,7 +56,7 @@ entity types_motivations {
   * type_id : number
   * created_at
   * updated_at
-  * deleted_at
+    deleted_at
 }
 
 entity types_stresses {
@@ -65,7 +66,7 @@ entity types_stresses {
   * type_id : number
   * created_at
   * updated_at
-  * deleted_at
+    deleted_at
 }
 
 users ||--o{ motivations : > "has"

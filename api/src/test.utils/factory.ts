@@ -10,6 +10,7 @@ import {
 export const UserModelFactory = defineUserFactory({
   defaultData: () => ({
     email: faker.internet.exampleEmail(), // Using exampleEmail() is better than email().
+    password: faker.internet.password(),
     name: faker.person.firstName(),
     createdAt: new Date(), // Add created date for reality.
     updatedAt: new Date(), // Add updated date for reality.
