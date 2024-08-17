@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import {
-  accessTokenDto,
-  nonPassUserDto,
-  signInDto,
-  validateUserDto,
+  AccessTokenDto,
+  NonPassUserDto,
+  SignInDto,
+  ValidateUserDto,
 } from './dto/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   // validateUser-method
-  async validateUser(input: validateUserDto): Promise<nonPassUserDto | null> {
+  async validateUser(input: ValidateUserDto): Promise<NonPassUserDto | null> {
     const user = await this.prismaService.user.findUnique({
       where: { email: input.email },
     });
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   // signIn-method
-  async signIn(user: signInDto): Promise<accessTokenDto> {
+  async signIn(user: SignInDto): Promise<AccessTokenDto> {
     const payload = { username: user.name, sub: user.id };
     return {
       access_token: await this.jwtService.signAsync(payload),

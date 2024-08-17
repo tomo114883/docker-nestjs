@@ -8,7 +8,7 @@ export const validateUserSchema = z.object({
   password: z.string(),
 });
 
-export class validateUserDto extends createZodDto(validateUserSchema) {}
+export class ValidateUserDto extends createZodDto(validateUserSchema) {}
 
 // Return value.
 export const nonPassUserSchema = z.object({
@@ -16,7 +16,7 @@ export const nonPassUserSchema = z.object({
   name: z.string(),
 });
 
-export class nonPassUserDto extends createZodDto(nonPassUserSchema) {}
+export class NonPassUserDto extends createZodDto(nonPassUserSchema) {}
 
 // signIn-method
 // Input data.
@@ -25,11 +25,11 @@ export const signInSchema = z.object({
   name: z.string(),
 });
 
-export class signInDto extends createZodDto(signInSchema) {}
+export class SignInDto extends createZodDto(signInSchema) {}
 
 // Return value.
 export const accessTokenSchema = z.object({
   access_token: z.string(),
 });
 
-export class accessTokenDto extends createZodDto(accessTokenSchema) {}
+export class AccessTokenDto extends createZodDto(accessTokenSchema) {}

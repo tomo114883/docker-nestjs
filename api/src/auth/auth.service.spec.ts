@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
-import { signInDto } from './dto/auth.dto';
+import { SignInDto } from './dto/auth.dto';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
@@ -70,12 +70,25 @@ describe('AuthService', () => {
 
       expect(result.email).toBe(user.email);
       expect(result.name).toBe(user.name);
+      expect(result).not.toHaveProperty('password');
+    });
+
+    it('Return null when the user does not exist.', async () => {
+      // Create a input data to verify the validateUser-method.
+      const input = {
+        email: faker.internet.exampleEmail(),
+        password: faker.internet.password(),
+      };
+
+      const result = await authService.validateUser(input);
+
+      expect(result).toBeNull();
     });
   });
 
   describe('signIn', () => {
     it('return the access token when the data was input.', async () => {
-      const user: signInDto = {
+      const user: SignInDto = {
         id: faker.number.int(),
         name: faker.person.firstName(),
       };
