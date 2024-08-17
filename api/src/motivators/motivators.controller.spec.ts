@@ -8,13 +8,15 @@ import {
   TypeModelFactory,
   UserModelFactory,
 } from 'src/test.utils/factory';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 describe('MotivatorsController', () => {
-  let controller: MotivatorsController;
+  let motivatorsController: MotivatorsController;
   let motivatorsService: DeepMocked<MotivatorsService>;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const motivatorsModule: TestingModule = await Test.createTestingModule({
+      imports: [PrismaModule],
       controllers: [MotivatorsController],
       providers: [
         {
@@ -24,9 +26,10 @@ describe('MotivatorsController', () => {
       ],
     }).compile();
 
-    controller = module.get<MotivatorsController>(MotivatorsController);
+    motivatorsController =
+      motivatorsModule.get<MotivatorsController>(MotivatorsController);
     motivatorsService =
-      module.get<DeepMocked<MotivatorsService>>(MotivatorsService);
+      motivatorsModule.get<DeepMocked<MotivatorsService>>(MotivatorsService);
   });
 
   describe('create-method', () => {
@@ -47,7 +50,7 @@ describe('MotivatorsController', () => {
 
       // Trigger this Controller method to test its functionality.
       // By calling this method, the mocked Service can be available.
-      await controller.create(input);
+      await motivatorsController.create(input);
 
       // Verify that the appropriate Service mothod is called and given the argument.
       expect(motivatorsService.create).toHaveBeenCalledWith(input);
@@ -56,7 +59,7 @@ describe('MotivatorsController', () => {
 
   describe('findAll-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
-      await controller.findAll();
+      await motivatorsController.findAll();
 
       expect(motivatorsService.findAll).toHaveBeenCalledWith();
     });
@@ -66,31 +69,25 @@ describe('MotivatorsController', () => {
     it('Call the appropriate method and use the input data.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
-      // Same above.
-      await controller.findOne(motivator.id);
+      await motivatorsController.findOne(motivator.id);
 
-      // Same above.
       expect(motivatorsService.findOne).toHaveBeenCalledWith(motivator.id);
     });
   });
 
   describe('update-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
-      // Same above.
       const motivator = await MotivatorModelFactory.create();
       const type = await TypeModelFactory.create();
 
-      // Same above.
       const input = {
         name: faker.word.noun(),
         weight: faker.number.int({ min: 1, max: 5 }),
         typeId: type.id,
       };
 
-      // Same above.
-      await controller.update(motivator.id, input);
+      await motivatorsController.update(motivator.id, input);
 
-      // Same above.
       expect(motivatorsService.update).toHaveBeenCalledWith(
         motivator.id,
         input,
@@ -100,13 +97,10 @@ describe('MotivatorsController', () => {
 
   describe('remove-method', () => {
     it('Call the appropriate method and use the input data.', async () => {
-      // Same above.
       const motivator = await MotivatorModelFactory.create();
 
-      // Same above.
-      await controller.remove(motivator.id);
+      await motivatorsController.remove(motivator.id);
 
-      // Same above.
       expect(motivatorsService.remove).toHaveBeenCalledWith(motivator.id);
     });
   });

@@ -6,10 +6,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class MotivatorsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
 
   async create(data: CreateMotivatorDto): Promise<Motivator> {
-    return await this.prisma.motivator.create({
+    return await this.prismaService.motivator.create({
       data: {
         name: data.name,
         weight: data.weight,
@@ -23,25 +23,27 @@ export class MotivatorsService {
   }
 
   async findAll(): Promise<Motivator[]> {
-    return await this.prisma.motivator.findMany();
+    return await this.prismaService.motivator.findMany();
   }
 
   async findOne(id: number): Promise<Motivator> {
-    return await this.prisma.motivator.findUnique({ where: { id } });
+    return await this.prismaService.motivator.findUnique({ where: { id } });
   }
 
   async update(id: number, data: UpdateMotivatorDto): Promise<Motivator> {
-    return await this.prisma.motivator.update({ where: { id }, data });
+    return await this.prismaService.motivator.update({ where: { id }, data });
   }
 
   async remove(id: number): Promise<number> {
-    const deletedMotiv = await this.prisma.motivator.delete({ where: { id } });
+    const deletedMotiv = await this.prismaService.motivator.delete({
+      where: { id },
+    });
     return deletedMotiv.id;
   }
 
   // Calculate motivator level that is sum of each motivator's weight per person.
   async totalCalculation(userId: number): Promise<number> {
-    const motivators = await this.prisma.motivator.findMany({
+    const motivators = await this.prismaService.motivator.findMany({
       where: { userId },
     });
 
