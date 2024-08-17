@@ -31,10 +31,26 @@ export class MotivatorsService {
   }
 
   async update(id: number, data: UpdateMotivatorDto): Promise<Motivator> {
+    const currentMotivator = await this.prismaService.motivator.findUnique({
+      where: { id: id },
+    });
+
+    if (!currentMotivator) {
+      throw new Error('The corresponding motivator does not exist.');
+    }
+
     return await this.prismaService.motivator.update({ where: { id }, data });
   }
 
   async remove(id: number): Promise<number> {
+    const currentMotivator = await this.prismaService.motivator.findUnique({
+      where: { id: id },
+    });
+    
+    if (!currentMotivator) {
+      throw new Error('The corresponding motivator does not exist.');
+    }
+    
     const deletedMotiv = await this.prismaService.motivator.delete({
       where: { id },
     });

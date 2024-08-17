@@ -29,13 +29,13 @@ describe('MotivatorsService', () => {
   });
 
   describe('create', () => {
-    it('create a new motivator in the DB when data is entered.', async () => {
+    it('create a new motivator in the DB when the data is entered.', async () => {
       // Create a user and use a type.
       const user = await UserModelFactory.create();
       const type = await TypeModelFactory.create();
 
       // Prepare for a data to create a motiv and check the test.
-      const data = {
+      const input = {
         name: faker.word.noun(), // Using faker, we can be easy.
         weight: faker.number.int({ min: 1, max: 5 }),
         userId: user.id,
@@ -43,22 +43,35 @@ describe('MotivatorsService', () => {
       };
 
       // Use create-method from motivatorsService and create a motiv.
-      const motivator = await motivatorsService.create(data);
+      const motivator = await motivatorsService.create(input);
+
+      // Get from the DB to verify if a new motivator was created.
+      const result = await prismaService.motivator.findUnique({
+        where: { id: motivator.id },
+      });
 
       // Assert if the created motiv is correct with the input data.
       expect(motivator.id).not.toBeNull();
-      expect(motivator.name).toBe(data.name); // Use data here.
-      expect(motivator.weight).toBe(data.weight);
+      expect(motivator.name).toBe(input.name);
+      expect(motivator.weight).toBe(input.weight);
       expect(motivator.userId).toBe(user.id);
       expect(motivator.typeId).toBe(type.id);
       expect(motivator.createdAt).not.toBeNull();
       expect(motivator.updatedAt).not.toBeNull();
       expect(motivator.deletedAt).toBeNull();
+      expect(result.id).not.toBeNull();
+      expect(result.name).toBe(input.name);
+      expect(result.weight).toBe(input.weight);
+      expect(result.userId).toBe(user.id);
+      expect(result.typeId).toBe(type.id);
+      expect(result.createdAt).not.toBeNull();
+      expect(result.updatedAt).not.toBeNull();
+      expect(result.deletedAt).toBeNull();
     });
   });
 
   describe('findAll', () => {
-    it('get all motiv when data is entered.', async () => {
+    it('get all motiv when the data is entered.', async () => {
       // Create a Motivator.
       const motivator = await MotivatorModelFactory.create();
 
@@ -77,7 +90,7 @@ describe('MotivatorsService', () => {
   });
 
   describe('findOne', () => {
-    it('fetch the appropriate motiv when id is entered.', async () => {
+    it('fetch the appropriate motiv when the id is entered.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
       const fetchedMotivator = await motivatorsService.findOne(motivator.id);
@@ -94,10 +107,31 @@ describe('MotivatorsService', () => {
   });
 
   describe('update', () => {
-    it('update the appropriate motiv when id and data are entered.', async () => {
+    it('update the appropriate motiv when the id and the data are entered.', async () => {
       // Create a motiv.
       const motivator = await MotivatorModelFactory.create();
 
+      // Create a type to be used as its ID.
+      const type = await TypeModelFactory.create();
+
+      // Prepare for a data to update a motiv and check the test.
+      const input = {
+        weight: faker.number.int({ min: 1, max: 5 }),
+        typeId: type.id,
+      };
+
+      // Update a motiv by the data i created.
+      const result = await motivatorsService.update(motivator.id, input);
+
+      expect(result.id).toBe(motivator.id);
+      expect(result.weight).toBe(input.weight);
+      expect(result.typeId).toBe(input.typeId);
+      expect(result.createdAt).toStrictEqual(motivator.createdAt);
+      expect(result.updatedAt).not.toStrictEqual(motivator.updatedAt);
+      expect(result.deletedAt).toBeNull();
+    });
+
+    it('throw the error when the corresponding motiv does not exist.', async () => {
       // Create a type to be used as its ID.
       const type = await TypeModelFactory.create();
 
@@ -107,23 +141,15 @@ describe('MotivatorsService', () => {
         typeId: type.id,
       };
 
-      // Update a motiv by the data i created.
-      const updatedMotivator = await motivatorsService.update(
-        motivator.id,
-        data,
-      );
-
-      expect(updatedMotivator.id).toBe(motivator.id);
-      expect(updatedMotivator.weight).toBe(data.weight);
-      expect(updatedMotivator.typeId).toBe(data.typeId);
-      expect(updatedMotivator.createdAt).toStrictEqual(motivator.createdAt);
-      expect(updatedMotivator.updatedAt).not.toStrictEqual(motivator.updatedAt);
-      expect(updatedMotivator.deletedAt).toBeNull();
+      // Update a motiv by the data is created.
+      await expect(
+        motivatorsService.update(faker.number.int({ max: 2147483647 }), data),
+      ).rejects.toThrow('The corresponding motivator does not exist.');
     });
   });
 
   describe('remove', () => {
-    it('return the deleted motiv when id is entered.', async () => {
+    it('return the deleted motiv when the id is entered.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
       // Remove a motiv.
@@ -131,6 +157,12 @@ describe('MotivatorsService', () => {
 
       // Assert if the deleted ID of motiv is correct with the motiv ID.
       expect(deletedId).toBe(motivator.id);
+    });
+
+    it('throw the error when the corresponding motiv does not exist.', async () => {
+      await expect(
+        motivatorsService.remove(faker.number.int({ max: 2147483647 })),
+      ).rejects.toThrow('The corresponding motivator does not exist.');
     });
   });
 
@@ -150,6 +182,14 @@ describe('MotivatorsService', () => {
       const motivatorLevel = await motivatorsService.totalCalculation(user.id);
 
       expect(motivatorLevel).toBe(createdMotivator.weight);
+    });
+
+    it('Return 0 when the motivators do not exist in the DB.', async () => {
+      const user = await UserModelFactory.create();
+
+      // Calculate motivator level that is sum of each motivator's weight per user.
+      const result = await motivatorsService.totalCalculation(user.id);
+      expect(result).toBe(0);
     });
   });
 });

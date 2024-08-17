@@ -32,8 +32,8 @@ describe('MotivatorsController', () => {
       motivatorsModule.get<DeepMocked<MotivatorsService>>(MotivatorsService);
   });
 
-  describe('create-method', () => {
-    it('Call the appropriate method and use the input data.', async () => {
+  describe('create', () => {
+    it('call the appropriate method and use the input data.', async () => {
       const user = await UserModelFactory.create();
       const type = await TypeModelFactory.create();
 
@@ -57,16 +57,16 @@ describe('MotivatorsController', () => {
     });
   });
 
-  describe('findAll-method', () => {
-    it('Call the appropriate method and use the input data.', async () => {
+  describe('findAll', () => {
+    it('call the appropriate method and use the input data.', async () => {
       await motivatorsController.findAll();
 
       expect(motivatorsService.findAll).toHaveBeenCalledWith();
     });
   });
 
-  describe('findOne-method', () => {
-    it('Call the appropriate method and use the input data.', async () => {
+  describe('findOne', () => {
+    it('call the appropriate method and use the input data.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
       await motivatorsController.findOne(motivator.id);
@@ -75,8 +75,8 @@ describe('MotivatorsController', () => {
     });
   });
 
-  describe('update-method', () => {
-    it('Call the appropriate method and use the input data.', async () => {
+  describe('update', () => {
+    it('call the appropriate method and use the input data.', async () => {
       const motivator = await MotivatorModelFactory.create();
       const type = await TypeModelFactory.create();
 
@@ -95,8 +95,8 @@ describe('MotivatorsController', () => {
     });
   });
 
-  describe('remove-method', () => {
-    it('Call the appropriate method and use the input data.', async () => {
+  describe('remove', () => {
+    it('call the appropriate method and use the input data.', async () => {
       const motivator = await MotivatorModelFactory.create();
 
       await motivatorsController.remove(motivator.id);
