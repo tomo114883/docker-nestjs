@@ -1,13 +1,15 @@
 # Docker, NestJs and React Project
 
-## Usage
-### For Docker
-- `docker compose build`
-- `docker compose up -d`
-### For NestJS
-- `npm run migration:test`
+## Usage for Mac
+### For starting Docker.
+- CMD: `docker compose build`
+- CMD: `docker compose up -d`
 
-### Settings
-- PATH: /api/src/auth/constants.example.ts
+### For starting NestJS project.
 
-copy the constants.example.ts file and create the constants.ts file to setting JWT.
+### Settings for NestJS project.
+copy the `.env.example` file and create the `.env` file to setting environment variables.
+- CMD: `cp /api/.env.example /api/.env`
+
+copy the `constants.example.ts` file and create the `constants.ts` file for setting JWT that is used for Authentication.
+- CMD: `cp /api/src/auth/constants.example.ts /api/src/auth/constants.ts`
