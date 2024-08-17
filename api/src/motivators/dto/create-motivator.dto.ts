@@ -7,8 +7,8 @@ export const CreateMotivatorSchema = z.object({
   weight: z.number().nullable().optional(),
   userId: z.number(),
   typeId: z.number().nullable().optional(),
-  createdAt: z.date().optional(), // Same above
-  updatedAt: z.date().optional(), // Same above
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
   deletedAt: z.date().nullable().optional(),
 });
 
