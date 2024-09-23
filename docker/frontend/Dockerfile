@@ -20,8 +20,6 @@ COPY ./frontend ./
 
 ENV TZ=UTC
 
-EXPOSE 5173
-
 # Stage for Development
 FROM base AS dev
 
