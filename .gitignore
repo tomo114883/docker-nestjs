@@ -1,6 +1,7 @@
 # volumes
 .data/
-.pgadmin/             
+.pgadmin/   
+.DS_Store          
 
 # settings
 .env
