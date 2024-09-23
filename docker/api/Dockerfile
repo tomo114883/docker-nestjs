@@ -20,6 +20,8 @@ COPY ./api ./
 
 ENV TZ=UTC
 
+EXPOSE 3000
+
 # Stage for Development
 FROM base AS dev
 
