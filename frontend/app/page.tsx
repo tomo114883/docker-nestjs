@@ -10,7 +10,15 @@ import {
   ExclamationCircleIcon,
   ShieldCheckIcon,
 } from '@heroicons/react/24/solid';
-import { Alert, Group, PasswordInput, TextInput } from '@mantine/core';
+import {
+  Alert,
+  Anchor,
+  Button,
+  Group,
+  PasswordInput,
+  TextInput,
+} from '@mantine/core';
+import { IconDatabase } from '@tabler/icons-react';
 
 const schema = z.object({
   email: z
@@ -91,6 +99,31 @@ export default function Home() {
           description="Must be min 5 char"
           {...form.getInputProps('password')}
         />
+        {/* Compose elements and components in a horizontal flex container */}
+        <Group mt="xl" justify="apart">
+          {/* Create a clickable text to sign up or login */}
+          <Anchor
+            component="button" // !! i do not know what this does
+            type="button" // !! i do not know what this does
+            size="xs"
+            className="text-gray-300"
+            onClick={() => {
+              setIsRegister(!isRegister);
+              setError('');
+            }}
+          >
+            {isRegister
+              ? 'Have an account? Login'
+              : "Don't have an account? Register"}
+          </Anchor>
+          <Button
+            leftSection={<IconDatabase size={14} />}
+            color="cyan"
+            type="submit"
+          >
+            {isRegister ? 'Register' : 'SignIn'}
+          </Button>
+        </Group>
       </form>
     </main>
   );
