@@ -36,7 +36,7 @@ export default function ClientLayout({
   }, []);
 
   return (
-    // Use the react fragment to wrap the children.
+    // Use the react fragment to wrap the children without adding an element to the DOM.
     <>
       <QueryClientProvider client={queryClient}>
         <MantineProvider theme={theme}>{children}</MantineProvider>

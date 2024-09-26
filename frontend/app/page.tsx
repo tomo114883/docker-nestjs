@@ -1,101 +1,97 @@
-import Image from "next/image";
+'use client';
+
+import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+import { useForm, zodResolver } from '@mantine/form';
+import { useState } from 'react';
+import { AuthForm } from './lib/definitions';
+import axios from 'axios';
+import {
+  ExclamationCircleIcon,
+  ShieldCheckIcon,
+} from '@heroicons/react/24/solid';
+import { Alert, Group, PasswordInput, TextInput } from '@mantine/core';
+
+const schema = z.object({
+  email: z
+    .string()
+    .email('Invalid email')
+    .min(1, { message: 'No email provided ' }),
+  password: z
+    .string()
+    .min(1, { message: 'No password provided ' })
+    .min(5, { message: 'Password should be min 5 chars' }),
+});
 
 export default function Home() {
+  const router = useRouter();
+  const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState('');
+  const form = useForm<AuthForm>({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
+  const handleSubmit = async () => {
+    try {
+      // Implement signUp for backend.
+      if (isRegister) {
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signUp`, {
+          email: form.values.email,
+          password: form.values.password,
+        });
+      }
+      // Implement signIn for backend.
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signIn`, {
+        email: form.values.email,
+        password: form.values.password,
+      });
+      // Reset form to initial values after successful submission and redirect to dashboard.
+      form.reset();
+      router.push('/dashboard');
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setError(error.response.data.message || 'An error occurred');
+      } else {
+        setError('An unexpected error occurred');
+      }
+    }
+  };
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <main>
+      <ShieldCheckIcon className="h-16 w-16 text-blue-500" />
+      {error && ( // if error is true, show the alert
+        <Alert
+          my="md" // style props to add inline styles to any Mantine component
+          variant="filled" // props to fill Mantine components by a solid background color
+          icon={<ExclamationCircleIcon />}
+          title="Authentication Error"
+          color="red"
+          radius="md"
+        >
+          {error}
+        </Alert>
+      )}
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        {/* wrapper function for form onSubmit and onReset event handler */}
+        <TextInput
+          mt="md"
+          id="email"
+          label="Email*"
+          placeholder="example@example.com"
+          {...form.getInputProps('email')} // Get the input props as email from the form
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <PasswordInput
+          mt="md"
+          id="password"
+          label="Password*"
+          placeholder="Password"
+          description="Must be min 5 char"
+          {...form.getInputProps('password')}
+        />
+      </form>
+    </main>
   );
 }
