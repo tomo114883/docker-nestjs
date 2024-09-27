@@ -19,6 +19,7 @@ import {
   TextInput,
 } from '@mantine/core';
 import { IconDatabase } from '@tabler/icons-react';
+import { WeeklyBarChart } from './ui/charts/weekly-bar-chart';
 
 const schema = z.object({
   email: z
@@ -125,6 +126,7 @@ export default function Home() {
           </Button>
         </Group>
       </form>
+      <WeeklyBarChart />
     </main>
   );
 }
