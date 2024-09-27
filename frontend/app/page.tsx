@@ -103,8 +103,8 @@ export default function Home() {
         <Group mt="xl" justify="apart">
           {/* Create a clickable text to sign up or login */}
           <Anchor
-            component="button" // !! i do not know what this does
-            type="button" // !! i do not know what this does
+            component="button" // !! i do not know how this prop works
+            type="button" // !! i do not know how this prop works
             size="xs"
             className="text-gray-300"
             onClick={() => {
