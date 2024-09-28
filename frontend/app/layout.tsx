@@ -5,7 +5,7 @@ import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { GetCsrfToken } from './ui/get-csrf-token';
+import { CsrfToken } from './ui/csrf-token';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -54,7 +54,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased "flex w-screen flex-1 flex-col items-center justify-center"`}
       >
-        <GetCsrfToken />
+        <CsrfToken />
         <QueryClientProvider client={queryClient}>
           <MantineProvider theme={theme}>{children}</MantineProvider>
           <ReactQueryDevtools initialIsOpen={false} />
