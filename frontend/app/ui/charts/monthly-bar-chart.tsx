@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { BarChart } from '@mantine/charts';
-import { monthlyBarChartData } from '@/app/data';
+import { monthlyBarChartData } from '../../data';
+
 export const MonthlyBarChart: NextPage = () => {
   return (
     <div>

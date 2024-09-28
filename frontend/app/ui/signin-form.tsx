@@ -1,11 +1,9 @@
 'use client';
 
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-import { useForm, zodResolver } from '@mantine/form';
 import { useState } from 'react';
-import { AuthForm } from '../lib/definitions';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { z } from 'zod';
 import {
   ExclamationCircleIcon,
   ShieldCheckIcon,
@@ -18,7 +16,9 @@ import {
   PasswordInput,
   TextInput,
 } from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
 import { IconDatabase } from '@tabler/icons-react';
+import { AuthForm } from '../lib/definitions';
 
 const schema = z.object({
   email: z

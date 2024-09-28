@@ -1,13 +1,12 @@
 'use client';
 
-import localFont from 'next/font/local';
-import './globals.css';
-import { ColorSchemeScript, createTheme, MantineProvider } from '@mantine/core';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect } from 'react';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import localFont from 'next/font/local';
+import axios from 'axios';
 import '@mantine/charts/styles.css';
+import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
