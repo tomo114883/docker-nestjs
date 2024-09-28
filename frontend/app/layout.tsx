@@ -1,12 +1,10 @@
-'use client';
-
-import { useEffect } from 'react';
 import localFont from 'next/font/local';
 import axios from 'axios';
 import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useGetCsrfToken } from './hooks/useGetCsrfToken';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -46,15 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   axios.defaults.withCredentials = true;
-  useEffect(() => {
-    const getCsrfToken = async () => {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
-      );
-      axios.defaults.headers.common['csrf-token'] = data.csrfToken;
-    };
-    getCsrfToken();
-  }, []);
+  useGetCsrfToken();
 
   return (
     <html lang="en">
