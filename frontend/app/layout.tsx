@@ -1,10 +1,11 @@
+import { Metadata } from 'next';
 import localFont from 'next/font/local';
 import axios from 'axios';
 import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useGetCsrfToken } from './hooks/useGetCsrfToken';
+import { GetCsrfToken } from './ui/get-csrf-token';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -17,12 +18,12 @@ const geistMono = localFont({
   weight: '100 900',
 });
 
-// export const metadata: Metadata = {
-//   title: {
-//     template: '%s',
-//     default: 'Auth',
-//   },
-// };
+export const metadata: Metadata = {
+  title: {
+    template: '%s',
+    default: 'Auth',
+  },
+};
 
 const theme = createTheme({
   primaryColor: 'dark',
@@ -44,7 +45,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   axios.defaults.withCredentials = true;
-  useGetCsrfToken();
 
   return (
     <html lang="en">
@@ -54,6 +54,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased "flex w-screen flex-1 flex-col items-center justify-center"`}
       >
+        <GetCsrfToken />
         <QueryClientProvider client={queryClient}>
           <MantineProvider theme={theme}>{children}</MantineProvider>
           <ReactQueryDevtools initialIsOpen={false} />

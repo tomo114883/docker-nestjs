@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 
-export const useGetCsrfToken = () => {
+export const GetCsrfToken = () => {
   useEffect(() => {
     const getCsrfToken = async () => {
       const { data } = await axios.get(
@@ -11,4 +11,6 @@ export const useGetCsrfToken = () => {
     };
     getCsrfToken();
   }, []);
+
+  return null;
 };

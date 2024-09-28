@@ -1,13 +1,13 @@
-import { NextPage } from 'next';
+import { Metadata, NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/solid';
 import { useQueryClient } from '@tanstack/react-query';
-import { UserInfo } from '../ui/UserInfo';
+import { UserInfo } from '../ui/user-info';
 
-// export const metadata: Metadata = {
-//   title: 'Dashboard',
-// };
+export const metadata: Metadata = {
+  title: 'Dashboard',
+};
 
 export const Dashboard: NextPage = () => {
   const router = useRouter();
