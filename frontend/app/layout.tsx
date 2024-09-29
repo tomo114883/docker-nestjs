@@ -3,9 +3,10 @@ import localFont from 'next/font/local';
 import axios from 'axios';
 import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { CsrfToken } from './ui/csrf-token';
+import '@mantine/core/styles.css';
+// import { CsrfToken } from './ui/csrf-token';
+import './globals.css';
+import Provider from './ui/provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -30,15 +31,6 @@ const theme = createTheme({
   fontFamily: 'var(--font-geist-sans)',
 });
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: false,
-    },
-  },
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -54,11 +46,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased "flex w-screen flex-1 flex-col items-center justify-center"`}
       >
-        <CsrfToken />
-        <QueryClientProvider client={queryClient}>
+        <Provider>
+          {/* <CsrfToken /> */}
           <MantineProvider theme={theme}>{children}</MantineProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        </Provider>
       </body>
     </html>
   );

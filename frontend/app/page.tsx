@@ -1,4 +1,3 @@
-import { MonthlyBarChart } from './ui/charts/monthly-bar-chart';
 import SignInForm from './ui/signin-form';
 
 export const metadata = {
@@ -10,7 +9,6 @@ export default function Home() {
   return (
     <main>
       <SignInForm />
-      <MonthlyBarChart />
     </main>
   );
 }
