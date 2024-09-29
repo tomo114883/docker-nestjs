@@ -8,7 +8,7 @@ const monthlyBarChartData = [
   { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
   { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
 ];
-export const MonthlyBarChart = () => {
+export const DailyBarChart = () => {
   return (
     <div>
       <h1>Monthly Bar Chart</h1>
