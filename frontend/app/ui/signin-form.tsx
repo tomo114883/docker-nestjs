@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { z } from 'zod';
@@ -67,6 +67,18 @@ export default function SignInForm() {
       }
     }
   };
+
+  // Get csrf token for backend and set it to axios headers at the first render.
+  useEffect(() => {
+    const getCsrfToken = async () => {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
+      );
+      axios.defaults.headers.common['csrf-token'] = data.csrfToken;
+    };
+    getCsrfToken();
+  }, []);
+
   return (
     <>
       <ShieldCheckIcon className="h-16 w-16 text-blue-500" />

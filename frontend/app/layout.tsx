@@ -4,7 +4,6 @@ import axios from 'axios';
 import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-// import { CsrfToken } from './ui/csrf-token';
 import './globals.css';
 import Provider from './ui/provider';
 
