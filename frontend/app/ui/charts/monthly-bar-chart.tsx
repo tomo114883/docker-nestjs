@@ -1,3 +1,5 @@
+'use client';
+
 import { BarChart } from '@mantine/charts';
 
 const monthlyBarChartData = [
@@ -8,6 +10,7 @@ const monthlyBarChartData = [
   { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
   { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
 ];
+
 export const MonthlyBarChart = () => {
   return (
     <div>
