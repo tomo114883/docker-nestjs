@@ -11,6 +11,7 @@ export default function Home() {
     <main>
       <DailyBarChart />
       <MonthlyBarChart />
+      <SignInForm />
     </main>
   );
 }

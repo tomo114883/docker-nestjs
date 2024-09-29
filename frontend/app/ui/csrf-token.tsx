@@ -1,5 +1,7 @@
-// import { useEffect } from 'react';
-// import axios from 'axios';
+'use client';
+
+import { useEffect } from 'react';
+import axios from 'axios';
 
 // export const CsrfToken = () => {
 //   useEffect(() => {
