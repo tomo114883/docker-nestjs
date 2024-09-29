@@ -1,5 +1,5 @@
+import { DailyBarChart } from './ui/charts/daily-bar-chart';
 import { MonthlyBarChart } from './ui/charts/monthly-bar-chart';
-import SignInForm from './ui/signin-form';
 
 export const metadata = {
   title: 'Home',
@@ -9,7 +9,7 @@ export const metadata = {
 export default function Home() {
   return (
     <main>
-      <SignInForm />
+      <DailyBarChart />
       <MonthlyBarChart />
     </main>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import { Loader } from '@mantine/core';
 import { useQueryUser } from '../hooks/useQueryUser';
 
