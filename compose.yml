@@ -63,7 +63,7 @@ services:
     volumes:
       - ./frontend:/frontend
     ports:
-      - 5174:5173
+      - 8081:8080
     stdin_open: true
     tty: true
     restart: always
@@ -75,7 +75,7 @@ services:
     volumes:
       - ./docker/web/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "8080:80"
+      - "81:80"
     restart: always
     depends_on:
       - api

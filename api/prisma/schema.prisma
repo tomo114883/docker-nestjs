@@ -42,6 +42,9 @@ model Motivator {
   user            User          @relation(fields: [userId], references: [id])
   type            Type?         @relation(fields: [typeId], references: [id])
   typesOnMotivators TypesOnMotivators[] // Model Type
+
+  @@index([userId])
+  @@index([typeId])
 }
 
 model Stressor {
@@ -56,6 +59,9 @@ model Stressor {
   user            User          @relation(fields: [userId], references: [id])
   type            Type?         @relation(fields: [typeId], references: [id])
   typesOnStressors   TypesOnStressors[]
+  
+  @@index([userId])
+  @@index([typeId])
 }
 
 model Type {
@@ -79,6 +85,9 @@ model TypesOnMotivators {
   deletedAt       DateTime?
   motivator      Motivator    @relation(fields: [motivatorId], references: [id])
   type            Type          @relation(fields: [typeId], references: [id])
+  
+  @@index([motivatorId])
+  @@index([typeId])
 }
 
 model TypesOnStressors {
@@ -90,4 +99,7 @@ model TypesOnStressors {
   deletedAt       DateTime?
   Stressor          Stressor        @relation(fields: [StressorId], references: [id])
   type            Type          @relation(fields: [typeId], references: [id])
+  
+  @@index([StressorId])
+  @@index([typeId])
 }
