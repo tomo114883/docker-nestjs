@@ -1,4 +1,4 @@
-# Docker, NestJs and React Project
+# Docker, NestJs and Next.js Project
 
 ## Usage for Mac
 ### For starting Docker.
