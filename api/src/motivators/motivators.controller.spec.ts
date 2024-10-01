@@ -1,14 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MotivatorsController } from './motivators.controller';
-import { MotivatorsService } from './motivators.service';
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
-import { faker } from '@faker-js/faker';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import {
   MotivatorModelFactory,
   TypeModelFactory,
   UserModelFactory,
 } from 'src/test.utils/factory';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { faker } from '@faker-js/faker';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
+import { Test, TestingModule } from '@nestjs/testing';
+import { MotivatorsController } from './motivators.controller';
+import { MotivatorsService } from './motivators.service';
 
 describe('MotivatorsController', () => {
   let motivatorsController: MotivatorsController;

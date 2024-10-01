@@ -1,8 +1,8 @@
+import { UserModelFactory } from 'src/test.utils/factory';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { AuthService } from './auth.service';
-import { UserModelFactory } from 'src/test.utils/factory';
 
 describe('AuthController', () => {
   let authController: AuthController;

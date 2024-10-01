@@ -1,9 +1,9 @@
+import { UserModelFactory } from 'src/test.utils/factory';
+import { faker } from '@faker-js/faker';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
-import { faker } from '@faker-js/faker';
-import { UserModelFactory } from 'src/test.utils/factory';
 
 describe('UsersController', () => {
   let usersController: UsersController;

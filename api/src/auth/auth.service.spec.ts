@@ -1,14 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { faker } from '@faker-js/faker';
-import { SignInDto } from './dto/auth.dto';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.strategy';
+import { Test, TestingModule } from '@nestjs/testing';
+import { AuthService } from './auth.service';
+import { SignInDto } from './dto/auth.dto';
 import { JwtStrategy } from './jwt.strategy';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { LocalStrategy } from './local.strategy';
 
 describe('AuthService', () => {
   let authService: AuthService;

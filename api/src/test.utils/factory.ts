@@ -1,10 +1,10 @@
-import { fakerJA as faker } from '@faker-js/faker';
 import {
-  defineUserFactory,
   defineMotivatorFactory,
   defineStressorFactory,
   defineTypeFactory,
+  defineUserFactory,
 } from 'src/__generated__/fabbrica';
+import { fakerJA as faker } from '@faker-js/faker';
 
 // Define UserModelFactory to use in the test from defineUserFactory.
 export const UserModelFactory = defineUserFactory({
