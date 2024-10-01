@@ -16,7 +16,7 @@ const modelFieldDefinitions = [{
                 type: "Motivator",
                 relationName: "MotivatorToUser"
             }, {
-                name: "Stressors",
+                name: "stressors",
                 type: "Stressor",
                 relationName: "StressorToUser"
             }]
@@ -57,7 +57,7 @@ const modelFieldDefinitions = [{
                 type: "Motivator",
                 relationName: "MotivatorToType"
             }, {
-                name: "Stressors",
+                name: "stressors",
                 type: "Stressor",
                 relationName: "StressorToType"
             }, {
@@ -83,7 +83,7 @@ const modelFieldDefinitions = [{
     }, {
         name: "TypesOnStressors",
         fields: [{
-                name: "Stressor",
+                name: "stressor",
                 type: "Stressor",
                 relationName: "StressorToTypesOnStressors"
             }, {
@@ -529,7 +529,7 @@ exports.defineTypesOnMotivatorsFactory = ((options) => {
     return defineTypesOnMotivatorsFactoryInternal(options, {});
 });
 exports.defineTypesOnMotivatorsFactory.withTransientFields = defaultTransientFieldValues => options => defineTypesOnMotivatorsFactoryInternal(options, defaultTransientFieldValues);
-function isTypesOnStressorsStressorFactory(x) {
+function isTypesOnStressorsstressorFactory(x) {
     return x?._factoryFor === "Stressor";
 }
 function isTypesOnStressorstypeFactory(x) {
@@ -571,9 +571,9 @@ function defineTypesOnStressorsFactoryInternal({ defaultData: defaultDataResolve
                 };
             }, resolveValue(resolverInput));
             const defaultAssociations = {
-                Stressor: isTypesOnStressorsStressorFactory(defaultData.Stressor) ? {
-                    create: await defaultData.Stressor.build()
-                } : defaultData.Stressor,
+                stressor: isTypesOnStressorsstressorFactory(defaultData.stressor) ? {
+                    create: await defaultData.stressor.build()
+                } : defaultData.stressor,
                 type: isTypesOnStressorstypeFactory(defaultData.type) ? {
                     create: await defaultData.type.build()
                 } : defaultData.type
