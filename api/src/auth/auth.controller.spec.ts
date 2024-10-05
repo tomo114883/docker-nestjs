@@ -24,6 +24,17 @@ describe('AuthController', () => {
     jest.clearAllMocks();
   });
 
+  describe('signUp', () => {
+    it('call the appropriate method and use the input data.', async () => {
+      const input = {
+        user: await UserModelFactory.create(),
+      };
+      await authController.signIn(input);
+
+      expect(await authService.signIn).toHaveBeenCalledWith(input.user);
+    });
+  });
+
   describe('signIn', () => {
     it('call the appropriate method and use the input data.', async () => {
       const input = {

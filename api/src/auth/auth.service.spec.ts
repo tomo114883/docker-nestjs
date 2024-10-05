@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto/auth.dto';
+import { AuthDto } from './dto/auth.dto';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
 
@@ -88,7 +88,7 @@ describe('AuthService', () => {
 
   describe('signIn', () => {
     it('return the access token when the data was input.', async () => {
-      const user: SignInDto = {
+      const user: AuthDto = {
         id: faker.number.int(),
         name: faker.person.firstName(),
       };

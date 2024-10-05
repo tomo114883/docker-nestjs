@@ -1,13 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import {
-  AccessTokenDto,
-  NonPassUserDto,
-  SignInDto,
-  ValidateUserDto,
-} from './dto/auth.dto';
+import { AuthDto } from './dto/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { User, Prisma } from '@prisma/client';
+import { Jwt, Payload } from './interface/auth.interface';
 
 // The AuthService has to retrieve a user and verify the password.
 @Injectable()
@@ -17,16 +14,18 @@ export class AuthService {
     private prismaService: PrismaService,
   ) {}
 
-  // validateUser-method
-  async validateUser(input: ValidateUserDto): Promise<NonPassUserDto | null> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<Omit<User, 'password'>> {
     const user = await this.prismaService.user.findUnique({
-      where: { email: input.email },
+      where: { email: email },
     });
     if (
       user &&
       user.password &&
-      // Verify if two hashed passwords are same.
-      bcrypt.compareSync(input.password, user.password)
+      // Verify wether two hashed passwords are same.
+      bcrypt.compareSync(password, user.password)
     ) {
       // Exclude the password not to expose the plane password.
       // Destructuring assignment.
@@ -39,11 +38,45 @@ export class AuthService {
     return null;
   }
 
+  // signUp-method
+  async signUp(dto: AuthDto): Promise<User> {
+    // Hash the password with salt.
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(dto.password, salt);
+
+    try {
+      return this.prismaService.user.create({
+        data: {
+          email: dto.email,
+          password: hashedPassword,
+        },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          // if the input email is not unique, throw an error.
+          throw new ForbiddenException('This email is already taken');
+        }
+      }
+      throw error;
+    }
+  }
+
   // signIn-method
-  async signIn(user: SignInDto): Promise<AccessTokenDto> {
-    const payload = { username: user.name, sub: user.id };
+  async signIn(dto: AuthDto): Promise<Jwt> {
+    const user = await this.prismaService.user.findUnique({
+      where: { email: dto.email },
+    });
+    if (!user) throw new ForbiddenException('Email or password incorrect');
+    const isValid = await bcrypt.compare(dto.password, user.password);
+    if (!isValid) throw new ForbiddenException('Email or password incorrect');
+    return this.generateJwt(user.id, user.email);
+  }
+
+  async generateJwt(userId: number, email: string): Promise<Jwt> {
+    const payload: Payload = { sub: userId, email: email };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(payload),
     };
   }
 }
