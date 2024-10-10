@@ -38,7 +38,6 @@ export class AuthService {
     return null;
   }
 
-  // signUp-method
   async signUp(dto: AuthDto): Promise<User> {
     // Hash the password with salt.
     const salt = await bcrypt.genSalt();
@@ -62,7 +61,6 @@ export class AuthService {
     }
   }
 
-  // signIn-method
   async signIn(dto: AuthDto): Promise<Jwt> {
     const user = await this.prismaService.user.findUnique({
       where: { email: dto.email },

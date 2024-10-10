@@ -1,35 +1,42 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthDto } from './dto/auth.dto';
 import { User } from '@prisma/client';
-import { Msg } from './interface/auth.interface';
+import { Csrf, Msg } from './interface/auth.interface';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Get('csrf')
+  getCsrfToken(@Req() req: Request): Csrf {
+    return { csrfToken: req.csrfToken() };
+  }
 
   @Post('signUp')
   async signUp(@Body() dto: AuthDto): Promise<User> {
     return this.authService.signUp(dto);
   }
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Post('signIn')
   async signIn(
     @Body() dto: AuthDto,
     @Res({ passthrough: true }) res: Response,
-  ) {
+  ): Promise<Msg> {
     const jwt = await this.authService.signIn(dto);
     res.cookie('access_token', jwt.accessToken, {
       httpOnly: true,
@@ -45,7 +52,7 @@ export class AuthController {
   logout(@Res({ passthrough: true }) res: Response): Msg {
     res.cookie('access_token', '', {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: 'none',
       path: '/',
     });

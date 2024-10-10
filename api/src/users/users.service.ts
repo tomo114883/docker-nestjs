@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
@@ -20,7 +21,7 @@ export class UsersService {
 
   async update(
     id: number,
-    data: UpdateUserDto,
+    dto: UpdateUserDto,
   ): Promise<Omit<User, 'password'>> {
     // Check if the user exists.
     const currentUser = await this.prismaService.user.findUnique({
@@ -31,10 +32,10 @@ export class UsersService {
     }
 
     // Check if the email is already taken by another user.
-    if (data.email) {
+    if (dto.email) {
       const existingUser = await this.prismaService.user.findUnique({
         where: {
-          email: data.email,
+          email: dto.email,
         },
       });
       if (existingUser && existingUser.id !== id) {
@@ -42,6 +43,13 @@ export class UsersService {
       }
     }
 
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(dto.password, salt);
+
+    const data = {
+      ...dto,
+      password: hashedPassword,
+    };
     return this.prismaService.user.update({
       where: {
         id: id,
