@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { z } from 'zod';
@@ -25,15 +25,13 @@ const schema = z.object({
     .string()
     .email('Invalid email')
     .min(1, { message: 'No email provided ' }),
-  password: z
-    .string()
-    .min(1, { message: 'No password provided ' })
-    .min(5, { message: 'Password should be min 5 chars' }),
+  password: z.string().min(5, { message: 'Password should be min 5 chars' }),
 });
 
-export default function SignInForm() {
+export default function LoginForm() {
+  console.log(`start LoginForm()`);
   const router = useRouter();
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(true);
   const [error, setError] = useState('');
   const form = useForm<AuthForm>({
     validate: zodResolver(schema),
@@ -42,17 +40,19 @@ export default function SignInForm() {
       password: '',
     },
   });
+
   const handleSubmit = async () => {
     try {
+      console.log(`start handleSubmit`);
       // Implement signUp for backend.
-      if (isRegister) {
+      if (!isRegister) {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signUp`, {
           email: form.values.email,
           password: form.values.password,
         });
       }
       // Implement signIn for backend.
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signIn`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         email: form.values.email,
         password: form.values.password,
       });
@@ -61,23 +61,13 @@ export default function SignInForm() {
       router.push('/dashboard');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
+        console.log('caught error');
         setError(error.response.data.message || 'An error occurred');
       } else {
         setError('An unexpected error occurred');
       }
     }
   };
-
-  // Get csrf token for backend and set it to axios headers at the first render.
-  useEffect(() => {
-    const getCsrfToken = async () => {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
-      );
-      axios.defaults.headers.common['csrf-token'] = data.csrfToken;
-    };
-    getCsrfToken();
-  }, []);
 
   return (
     <>
@@ -125,15 +115,15 @@ export default function SignInForm() {
             }}
           >
             {isRegister
-              ? 'Have an account? Login'
-              : "Don't have an account? Register"}
+              ? "Don't have an account? SignUp"
+              : 'Have an account? Login'}
           </Anchor>
           <Button
             leftSection={<IconDatabase size={14} />}
             color="cyan"
             type="submit"
           >
-            {isRegister ? 'Register' : 'SignIn'}
+            {isRegister ? 'Login' : 'SignUp'}
           </Button>
         </Group>
       </form>

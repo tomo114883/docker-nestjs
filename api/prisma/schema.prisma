@@ -13,25 +13,25 @@ generator fabbrica {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
-  id              Int           @default(autoincrement()) @id
-  email           String        @unique
-  password        String? 
-  name            String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  deletedAt       DateTime?
-  motivators      Motivator[]
-  stressors       Stressor[]
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  password   String?
+  name       String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  deletedAt  DateTime?
+  motivators Motivator[]
+  stressors  Stressor[]
 }
 
 model Motivator {
-  id                Int                 @default(autoincrement()) @id // Scalar Type
+  id                Int                 @id @default(autoincrement()) // Scalar Type
   name              String
   weight            Int?
   userId            Int
@@ -48,24 +48,24 @@ model Motivator {
 }
 
 model Stressor {
-  id                Int                 @default(autoincrement()) @id
-  name              String
-  weight            Int?
-  userId            Int
-  typeId            Int?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  deletedAt         DateTime?
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type              Type?               @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  typesOnStressors  TypesOnStressors[]
-  
+  id               Int                @id @default(autoincrement())
+  name             String
+  weight           Int?
+  userId           Int
+  typeId           Int?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  deletedAt        DateTime?
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type             Type?              @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  typesOnStressors TypesOnStressors[]
+
   @@index([userId])
   @@index([typeId])
 }
 
 model Type {
-  id                Int                 @default(autoincrement()) @id
+  id                Int                 @id @default(autoincrement())
   name              String
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
@@ -77,29 +77,29 @@ model Type {
 }
 
 model TypesOnMotivators {
-  id              Int           @default(autoincrement()) @id
-  motivatorId     Int
-  typeId          Int
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  deletedAt       DateTime?
-  motivator       Motivator     @relation(fields: [motivatorId], references: [id], onDelete: Cascade)
-  type            Type          @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  
+  id          Int       @id @default(autoincrement())
+  motivatorId Int
+  typeId      Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  motivator   Motivator @relation(fields: [motivatorId], references: [id], onDelete: Cascade)
+  type        Type      @relation(fields: [typeId], references: [id], onDelete: Cascade)
+
   @@index([motivatorId])
   @@index([typeId])
 }
 
 model TypesOnStressors {
-  id              Int         @default(autoincrement()) @id
-  stressorId      Int
-  typeId          Int
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  deletedAt       DateTime?
-  stressor        Stressor    @relation(fields: [stressorId], references: [id], onDelete: Cascade)
-  type            Type        @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  
+  id         Int       @id @default(autoincrement())
+  stressorId Int
+  typeId     Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  stressor   Stressor  @relation(fields: [stressorId], references: [id], onDelete: Cascade)
+  type       Type      @relation(fields: [typeId], references: [id], onDelete: Cascade)
+
   @@index([stressorId])
   @@index([typeId])
 }

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
-import axios from 'axios';
+// import Head from 'next/head';
 import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
@@ -35,8 +35,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  axios.defaults.withCredentials = true;
-
   return (
     <html lang="en">
       <head>
@@ -46,8 +44,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased "flex w-screen flex-1 flex-col items-center justify-center"`}
       >
         <Provider>
-          {/* <CsrfToken /> */}
-          <MantineProvider theme={theme}>{children}</MantineProvider>
+          <MantineProvider theme={theme}>
+            {/* <Head>
+              <title>{`${metadata.title}`}</title>
+              </Head> */}
+            <main className="flex w-screen flex-1 flex-col items-center justify-center">
+              {children}
+            </main>
+          </MantineProvider>
         </Provider>
       </body>
     </html>

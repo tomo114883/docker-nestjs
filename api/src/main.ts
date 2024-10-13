@@ -15,8 +15,10 @@ async function bootstrap() {
   const { doubleCsrfProtection } = doubleCsrf({
     getSecret: () => process.env.CSRF_SECRET, // using dotenv
     cookieName: 'csrf-token', // '__Host-' prefix to set httpOnly true and secure true, so it's not accessible from postman.
+    // and this prefix require https connection.
     cookieOptions: {
-      sameSite: 'none',
+      sameSite: 'strict', // if we want to use third party cookies, we should set it to 'none'.
+      secure: true,
       path: '/',
     },
     size: 64,

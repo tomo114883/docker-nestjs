@@ -12,7 +12,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
     JwtModule.register({
       // Setting JWT, especially the Expiration time.
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '5m' },
+      signOptions: { expiresIn: '1d' },
     }),
     // Import the PassportModule.
     PassportModule,

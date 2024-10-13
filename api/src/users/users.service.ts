@@ -8,14 +8,12 @@ import { User } from '@prisma/client';
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
-  async findAll(): Promise<User[]> {
-    return this.prismaService.user.findMany();
-  }
+  async findAll(): Promise<Omit<User, 'password'>[]> {
+    const users: User[] = await this.prismaService.user.findMany()
 
-  // Pass the arg either id or email.
-  async findOne(id: number): Promise<User> {
-    return this.prismaService.user.findUnique({
-      where: { id: id },
+    return users.map(user => {
+      const { password, ...usersWithoutPassword } = user;
+      return usersWithoutPassword;
     });
   }
 

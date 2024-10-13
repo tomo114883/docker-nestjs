@@ -19,7 +19,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<Omit<User, 'password'>[]> {
     return this.usersService.findAll();
   }
 
