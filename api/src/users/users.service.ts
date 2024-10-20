@@ -1,66 +1,58 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
-  async create(data: CreateUserDto): Promise<User> {
-    // Hash the password with salt.
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(data.password, salt);
+  async findAll(): Promise<Omit<User, 'password'>[]> {
+    const users: User[] = await this.prismaService.user.findMany()
 
-    return this.prismaService.user.create({
-      data: {
-        email: data.email,
-        password: hashedPassword,
-      },
+    return users.map(user => {
+      const { password, ...usersWithoutPassword } = user;
+      return usersWithoutPassword;
     });
   }
 
-  async findAll(): Promise<User[]> {
-    return this.prismaService.user.findMany();
-  }
-
-  // Pass the arg either id or email.
-  async findOne(id: number): Promise<User> {
-    return this.prismaService.user.findUnique({
+  async update(
+    id: number,
+    dto: UpdateUserDto,
+  ): Promise<Omit<User, 'password'>> {
+    // Check if the user exists.
+    const currentUser = await this.prismaService.user.findUnique({
       where: { id: id },
     });
-  }
-
-  async update(id: number, data: UpdateUserDto): Promise<User> {
-    // 更新対象のユーザー自身が持つemailを確認
-    const currentUser = await this.prismaService.user.findUnique({
-      where: { id },
-    });
-
     if (!currentUser) {
-      throw new Error('更新対象のユーザーが見つかりません。');
+      throw new Error('User not found.');
     }
 
-    // 入力されたemailが他のユーザーに存在するか確認
-    const existingUser = await this.prismaService.user.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
-
-    // 他のユーザーが同じemailを持っている場合エラーを投げる
-    if (existingUser && existingUser.id !== id) {
-      throw new Error('このメールアドレスは既に存在しています。');
+    // Check if the email is already taken by another user.
+    if (dto.email) {
+      const existingUser = await this.prismaService.user.findUnique({
+        where: {
+          email: dto.email,
+        },
+      });
+      if (existingUser && existingUser.id !== id) {
+        throw new Error('This email address already exists.');
+      }
     }
 
-    // ユーザー情報の更新
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(dto.password, salt);
+
+    const data = {
+      ...dto,
+      password: hashedPassword,
+    };
     return this.prismaService.user.update({
       where: {
-        id,
+        id: id,
       },
-      data,
+      data: data,
     });
   }
 

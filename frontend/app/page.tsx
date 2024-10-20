@@ -1,4 +1,4 @@
-import SignInForm from './ui/signin-form';
+import LoginForm from './ui/login-form';
 
 export const metadata = {
   title: 'Home',
@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main>
-      <SignInForm />
-    </main>
+    <>
+      <LoginForm />
+    </>
   );
 }

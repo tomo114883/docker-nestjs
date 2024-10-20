@@ -25,7 +25,7 @@ type UserFactoryDefineInput = {
     updatedAt?: Date;
     deletedAt?: Date | null;
     motivators?: Prisma.MotivatorCreateNestedManyWithoutUserInput;
-    Stressors?: Prisma.StressorCreateNestedManyWithoutUserInput;
+    stressors?: Prisma.StressorCreateNestedManyWithoutUserInput;
 };
 type UserTransientFields = Record<string, unknown> & Partial<Record<keyof UserFactoryDefineInput, never>>;
 type UserFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -162,7 +162,7 @@ type TypeFactoryDefineInput = {
     updatedAt?: Date;
     deletedAt?: Date | null;
     motivators?: Prisma.MotivatorCreateNestedManyWithoutTypeInput;
-    Stressors?: Prisma.StressorCreateNestedManyWithoutTypeInput;
+    stressors?: Prisma.StressorCreateNestedManyWithoutTypeInput;
     typesOnMotivators?: Prisma.TypesOnMotivatorsCreateNestedManyWithoutTypeInput;
     typesOnStressors?: Prisma.TypesOnStressorsCreateNestedManyWithoutTypeInput;
 };
@@ -243,7 +243,7 @@ interface TypesOnMotivatorsFactoryBuilder {
     withTransientFields: <TTransients extends TypesOnMotivatorsTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends TypesOnMotivatorsFactoryDefineOptions<TTransients>>(options: TOptions) => TypesOnMotivatorsFactoryInterface<TTransients, TypesOnMotivatorsTraitKeys<TOptions>>;
 }
 export declare const defineTypesOnMotivatorsFactory: TypesOnMotivatorsFactoryBuilder;
-type TypesOnStressorsStressorFactory = {
+type TypesOnStressorsstressorFactory = {
     _factoryFor: "Stressor";
     build: () => PromiseLike<Prisma.StressorCreateNestedOneWithoutTypesOnStressorsInput["create"]>;
 };
@@ -255,7 +255,7 @@ type TypesOnStressorsFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    Stressor: TypesOnStressorsStressorFactory | Prisma.StressorCreateNestedOneWithoutTypesOnStressorsInput;
+    stressor: TypesOnStressorsstressorFactory | Prisma.StressorCreateNestedOneWithoutTypesOnStressorsInput;
     type: TypesOnStressorstypeFactory | Prisma.TypeCreateNestedOneWithoutTypesOnStressorsInput;
 };
 type TypesOnStressorsTransientFields = Record<string, unknown> & Partial<Record<keyof TypesOnStressorsFactoryDefineInput, never>>;

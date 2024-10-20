@@ -46,11 +46,11 @@ export class MotivatorsService {
     const currentMotivator = await this.prismaService.motivator.findUnique({
       where: { id: id },
     });
-    
+
     if (!currentMotivator) {
       throw new Error('The corresponding motivator does not exist.');
     }
-    
+
     const deletedMotiv = await this.prismaService.motivator.delete({
       where: { id },
     });

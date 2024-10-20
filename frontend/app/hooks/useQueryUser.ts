@@ -1,27 +1,37 @@
-import { useRouter } from 'next/router';
-import axios, { AxiosError } from 'axios';
-import { User } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
+'use client';
 
-export const useQueryUser = () => {
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { User } from '@prisma/client';
+
+export function useQueryUser() {
+  const [data, setData] = useState<Omit<User, 'password'> | null>(null);
+  const [status, setStatus] = useState('pending');
+  const [error, setError] = useState('');
   const router = useRouter();
-  const getUser = async () => {
-    const { data } = await axios.get<Omit<User, 'password'>>(
-      `${process.env.NEXT_PUBLIC_API_URL}/user`,
-    );
-    return data;
-  };
-  const { status, data, error } = useQuery<Omit<User, 'password'>>({
-    queryKey: ['user'],
-    queryFn: getUser,
-  });
-  if (status === 'error') {
-    if (
-      error instanceof AxiosError &&
-      (error.response?.status === 401 || error.response?.status === 403)
-    ) {
-      router.push('/');
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        // Replace this with your actual API call
+        const response = await axios.get<Omit<User, 'password'>>(
+          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+        );
+        const userData = await response.data;
+        setData(userData);
+        setStatus('success');
+      } catch (error) {
+        setStatus('error');
+        if (axios.isAxiosError(error) && error.response) {
+          setError(error.response.data.message || 'An error occurred');
+        } else {
+          setError('An unexpected error occurred');
+        }
+      }
     }
-  }
-  return { data, status };
-};
+    fetchUser();
+  }, [router]);
+
+  return { data, status, error };
+}

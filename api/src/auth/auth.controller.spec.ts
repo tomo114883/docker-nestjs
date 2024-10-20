@@ -1,8 +1,8 @@
+import { UserModelFactory } from 'src/test.utils/factory';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { AuthService } from './auth.service';
-import { UserModelFactory } from 'src/test.utils/factory';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -22,6 +22,17 @@ describe('AuthController', () => {
     authController = authModule.get<AuthController>(AuthController);
     authService = authModule.get<DeepMocked<AuthService>>(AuthService);
     jest.clearAllMocks();
+  });
+
+  describe('signUp', () => {
+    it('call the appropriate method and use the input data.', async () => {
+      const input = {
+        user: await UserModelFactory.create(),
+      };
+      await authController.signIn(input);
+
+      expect(await authService.signIn).toHaveBeenCalledWith(input.user);
+    });
   });
 
   describe('signIn', () => {

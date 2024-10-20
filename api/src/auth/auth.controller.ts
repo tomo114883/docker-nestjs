@@ -1,23 +1,63 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { AuthDto } from './dto/auth.dto';
+import { User } from '@prisma/client';
+import { Csrf, Msg } from './interface/auth.interface';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  // Endpoint to /auth/signIn, and returning the signIn-method of the service.
-  @UseGuards(LocalAuthGuard)
-  @Post('signIn')
-  async signIn(@Request() req) {
-    return this.authService.signIn(req.user);
+  @Get('csrf')
+  // Prevent CSRF(Cross-Site Request Forgeries) attacks by csrf-token
+  getCsrfToken(@Req() req: Request): Csrf {
+    return { csrfToken: req.csrfToken() };
   }
 
-  // Endpoint to /auth/profile, and returning a User in request.
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req) {
-    return req.user;
+  @Post('signUp')
+  async signUp(@Body() dto: AuthDto): Promise<User> {
+    return this.authService.signUp(dto);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  async login(
+    @Body() dto: AuthDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<Msg> {
+    const jwt = await this.authService.login(dto);
+    // Set a cookie as 'access_token' in the HTTP response.
+    res.cookie('access_token', jwt.accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+    });
+    return { message: 'Login successful' };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res: Response): Msg {
+    res.cookie('access_token', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+    });
+    return { message: 'Logout successful' };
   }
 }

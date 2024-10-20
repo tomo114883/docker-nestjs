@@ -1,13 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MotivatorsService } from './motivators.service';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaService } from 'src/prisma/prisma.service';
 import {
   MotivatorModelFactory,
   TypeModelFactory,
   UserModelFactory,
 } from 'src/test.utils/factory';
 import { faker } from '@faker-js/faker';
+import { Test, TestingModule } from '@nestjs/testing';
+import { MotivatorsService } from './motivators.service';
 
 describe('MotivatorsService', () => {
   let motivatorsService: MotivatorsService;
