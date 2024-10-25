@@ -4,10 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { z } from 'zod';
-import {
-  ExclamationCircleIcon,
-  ShieldCheckIcon,
-} from '@heroicons/react/24/solid';
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import {
   Alert,
   Anchor,
@@ -30,6 +27,7 @@ const schema = z.object({
 
 export default function LoginForm() {
   console.log(`start LoginForm()`);
+
   const router = useRouter();
   const [isRegister, setIsRegister] = useState(true);
   const [error, setError] = useState('');
@@ -70,8 +68,7 @@ export default function LoginForm() {
   };
 
   return (
-    <>
-      <ShieldCheckIcon className="h-16 w-16 text-blue-500" />
+    <div className="w-max-screen">
       {error && ( // if error is true, show the alert
         <Alert
           my="md" // style props to add inline styles to any Mantine component
@@ -84,7 +81,7 @@ export default function LoginForm() {
           {error}
         </Alert>
       )}
-      <form onSubmit={form.onSubmit(handleSubmit)}>
+      <form onSubmit={form.onSubmit(handleSubmit)} className="">
         {/* wrapper function for form onSubmit and onReset event handler */}
         <TextInput
           mt="md"
@@ -127,6 +124,6 @@ export default function LoginForm() {
           </Button>
         </Group>
       </form>
-    </>
+    </div>
   );
 }
