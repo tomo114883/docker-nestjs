@@ -1,6 +1,7 @@
-import LoginForm from './ui/login-form';
+import { Metadata } from 'next';
+import { DailyBarChart } from './ui/charts/daily-bar-chart';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Home',
   description: 'Home page',
 };
@@ -8,7 +9,8 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <LoginForm />
+      <h1 className="">{metadata.title?.toString()}</h1>
+      <DailyBarChart />
     </>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { User } from '@prisma/client';
 
@@ -9,7 +9,7 @@ export function useQueryUser() {
   const [data, setData] = useState<Omit<User, 'password'> | null>(null);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState('');
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     async function fetchUser() {
@@ -31,7 +31,7 @@ export function useQueryUser() {
       }
     }
     fetchUser();
-  }, [router]);
+  }, []);
 
   return { data, status, error };
 }

@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
-// import Head from 'next/head';
 import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import './globals.css';
+import BasicAppShell from './ui/app-shell';
 import Provider from './ui/provider';
 
 const geistSans = localFont({
@@ -41,16 +41,11 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased "flex w-screen flex-1 flex-col items-center justify-center"`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
           <MantineProvider theme={theme}>
-            {/* <Head>
-              <title>{`${metadata.title}`}</title>
-              </Head> */}
-            <main className="flex w-screen flex-1 flex-col items-center justify-center">
-              {children}
-            </main>
+            <BasicAppShell>{children}</BasicAppShell>
           </MantineProvider>
         </Provider>
       </body>

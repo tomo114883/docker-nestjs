@@ -12,7 +12,7 @@ export default function Logout() {
     // Remove a cache for the user when the user logout.
     queryClient.removeQueries({ queryKey: ['user'] });
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
-    router.push('/');
+    router.push('/auth');
   };
   return (
     <div>
