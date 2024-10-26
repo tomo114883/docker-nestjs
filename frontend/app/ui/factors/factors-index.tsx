@@ -1,4 +1,5 @@
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import CreateModal from './create-modal';
 import FactorsList from './factors-list';
 
 export default async function FactorsIndex() {
@@ -10,7 +11,8 @@ export default async function FactorsIndex() {
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
-      <h2 className={`mb-4 text-xl md:text-2xl`}>Index of Factors</h2>
+      <h2 className={`mb-4 text-xl md:text-2xl`}>要因の一覧</h2>
+      <CreateModal />
       <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="flex flex-row">
           <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
