@@ -37,7 +37,7 @@ export const DailyBarChart = () => {
   return (
     <div className="">
       <h1>Daily Bar Chart</h1>
-      <div className="">
+      <div className="flex flex-row">
         <BarChart
           h={300}
           data={[dailyData]}

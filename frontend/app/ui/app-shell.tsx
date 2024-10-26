@@ -1,8 +1,8 @@
 'use client';
 
-import { AppShell, Burger, Group, NavLink, Skeleton } from '@mantine/core';
+import { ChartBarIcon, HomeIcon } from '@heroicons/react/24/outline';
+import { AppShell, Burger, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconHome2 } from '@tabler/icons-react';
 import Logout from './logout-button';
 
 export default function BasicAppShell({
@@ -16,12 +16,12 @@ export default function BasicAppShell({
     {
       link: 'http://localhost:8081',
       label: 'Home',
-      icon: <IconHome2 size="1rem" stroke={1.5} />,
+      icon: <HomeIcon className="w-4 h-4" />,
     },
     {
       link: 'http://localhost:8081/charts/monthly',
       label: 'Monthly Chart',
-      icon: <IconHome2 size="1rem" stroke={1.5} />,
+      icon: <ChartBarIcon className="w-4 h-4" />,
     },
   ];
 
@@ -38,22 +38,19 @@ export default function BasicAppShell({
       </AppShell.Header>
       <AppShell.Navbar p="md">
         Navbar
-        {navInfo.map((e, index) => {
+        {navInfo.map((e, i) => {
           return (
             <NavLink
-              key={index}
+              key={i}
               href={e.link}
               label={e.label}
               leftSection={e.icon}
             />
           );
         })}
-        {Array(5)
-          .fill(0)
-          .map((_, index) => (
-            <Skeleton key={index} h={70} mt="sm" radius={15} animate={false} />
-          ))}
-        <Logout />
+        <div className="mx-auto">
+          <Logout />
+        </div>
       </AppShell.Navbar>
       <AppShell.Main>
         <div className="flex flex-col min-h-screen">{children}</div>
