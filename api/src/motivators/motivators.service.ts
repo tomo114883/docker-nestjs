@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMotivatorDto } from './dto/create-motivator.dto';
-import { UpdateMotivatorDto } from './dto/update-motivator.dto';
 import { Motivator } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateMotivatorDto } from './dto/create-motivator.dto';
+import { UpdateMotivatorDto } from './dto/update-motivator.dto';
 
 @Injectable()
 export class MotivatorsService {
   constructor(private prismaService: PrismaService) {}
 
-  async create(data: CreateMotivatorDto): Promise<Motivator> {
+  async create(userId: number, dto: CreateMotivatorDto): Promise<Motivator> {
     return await this.prismaService.motivator.create({
       data: {
-        name: data.name,
-        weight: data.weight,
-        userId: data.userId,
-        typeId: data.typeId,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
-        deletedAt: data.deletedAt,
+        name: dto.name,
+        weight: dto.weight,
+        variable: dto.variable,
+        userId: userId,
+        createdAt: dto.createdAt,
+        updatedAt: dto.updatedAt,
+        deletedAt: dto.deletedAt,
       },
     });
   }
@@ -58,15 +58,15 @@ export class MotivatorsService {
   }
 
   // Calculate motivator level that is sum of each motivator's weight per person.
-  async totalCalculation(userId: number): Promise<number> {
-    const motivators = await this.prismaService.motivator.findMany({
-      where: { userId },
-    });
+  // async totalCalculation(userId: number): Promise<number> {
+  //   const motivators = await this.prismaService.motivator.findMany({
+  //     where: { userId },
+  //   });
 
-    const motivatorLevel = motivators.reduce(
-      (sum, motivator) => sum + motivator.weight,
-      0,
-    );
-    return motivatorLevel;
-  }
+  //   const motivatorLevel = motivators.reduce(
+  //     (sum, motivator) => sum + motivator.weight,
+  //     0,
+  //   );
+  //   return motivatorLevel;
+  // }
 }

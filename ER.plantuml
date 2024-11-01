@@ -8,62 +8,33 @@ skinparam linetype ortho
 entity users {
   * id : number <<generated>>
   --
-  * name : text
   * email : text <<unique>>
   * password : text <<encrypted>>
+  * name : text
   * created_at
   * updated_at
     deleted_at
 }
 
-entity motivations {
+entity motivators {
   * id : number <<generated>>
   --
   * name : text
-  weight : number
+  * weight : text
+    variable: boolean
   * user_id : number
-  type_id : number
   * created_at
   * updated_at
     deleted_at
 }
 
-entity stresses {
+entity stressors {
   * id : number <<generated>>
   --
   * name : text
-  weight : number
+  * weight : text
+    variable: boolean
   * user_id : number
-  type_id : number
-  * created_at
-  * updated_at
-    deleted_at
-}
-
-entity types {
-  * id : number <<generated>>
-  --
-  * name : text
-  * created_at
-  * updated_at
-    deleted_at
-}
-
-entity types_motivations {
-  * id : number <<generated>>
-  --
-  * motivation_id : number
-  * type_id : number
-  * created_at
-  * updated_at
-    deleted_at
-}
-
-entity types_stresses {
-  * id : number <<generated>>
-  --
-  * stress_id : number
-  * type_id : number
   * created_at
   * updated_at
     deleted_at
@@ -71,11 +42,5 @@ entity types_stresses {
 
 users ||--o{ motivations : > "has"
 users ||--o{ stresses : > "has"
-motivations |o--o{ types : > "of type"
-stresses |o--o{ types : > "of type"
-types_motivations }o--|| motivations : < "related to"
-types_motivations }o--|| types : < "related to"
-types_stresses }o--|| stresses : < "related to"
-types_stresses }o--|| types : < "related to"
 
 @enduml

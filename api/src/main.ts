@@ -1,6 +1,6 @@
+import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { doubleCsrf } from 'csrf-csrf';
-import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
