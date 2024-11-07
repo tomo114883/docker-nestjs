@@ -22,8 +22,10 @@ export class MotivatorsService {
     });
   }
 
-  async findAll(): Promise<Motivator[]> {
-    return await this.prismaService.motivator.findMany();
+  async findAll(userId): Promise<Motivator[]> {
+    return await this.prismaService.motivator.findMany({
+      where: { userId: userId, deletedAt: null },
+    });
   }
 
   async findOne(id: number): Promise<Motivator> {

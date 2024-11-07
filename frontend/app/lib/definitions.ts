@@ -6,5 +6,9 @@ export type Factor = {
   id: number;
   name: string;
   weight: number;
-  variable: boolean;
+  variable: boolean | null;
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
 };

@@ -2,21 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { User } from '@prisma/client';
+import { Factor } from '../lib/definitions';
 
-export function useQueryUser() {
-  const [data, setData] = useState<Omit<User, 'password'> | null>(null);
+export default function useQueryFactor(factor: string) {
+  const [data, setData] = useState<Factor[] | null>(null);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    async function fetchUser() {
+    async function fetchFactor() {
       try {
-        const response = await axios.get<Omit<User, 'password'>>(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+        const response = await axios.get<Factor[] | null>(
+          `${process.env.NEXT_PUBLIC_API_URL}/${factor}s`,
         );
-        const userData = await response.data;
-        setData(userData);
+        const data = await response.data;
+        setData(data);
         setStatus('success');
       } catch (error) {
         setStatus('error');
@@ -27,8 +27,8 @@ export function useQueryUser() {
         }
       }
     }
-    fetchUser();
-  }, []);
+    fetchFactor();
+  }, [factor]);
 
   return { data, status, error };
 }

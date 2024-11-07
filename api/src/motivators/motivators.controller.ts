@@ -26,8 +26,8 @@ export class MotivatorsController {
   }
 
   @Get()
-  async findAll() {
-    return await this.motivatorsService.findAll();
+  async findAll(@Req() req: Request) {
+    return await this.motivatorsService.findAll(req.user.id);
   }
 
   @Get(':id')
