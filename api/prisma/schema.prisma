@@ -13,15 +13,14 @@ generator fabbrica {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id         Int         @id @default(autoincrement())
   email      String      @unique
-  password   String?
+  password   String
   name       String?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -40,8 +39,6 @@ model Motivator {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }
 
 model Stressor {
@@ -54,6 +51,4 @@ model Stressor {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }

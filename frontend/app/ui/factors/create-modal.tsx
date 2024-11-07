@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { z } from 'zod';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import {
   Alert,
@@ -12,24 +13,26 @@ import {
   Slider,
   TextInput,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { useForm, zodResolver } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+
+const schema = z.object({
+  name: z.string(),
+  weight: z.number(),
+  variable: z.string(),
+});
 
 export default function CreateModal() {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState('');
 
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
-      name: '',
+      name: 'test',
       weight: 1,
-      variable: true,
+      variable: 'variable',
     },
-
-    validate: {
-      name: (value) => (value ? null : '名前を入力してください'),
-    },
+    validate: zodResolver(schema),
   });
 
   const marks = [
@@ -43,10 +46,11 @@ export default function CreateModal() {
   // TODO: Post request to create a new factor.
   const handleSubmit = async () => {
     try {
+      const variable = form.values.variable === 'variable';
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/motivators`, {
         name: form.values.name,
         weight: form.values.weight,
-        variable: form.values.variable,
+        variable: variable,
       });
       form.reset();
       close(); // close modal
@@ -90,12 +94,18 @@ export default function CreateModal() {
               max={5}
               marks={marks}
               step={1}
+              value={form.values.weight} // Add this line
+              {...form.getInputProps('weight')}
             />
 
-            <Radio.Group name="variable" label="自分の意志で変更可能か">
+            <Radio.Group
+              name="variable"
+              label="自分の意志で変更可能か"
+              {...form.getInputProps('variable')}
+            >
               <Group mt="xs">
-                <Radio value="true" label="変数" />
-                <Radio value="false" label="定数" />
+                <Radio value={'variable'} label="変数" />
+                <Radio value={'constant'} label="定数" />
               </Group>
             </Radio.Group>
 

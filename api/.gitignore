@@ -39,5 +39,6 @@ lerna-debug.log*
 .env.test
 .zshrc
 
-# Prisma
+# DB
 prisma/migrations
+__generated__

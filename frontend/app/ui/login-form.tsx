@@ -26,17 +26,15 @@ const schema = z.object({
 });
 
 export default function LoginForm() {
-  console.log(`start LoginForm()`);
-
   const router = useRouter();
   const [isRegister, setIsRegister] = useState(true);
   const [error, setError] = useState('');
   const form = useForm<AuthForm>({
-    validate: zodResolver(schema),
     initialValues: {
       email: '',
       password: '',
     },
+    validate: zodResolver(schema),
   });
 
   const handleSubmit = async () => {

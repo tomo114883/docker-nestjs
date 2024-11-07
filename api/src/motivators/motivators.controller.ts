@@ -11,7 +11,10 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CreateMotivatorDto } from './dto/create-motivator.dto';
+import {
+  CreateMotivatorDto,
+  // ReceiveMotivatorDto,
+} from './dto/create-motivator.dto';
 import { UpdateMotivatorDto } from './dto/update-motivator.dto';
 import { MotivatorsService } from './motivators.service';
 
@@ -22,6 +25,14 @@ export class MotivatorsController {
 
   @Post()
   async create(@Req() req: Request, @Body() dto: CreateMotivatorDto) {
+    // let variable: boolean = false;
+    // if (dto.variable === 'variable') variable = true;
+    // if (dto.variable === 'constant') variable = false;
+    // const data: CreateMotivatorDto = {
+    //   name: dto.name,
+    //   weight: dto.weight,
+    //   variable: variable,
+    // };
     return await this.motivatorsService.create(req.user.id, dto);
   }
 
