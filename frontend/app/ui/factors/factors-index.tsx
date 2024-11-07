@@ -8,8 +8,8 @@ import FactorsList from './factors-list';
 
 export default function FactorsIndex() {
   const router = useRouter();
-  const motivators = useQueryFactor('motivators');
-  // const stressors = [{ id: 1, name: '人間関係', weight: 2, variable: false }];
+  const motivators = useQueryFactor('motivator');
+  const stressors = useQueryFactor('stressor');
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -18,10 +18,10 @@ export default function FactorsIndex() {
       <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="flex flex-row">
           <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
-            <FactorsList factors={motivators.data || []} />
+            <FactorsList factors={motivators.data} />
           </div>
           <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
-            <FactorsList factors={motivators.data || []} />
+            <FactorsList factors={stressors.data} />
           </div>
         </div>
         <div className="flex items-center pb-2 pt-6">
