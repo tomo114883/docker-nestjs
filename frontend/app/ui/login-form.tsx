@@ -26,22 +26,19 @@ const schema = z.object({
 });
 
 export default function LoginForm() {
-  console.log(`start LoginForm()`);
-
   const router = useRouter();
   const [isRegister, setIsRegister] = useState(true);
   const [error, setError] = useState('');
   const form = useForm<AuthForm>({
-    validate: zodResolver(schema),
     initialValues: {
       email: '',
       password: '',
     },
+    validate: zodResolver(schema),
   });
 
   const handleSubmit = async () => {
     try {
-      console.log(`start handleSubmit`);
       // Implement signUp for backend.
       if (!isRegister) {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signUp`, {
@@ -56,10 +53,9 @@ export default function LoginForm() {
       });
       // Reset form to initial values after successful submission and redirect to dashboard.
       form.reset();
-      router.push('/dashboard');
+      router.push('/');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        console.log('caught error');
         setError(error.response.data.message || 'An error occurred');
       } else {
         setError('An unexpected error occurred');

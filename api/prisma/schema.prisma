@@ -13,15 +13,14 @@ generator fabbrica {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id         Int         @id @default(autoincrement())
   email      String      @unique
-  password   String?
+  password   String
   name       String?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -31,75 +30,25 @@ model User {
 }
 
 model Motivator {
-  id                Int                 @id @default(autoincrement()) // Scalar Type
-  name              String
-  weight            Int?
-  userId            Int
-  typeId            Int?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  deletedAt         DateTime?
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type              Type?               @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  typesOnMotivators TypesOnMotivators[] // Model Type
-
-  @@index([userId])
-  @@index([typeId])
+  id        Int       @id @default(autoincrement()) // Scalar Type
+  name      String
+  weight    Int
+  variable  Boolean?
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Stressor {
-  id               Int                @id @default(autoincrement())
-  name             String
-  weight           Int?
-  userId           Int
-  typeId           Int?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  deletedAt        DateTime?
-  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type             Type?              @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  typesOnStressors TypesOnStressors[]
-
-  @@index([userId])
-  @@index([typeId])
-}
-
-model Type {
-  id                Int                 @id @default(autoincrement())
-  name              String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  deletedAt         DateTime?
-  motivators        Motivator[]
-  stressors         Stressor[]
-  typesOnMotivators TypesOnMotivators[]
-  typesOnStressors  TypesOnStressors[]
-}
-
-model TypesOnMotivators {
-  id          Int       @id @default(autoincrement())
-  motivatorId Int
-  typeId      Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-  motivator   Motivator @relation(fields: [motivatorId], references: [id], onDelete: Cascade)
-  type        Type      @relation(fields: [typeId], references: [id], onDelete: Cascade)
-
-  @@index([motivatorId])
-  @@index([typeId])
-}
-
-model TypesOnStressors {
-  id         Int       @id @default(autoincrement())
-  stressorId Int
-  typeId     Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
-  stressor   Stressor  @relation(fields: [stressorId], references: [id], onDelete: Cascade)
-  type       Type      @relation(fields: [typeId], references: [id], onDelete: Cascade)
-
-  @@index([stressorId])
-  @@index([typeId])
+  id        Int       @id @default(autoincrement())
+  name      String
+  weight    Int
+  variable  Boolean?
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

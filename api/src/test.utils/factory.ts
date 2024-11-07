@@ -1,10 +1,9 @@
+import { fakerJA as faker } from '@faker-js/faker';
 import {
   defineMotivatorFactory,
   defineStressorFactory,
-  defineTypeFactory,
   defineUserFactory,
 } from 'src/__generated__/fabbrica';
-import { fakerJA as faker } from '@faker-js/faker';
 
 // Define UserModelFactory to use in the test from defineUserFactory.
 export const UserModelFactory = defineUserFactory({
@@ -18,34 +17,24 @@ export const UserModelFactory = defineUserFactory({
   }),
 });
 
-// Same above
-export const MotivatorModelFactory = defineMotivatorFactory({
+export const FactorModelFactory = defineMotivatorFactory({
   defaultData: () => ({
     name: faker.word.noun(),
     weight: faker.number.int({ min: 1, max: 5 }),
-    createdAt: new Date(), // Same above
-    updatedAt: new Date(), // Same above
-    deletedAt: null, // Same above
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
     user: UserModelFactory, // This part of the column is mandatory because I defined so.
   }),
 });
 
-export const StressorModelFactory = defineStressorFactory({
-  defaultData: () => ({
-    name: faker.word.noun(),
-    weight: faker.number.int({ min: 1, max: 5 }),
-    createdAt: new Date(), // Same above
-    updatedAt: new Date(), // Same above
-    deletedAt: null, // Same above
-    user: UserModelFactory, // Same above
-  }),
-});
-
-export const TypeModelFactory = defineTypeFactory({
-  defaultData: () => ({
-    name: faker.word.noun(),
-    createdAt: new Date(), // Same above
-    updatedAt: new Date(), // Same above
-    deletedAt: null, // Same above
-  }),
-});
+// export const StressorModelFactory = defineStressorFactory({
+//   defaultData: () => ({
+//     name: faker.word.noun(),
+//     weight: faker.number.int({ min: 1, max: 5 }),
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//     deletedAt: null,
+//     user: UserModelFactory,
+//   }),
+// });

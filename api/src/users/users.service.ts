@@ -1,20 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
   async findAll(): Promise<Omit<User, 'password'>[]> {
-    const users: User[] = await this.prismaService.user.findMany()
+    const users: User[] = await this.prismaService.user.findMany();
 
-    return users.map(user => {
+    return users.map((user) => {
       const { password, ...usersWithoutPassword } = user;
       return usersWithoutPassword;
     });
+  }
+
+  async findOne(id): Promise<Omit<User, 'password'>> {
+    const user: User = await this.prismaService.user.findUnique({
+      where: { id: id },
+    });
+    const { password, ...usersWithoutPassword } = user;
+
+    return usersWithoutPassword;
   }
 
   async update(

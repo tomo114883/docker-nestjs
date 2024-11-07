@@ -3,11 +3,4 @@
 .pgadmin/   
 .DS_Store          
 
-# settings
-.env
-.env.test
-.zshrc
 
-# project
-node_modules
-dist

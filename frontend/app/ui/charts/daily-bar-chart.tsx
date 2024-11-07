@@ -46,7 +46,6 @@ export const DailyBarChart = () => {
           tickLine="y"
           gridAxis="x"
         />
-        <div></div>
       </div>
     </div>
   );

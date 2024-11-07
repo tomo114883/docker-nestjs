@@ -2,8 +2,13 @@ export type AuthForm = {
   email: string;
   password: string;
 };
-export type EditedTask = {
+export type Factor = {
   id: number;
-  title: string;
-  description?: string | null;
+  name: string;
+  weight: number;
+  variable: boolean | null;
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
 };

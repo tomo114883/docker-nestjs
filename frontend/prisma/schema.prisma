@@ -7,69 +7,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  password  String
+  name      String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+  Motivator Motivator[]
+  Stressor  Stressor[]
+}
+
 model Motivator {
   id        Int       @id @default(autoincrement())
   name      String
-  weight    Int?
+  weight    Int
+  variable  Boolean?
   userId    Int
-  typeId    Int?
   createdAt DateTime  @default(now())
   updatedAt DateTime
   deletedAt DateTime?
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Stressor {
   id        Int       @id @default(autoincrement())
   name      String
-  weight    Int?
+  weight    Int
+  variable  Boolean?
   userId    Int
-  typeId    Int?
   createdAt DateTime  @default(now())
   updatedAt DateTime
   deletedAt DateTime?
-
-  @@index([typeId])
-  @@index([userId])
-}
-
-model Type {
-  id        Int       @id @default(autoincrement())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime
-  deletedAt DateTime?
-}
-
-model TypesOnMotivators {
-  id          Int       @id @default(autoincrement())
-  motivatorId Int
-  typeId      Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime
-  deletedAt   DateTime?
-
-  @@index([motivatorId])
-  @@index([typeId])
-}
-
-model TypesOnStressors {
-  id         Int       @id @default(autoincrement())
-  typeId     Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime
-  deletedAt  DateTime?
-  StressorId Int
-
-  @@index([StressorId])
-  @@index([typeId])
-}
-
-model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  name      String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime
-  deletedAt DateTime?
-  password  String?
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

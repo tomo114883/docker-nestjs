@@ -1,17 +1,18 @@
 import {
-  Controller,
-  Get,
   Body,
-  Patch,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Patch,
   Req,
+  UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Request } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -26,6 +27,11 @@ export class UsersController {
   @Get('me')
   async getLoginUser(@Req() req: Request): Promise<Omit<User, 'password'>> {
     return req.user;
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    return this.usersService.findOne(+id);
   }
 
   @Patch()

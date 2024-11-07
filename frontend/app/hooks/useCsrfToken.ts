@@ -11,7 +11,6 @@ export const useCsrfToken = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
       );
       if (!ignore) {
-        console.log(`call getCsrfToken() from useCsrfToken.ts`);
         axios.defaults.headers.common['csrf-token'] = res.data.csrfToken;
       }
     };
