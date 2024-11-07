@@ -13,7 +13,7 @@ export default function useQueryFactor(factor: string) {
     async function fetchFactor() {
       try {
         const response = await axios.get<Factor[] | null>(
-          `${process.env.NEXT_PUBLIC_API_URL}/${factor}s`,
+          `${process.env.NEXT_PUBLIC_API_URL}/${factor}`,
         );
         const data = await response.data;
         setData(data);
