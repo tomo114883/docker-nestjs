@@ -4,6 +4,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateFactorDto } from './dto/create-factor.dto';
 import { UpdateFactorDto } from './dto/update-factor.dto';
 
+const isToday = (factor) => {
+  const today = new Date();
+  const createdAt = new Date(factor.createdAt);
+  return (
+    createdAt.getDate() === today.getDate() &&
+    createdAt.getMonth() === today.getMonth() &&
+    createdAt.getFullYear() === today.getFullYear()
+  );
+};
+
 @Injectable()
 export class FactorsService {
   constructor(private prismaService: PrismaService) {}
@@ -26,13 +36,47 @@ export class FactorsService {
     });
   }
 
-  async findAll(
+  // const data = [
+  //   { factor: 'モチベーション', モチベ1: 1, モチベ2: 2 },
+  //   { factor: 'ストレス', ストレス1: 4 },
+  // ];
+
+  // Return factors as daily chart data.
+  async getDailyBarChartData(userId: number): Promise<object[] | null> {
+    const motivators = await this.prismaService.motivator.findMany({
+      where: { userId, deletedAt: null },
+    });
+    const stressors = await this.prismaService.stressor.findMany({
+      where: { userId, deletedAt: null },
+    });
+
+    const todayMotivators = motivators.filter(isToday);
+    const todayStressors = stressors.filter(isToday);
+
+    const motivData = todayMotivators
+      .map((motiv) => ({ [motiv.name]: motiv.weight }))
+      .reduce((acc, curr) => Object.assign(acc, curr), {
+        factor: 'モチベーション',
+      });
+
+    const stressData = todayStressors
+      .map((stress) => ({ [stress.name]: stress.weight }))
+      .reduce((acc, curr) => Object.assign(acc, curr), {
+        factor: 'ストレス',
+      });
+
+    return [motivData, stressData];
+  }
+
+  async getTodayFactors(
     factor: string,
     userId: number,
   ): Promise<Motivator[] | Stressor[] | null> {
-    return await this.prismaService[factor].findMany({
-      where: { userId: userId, deletedAt: null },
+    const factors = await this.prismaService[factor].findMany({
+      where: { userId, deletedAt: null },
     });
+    const todayFactors = factors.filter(isToday);
+    return todayFactors;
   }
 
   async findOne(
@@ -72,14 +116,4 @@ export class FactorsService {
     });
     return deletedFactor.id;
   }
-
-  //   // Calculate factor level that is sum of each factor's weight per person.
-  //   async totalCalculation(userId: number): Promise<number> {
-  //     const factors = await this.prismaService.factor.findMany({
-  //       where: { userId },
-  //     });
-
-  //     const factorLevel = factors.reduce((sum, factor) => sum + factor.weight, 0);
-  //     return factorLevel;
-  //   }
 }

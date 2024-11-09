@@ -29,9 +29,14 @@ export class FactorsController {
     return await this.factorsService.create(factor, req.user.id, dto);
   }
 
+  @Get('getDailyBarChartData')
+  async getDailyBarChartData(@Req() req: Request) {
+    return await this.factorsService.getDailyBarChartData(req.user.id);
+  }
+
   @Get(':factor')
-  async findAll(@Param('factor') factor: string, @Req() req: Request) {
-    return await this.factorsService.findAll(factor, req.user.id);
+  async getTodayFactors(@Param('factor') factor: string, @Req() req: Request) {
+    return await this.factorsService.getTodayFactors(factor, req.user.id);
   }
 
   @Get(':factor/:id')

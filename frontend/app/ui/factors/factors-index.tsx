@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import useQueryFactor from '@/app/hooks/useQueryFactor';
+import { useQueryFactor } from '@/app/hooks/useQueryFactor';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { ScrollArea } from '@mantine/core';
 import CreateModal from './create-modal';
@@ -17,7 +17,7 @@ export default function FactorsIndex() {
       <h2 className={`mb-4 text-xl md:text-2xl`}>要因の一覧</h2>
       <CreateModal />
       <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
-        <ScrollArea h={300}>
+        <ScrollArea h={250}>
           <div className="flex flex-row">
             <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
               <FactorsList factors={motivators.data} />
