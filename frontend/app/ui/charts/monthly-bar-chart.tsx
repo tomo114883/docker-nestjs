@@ -1,31 +1,29 @@
 'use client';
 
-import { BarChart } from '@mantine/charts';
+import { monthlyData } from '@/app/lib/placeholder-data';
+import { BarChart, BarChartSeries } from '@mantine/charts';
 
-const monthlyBarChartData = [
-  { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
-  { month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
-  { month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
-  { month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
-  { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
-  { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+const series: BarChartSeries[] = [
+  { name: 'f1', color: 'red.4', stackId: 'Motiv' },
+  { name: 'f2', color: 'red.5', stackId: 'Motiv' },
+  { name: 'f3', color: 'blue.4', stackId: 'Stress' },
 ];
 
 export const MonthlyBarChart = () => {
   return (
-    <div>
+    <div className="">
       <h1>Monthly Bar Chart</h1>
-      <BarChart
-        h={300}
-        data={monthlyBarChartData}
-        dataKey="month"
-        series={[
-          { name: 'Smartphones', color: 'violet.6' },
-          { name: 'Laptops', color: 'blue.6' },
-          { name: 'Tablets', color: 'teal.6' },
-        ]}
-        tickLine="y"
-      />
+      <div className="flex flex-row">
+        <BarChart
+          h={300}
+          w={800}
+          data={monthlyData}
+          dataKey="date"
+          series={series}
+          tickLine="y"
+          gridAxis="x"
+        />
+      </div>
     </div>
   );
 };

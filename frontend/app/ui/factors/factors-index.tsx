@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import useQueryFactor from '@/app/hooks/useQueryFactor';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { ScrollArea } from '@mantine/core';
 import CreateModal from './create-modal';
 import FactorsList from './factors-list';
 
@@ -16,14 +17,16 @@ export default function FactorsIndex() {
       <h2 className={`mb-4 text-xl md:text-2xl`}>要因の一覧</h2>
       <CreateModal />
       <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
-        <div className="flex flex-row">
-          <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
-            <FactorsList factors={motivators.data} />
+        <ScrollArea h={300}>
+          <div className="flex flex-row">
+            <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
+              <FactorsList factors={motivators.data} />
+            </div>
+            <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
+              <FactorsList factors={stressors.data} />
+            </div>
           </div>
-          <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
-            <FactorsList factors={stressors.data} />
-          </div>
-        </div>
+        </ScrollArea>
         <div className="flex items-center pb-2 pt-6">
           <ArrowPathIcon
             className="h-5 w-5 text-gray-500 cursor-pointer"
