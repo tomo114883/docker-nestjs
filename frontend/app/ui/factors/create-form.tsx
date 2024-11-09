@@ -3,13 +3,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { z } from 'zod';
+import { CreateFormProps } from '@/app/lib/definitions';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { Alert, Button, Group, Radio, Slider, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-
-interface CreateFormProps {
-  factors: string;
-}
 
 const schema = z.object({
   name: z.string(),
@@ -17,7 +14,7 @@ const schema = z.object({
   variable: z.string(),
 });
 
-export default function CreateForm({ factors }: CreateFormProps) {
+export default function CreateForm({ factors, state }: CreateFormProps) {
   const [error, setError] = useState('');
 
   const form = useForm({
@@ -29,6 +26,7 @@ export default function CreateForm({ factors }: CreateFormProps) {
     validate: zodResolver(schema),
   });
 
+  // marks for Slider.
   const marks = [
     { value: 1, label: '1' },
     { value: 2, label: '2' },
@@ -40,6 +38,7 @@ export default function CreateForm({ factors }: CreateFormProps) {
   // Post request to create a new factor.
   const handleSubmit = async () => {
     try {
+      const close = state;
       const variable = form.values.variable === 'variable';
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/factors/${factors}`,
@@ -106,7 +105,7 @@ export default function CreateForm({ factors }: CreateFormProps) {
           </Radio.Group>
 
           <Group justify="flex-end" mt="md">
-            <Button type="submit">Submit</Button>
+            <Button type="submit">送信</Button>
           </Group>
         </form>
       }

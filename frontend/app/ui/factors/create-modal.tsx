@@ -17,10 +17,10 @@ export default function CreateModal() {
           </Tabs.List>
 
           <Tabs.Panel value="motivator">
-            <CreateForm factors={'motivator'} />
+            <CreateForm factors={'motivator'} state={close} />
           </Tabs.Panel>
           <Tabs.Panel value="stressor">
-            <CreateForm factors={'stressor'} />
+            <CreateForm factors={'stressor'} state={close} />
           </Tabs.Panel>
         </Tabs>
       </Modal>
