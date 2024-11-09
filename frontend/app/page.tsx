@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <h1 className="">{metadata.title?.toString()}</h1>
       <div className="flex flex-row">
         <div className="flex-1">
           <DailyBarChart />
