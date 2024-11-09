@@ -1,3 +1,8 @@
+export interface CreateFormProps {
+  factors: string;
+  state: () => void;
+}
+
 export type AuthForm = {
   email: string;
   password: string;
