@@ -45,7 +45,7 @@ export function useQueryDailyBarChartFactor() {
     async function fetchFactor() {
       try {
         const response = await axios.get<DailyBarChartInfo>(
-          `${process.env.NEXT_PUBLIC_API_URL}/factors/getDailyBarChartData`,
+          `${process.env.NEXT_PUBLIC_API_URL}/factors/getDailyBarChartInfo`,
         );
         const data = await response.data;
         setData(data);
