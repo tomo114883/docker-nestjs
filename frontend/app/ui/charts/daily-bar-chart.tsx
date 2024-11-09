@@ -1,16 +1,12 @@
 'use client';
 
 import { useQueryDailyBarChartFactor } from '@/app/hooks/useQueryFactor';
-import { BarChart, BarChartSeries } from '@mantine/charts';
+import { DailyBarChartInfo } from '@/app/lib/definitions';
+import { BarChart } from '@mantine/charts';
 
 export function DailyBarChart() {
-  const factors = useQueryDailyBarChartFactor();
-  console.log(factors);
-  const series: BarChartSeries[] = [
-    { name: 'モチベ1', color: 'red.4' },
-    { name: 'モチベ2', color: 'red.5' },
-    { name: 'ストレス1', color: 'blue.4' },
-  ];
+  const res = useQueryDailyBarChartFactor();
+  const factors: DailyBarChartInfo = res.data;
 
   return (
     <>
@@ -21,7 +17,7 @@ export function DailyBarChart() {
           data={factors.data}
           dataKey="factor"
           type="stacked"
-          series={series}
+          series={factors.series}
         />
       </div>
     </>

@@ -12,6 +12,7 @@ import {
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateFactorDto } from './dto/create-factor.dto';
+import { DailyBarChartInfo } from './dto/factor.dto';
 import { UpdateFactorDto } from './dto/update-factor.dto';
 import { FactorsService } from './factors.service';
 
@@ -29,9 +30,9 @@ export class FactorsController {
     return await this.factorsService.create(factor, req.user.id, dto);
   }
 
-  @Get('getDailyBarChartData')
-  async getDailyBarChartData(@Req() req: Request) {
-    return await this.factorsService.getDailyBarChartData(req.user.id);
+  @Get('getDailyBarChartInfo')
+  async getDailyBarChartInfo(@Req() req: Request): Promise<DailyBarChartInfo> {
+    return await this.factorsService.getDailyBarChartInfo(req.user.id);
   }
 
   @Get(':factor')

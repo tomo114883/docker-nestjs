@@ -1,6 +1,12 @@
+import { BarChartSeries } from '@mantine/charts';
+
 export interface CreateFormProps {
   factors: string;
   state: () => void;
+}
+export interface DailyBarChartInfo {
+  data: Record<string, string | number>[];
+  series: BarChartSeries[];
 }
 
 export type AuthForm = {
