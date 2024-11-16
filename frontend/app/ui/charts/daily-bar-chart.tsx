@@ -7,6 +7,7 @@ import { BarChart } from '@mantine/charts';
 export function DailyBarChart() {
   const res = useQueryDailyBarChartFactor();
   const factors: DailyBarChartInfo = res.data;
+  console.log(`Fetching chart ${res.error}`);
 
   return (
     <>
