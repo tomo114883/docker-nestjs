@@ -1,11 +1,11 @@
 'use client';
 
-import { useQueryDailyBarChartFactor } from '@/app/hooks/useQueryFactor';
+import { useQueryDailyBarChartInfo } from '@/app/hooks/useQueryDailyBarChartInfo';
 import { DailyBarChartInfo } from '@/app/lib/definitions';
 import { BarChart } from '@mantine/charts';
 
 export function DailyBarChart() {
-  const res = useQueryDailyBarChartFactor();
+  const res = useQueryDailyBarChartInfo();
   const factors: DailyBarChartInfo = res.data;
   console.log(`Fetching chart ${res.error}`);
 
