@@ -1,18 +1,19 @@
 import { BarChartSeries } from '@mantine/charts';
 
+export interface BarChartInfo {
+  data: BarChartData;
+  series: BarChartSeries[];
+}
 export interface CreateFormProps {
   factors: string;
   state: () => void;
-}
-export interface DailyBarChartInfo {
-  data: Record<string, string | number>[];
-  series: BarChartSeries[];
 }
 
 export type AuthForm = {
   email: string;
   password: string;
 };
+export type BarChartData = Record<string, string | number>[];
 export type Factor = {
   id: number;
   name: string;

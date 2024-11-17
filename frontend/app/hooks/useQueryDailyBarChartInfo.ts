@@ -3,24 +3,23 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { DailyBarChartInfo } from '../lib/definitions';
+import { BarChartInfo } from '../lib/definitions';
 
 export const useQueryDailyBarChartInfo = () => {
-  const [data, setData] = useState<DailyBarChartInfo>({
+  const [data, setData] = useState<BarChartInfo>({
     data: [{ factor: 'モチベーション' }, { factor: 'ストレス' }],
     series: [{ name: '', color: '' }],
   });
   const [status, setStatus] = useState('pending');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchFactor = async () => {
       try {
-        const response = await axios.get<DailyBarChartInfo>(
+        const { data } = await axios.get<BarChartInfo>(
           `${process.env.NEXT_PUBLIC_API_URL}/factors/getDailyBarChartInfo`,
         );
-        const data = await response.data;
         setData(data);
         setStatus('success');
       } catch (error) {

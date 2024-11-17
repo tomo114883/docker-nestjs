@@ -1,15 +1,15 @@
 'use client';
 
-import { monthlyData } from '@/app/lib/placeholder-data';
+import { useQueryMonthlyBarChartData } from '@/app/hooks/useQueryMonthlyBarChartData';
 import { BarChart, BarChartSeries } from '@mantine/charts';
 
-const series: BarChartSeries[] = [
-  { name: 'f1', color: 'red.4', stackId: 'Motiv' },
-  { name: 'f2', color: 'red.5', stackId: 'Motiv' },
-  { name: 'f3', color: 'blue.4', stackId: 'Stress' },
-];
-
 export const MonthlyBarChart = () => {
+  const { data } = useQueryMonthlyBarChartData();
+  const series: BarChartSeries[] = [
+    { name: 'motiv', color: 'red.4', stackId: 'motiv' },
+    { name: 'stress', color: 'blue.4', stackId: 'stress' },
+  ];
+
   return (
     <div className="">
       <h1>Monthly Bar Chart</h1>
@@ -17,7 +17,7 @@ export const MonthlyBarChart = () => {
         <BarChart
           h={300}
           w={800}
-          data={monthlyData}
+          data={data}
           dataKey="date"
           series={series}
           tickLine="y"

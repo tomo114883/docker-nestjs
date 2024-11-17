@@ -29,7 +29,7 @@ services:
     volumes:
       - ./.data/db:/var/lib/postgresql/data
       # Mounting with volumes eliminates the need to build each time.
-      - ./docker/db/init-scrips:/docker-entrypoint-initdb.d
+      # - ./docker/db/init-scrips:/docker-entrypoint-initdb.d
     stdin_open: true
     tty: true
     restart: always
