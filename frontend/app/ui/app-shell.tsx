@@ -1,33 +1,44 @@
 'use client';
 
-import { ChartBarIcon, HomeIcon } from '@heroicons/react/24/outline';
+import {
+  ChartBarIcon,
+  HomeIcon,
+  RectangleGroupIcon,
+} from '@heroicons/react/24/outline';
 import { AppShell, Burger, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import Logout from './logout-button';
+import { IconSword } from '@tabler/icons-react';
+import { Logout } from './logout-button';
 
-export default function BasicAppShell({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function BasicAppShell({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
 
   const navInfo = [
     {
-      link: 'http://localhost:8081',
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}`,
       label: 'Home',
-      icon: <HomeIcon className="w-4 h-4" />,
+      icon: <HomeIcon className="w-6 h-6" />,
     },
     {
-      link: 'http://localhost:8081/charts/monthly',
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/charts/monthly`,
       label: 'Monthly Chart',
-      icon: <ChartBarIcon className="w-4 h-4" />,
+      icon: <ChartBarIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/cope`,
+      label: 'Cope with AI',
+      icon: <IconSword className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/templates`,
+      label: 'Template',
+      icon: <RectangleGroupIcon className="w-6 h-6" />,
     },
   ];
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: 70 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
@@ -37,14 +48,15 @@ export default function BasicAppShell({
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        Navbar
-        {navInfo.map((e, i) => {
+        <div className="h-10"></div>
+        {navInfo.map((nav, i) => {
           return (
             <NavLink
+              h={60}
               key={i}
-              href={e.link}
-              label={e.label}
-              leftSection={e.icon}
+              href={nav.link}
+              label={<span className="text-lg">{nav.label}</span>}
+              leftSection={nav.icon}
             />
           );
         })}

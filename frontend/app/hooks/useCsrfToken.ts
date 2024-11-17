@@ -8,15 +8,12 @@ export const useCsrfToken = () => {
 
     const getCsrfToken = async () => {
       try {
-        console.log('Fetching CSRF token...'); // デバッグログ
-
         axios.defaults.withCredentials = true;
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
         );
 
         if (!ignore) {
-          console.log('Setting CSRF token...'); // デバッグログ
           axios.defaults.headers.common['csrf-token'] = res.data.csrfToken;
         }
       } catch (error) {

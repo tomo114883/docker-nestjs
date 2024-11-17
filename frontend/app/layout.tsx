@@ -4,8 +4,8 @@ import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import './globals.css';
-import BasicAppShell from './ui/app-shell';
-import Provider from './ui/provider';
+import { BasicAppShell } from './ui/app-shell';
+import { Provider } from './ui/provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',

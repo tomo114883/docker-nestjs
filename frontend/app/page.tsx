@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { DailyBarChart } from './ui/charts/daily-bar-chart';
-import FactorsIndex from './ui/factors/factors-index';
+import { FactorsIndex } from './ui/factors/factors-index';
 
 export const metadata: Metadata = {
   title: 'Home',

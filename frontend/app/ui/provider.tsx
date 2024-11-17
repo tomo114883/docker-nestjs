@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCsrfToken } from '../hooks/useCsrfToken';
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export function Provider({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {

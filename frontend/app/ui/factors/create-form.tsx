@@ -5,7 +5,14 @@ import axios from 'axios';
 import { z } from 'zod';
 import { CreateFormProps } from '@/app/lib/definitions';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Alert, Button, Group, Radio, Slider, TextInput } from '@mantine/core';
+import {
+  Alert,
+  Autocomplete,
+  Button,
+  Group,
+  Radio,
+  Slider,
+} from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 
 const schema = z.object({
@@ -14,7 +21,7 @@ const schema = z.object({
   variable: z.string(),
 });
 
-export default function CreateForm({ factors, state }: CreateFormProps) {
+export function CreateForm({ factors, state }: CreateFormProps) {
   const [error, setError] = useState('');
 
   const form = useForm({
@@ -36,7 +43,9 @@ export default function CreateForm({ factors, state }: CreateFormProps) {
   ];
 
   // Post request to create a new factor.
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     try {
       const close = state;
       const variable = form.values.variable === 'variable';
@@ -59,6 +68,14 @@ export default function CreateForm({ factors, state }: CreateFormProps) {
     }
   };
 
+  const options = [
+    'motivator1',
+    'motivator2',
+    'motivator3',
+    'motivator4',
+    'motivator5',
+  ];
+
   return (
     <>
       {error && (
@@ -74,15 +91,18 @@ export default function CreateForm({ factors, state }: CreateFormProps) {
         </Alert>
       )}
       {
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
+        <form onSubmit={handleSubmit}>
+          <Autocomplete
             withAsterisk
             label="名前"
             placeholder="名前"
+            data={options}
             key={form.key('name')}
             {...form.getInputProps('name')}
           />
           <Slider
+            pt={20}
+            pb={40}
             color="blue"
             radius="lg"
             min={1}

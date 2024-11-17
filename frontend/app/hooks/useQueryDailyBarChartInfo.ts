@@ -26,9 +26,9 @@ export const useQueryDailyBarChartInfo = () => {
       } catch (error) {
         setStatus('error');
         if (axios.isAxiosError(error) && error.response) {
-          if (error.response.status === 401 || error.response.status === 403) {
-            router.push('/auth');
-          }
+          // if (error.response.status === 401 || error.response.status === 403) {
+          //   router.push('/auth');
+          // }
           setError(error.response.data.message || 'An error occurred');
         } else {
           setError('An unexpected error occurred');

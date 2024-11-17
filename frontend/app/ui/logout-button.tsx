@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/solid';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function Logout() {
+export function Logout() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const logout = async () => {

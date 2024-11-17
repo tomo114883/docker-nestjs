@@ -1,7 +1,7 @@
 import { Factor } from '@/app/lib/definitions';
-import EllipsisMenu from '../ellipsis-menu';
+import { EllipsisMenu } from '@/app/ui/ellipsis-menu';
 
-export default function FactorsList({ factors }: { factors: Factor[] | null }) {
+export function FactorsList({ factors }: { factors: Factor[] | null }) {
   return (
     <>
       {

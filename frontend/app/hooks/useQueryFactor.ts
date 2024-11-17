@@ -7,7 +7,7 @@ import { Factor } from '../lib/definitions';
 
 export const useQueryFactor = (factor: string) => {
   const [data, setData] = useState<Factor[] | null>(null);
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState('pending');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -23,9 +23,9 @@ export const useQueryFactor = (factor: string) => {
       } catch (error) {
         setStatus('error');
         if (axios.isAxiosError(error) && error.response) {
-          if (error.response.status === 401 || error.response.status === 403) {
-            router.push('/auth');
-          }
+          // if (error.response.status === 401 || error.response.status === 403) {
+          //   router.push('/auth');
+          // }
           setError(error.response.data.message || 'An error occurred');
         } else {
           setError('An unexpected error occurred');
