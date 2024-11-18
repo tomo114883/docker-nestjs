@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import { FactorsIndex } from '@/app/ui/factors/factors-index';
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Home page',
+  title: 'Templates',
+  description: 'Templates page',
 };
 
 export default function Home() {

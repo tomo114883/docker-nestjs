@@ -12,7 +12,7 @@ export const useQueryMonthlyBarChartData = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchFactor = async () => {
+    const fetchFactor = async (retryCount = 0) => {
       try {
         const { data } = await axios.get<BarChartData>(
           `${process.env.NEXT_PUBLIC_API_URL}/factors/getMonthlyBarChartData`,
@@ -22,6 +22,9 @@ export const useQueryMonthlyBarChartData = () => {
       } catch (error) {
         setStatus('error');
         if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 401 && retryCount < 1) {
+            return fetchFactor(retryCount + 1);
+          }
           // if (error.response.status === 401 || error.response.status === 403) {
           //   router.push('/auth');
           // }

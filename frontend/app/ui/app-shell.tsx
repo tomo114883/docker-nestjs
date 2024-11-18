@@ -1,12 +1,14 @@
 'use client';
 
 import {
+  ArrowRightEndOnRectangleIcon,
+  ArrowRightStartOnRectangleIcon,
   ChartBarIcon,
   ClipboardDocumentListIcon,
   HomeIcon,
   RectangleGroupIcon,
 } from '@heroicons/react/24/outline';
-import { AppShell, Burger, Group, NavLink } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconSword } from '@tabler/icons-react';
 import { Logout } from './logout-button';
@@ -40,6 +42,16 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
       label: 'Template',
       icon: <RectangleGroupIcon className="w-6 h-6" />,
     },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/auth`,
+      label: 'LogIn',
+      icon: <ArrowRightEndOnRectangleIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/templates`,
+      label: 'LogOut',
+      icon: <ArrowRightStartOnRectangleIcon className="w-6 h-6" />,
+    },
   ];
 
   return (
@@ -54,21 +66,25 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <div className="h-10"></div>
-        {navInfo.map((nav, i) => {
-          return (
-            <NavLink
-              h={60}
-              key={i}
-              href={nav.link}
-              label={<span className="text-lg">{nav.label}</span>}
-              leftSection={nav.icon}
-            />
-          );
-        })}
-        <div className="mx-auto">
-          <Logout />
-        </div>
+        <AppShell.Section grow my="md" component={ScrollArea}>
+          <div className="h-10"></div>
+          {navInfo.map((nav, i) => {
+            return (
+              <NavLink
+                h={60}
+                key={i}
+                href={nav.link}
+                label={<span className="text-lg">{nav.label}</span>}
+                leftSection={nav.icon}
+              />
+            );
+          })}
+        </AppShell.Section>
+        <AppShell.Section>
+          <div className="mx-auto mb-5">
+            <Logout />
+          </div>
+        </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
         <div className="flex flex-col min-h-screen">{children}</div>

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/solid';
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useQueryClient } from '@tanstack/react-query';
 
 export function Logout() {
@@ -16,8 +16,8 @@ export function Logout() {
   };
   return (
     <div>
-      <ArrowLeftEndOnRectangleIcon
-        className="mb-6 h-6 w-6 cursor-pointer text-blue-500"
+      <ArrowRightStartOnRectangleIcon
+        className="mb-6 h-6 w-6 cursor-pointer"
         onClick={logout}
       />
     </div>

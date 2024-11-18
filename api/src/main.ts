@@ -7,7 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     credentials: true,
-    origin: 'http://localhost:8081', // accept requests from the browser.
+    origin: [
+      'http://localhost:8081',
+      'https://docker-nestjs-frontend-prod.vercel.app', // accept requests from the browser.
+    ],
   });
   app.use(cookieParser());
 
