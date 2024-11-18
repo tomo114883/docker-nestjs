@@ -1,12 +1,12 @@
 export const metadata = {
-  title: 'Cope with AI',
-  description: 'Cope page with AI',
+  title: 'Dashboard',
+  description: 'Dashboard page',
 };
 
 export default function Home() {
   return (
     <>
-      <h1>Cope with AI</h1>
+      <h1>Dashboard</h1>
     </>
   );
 }

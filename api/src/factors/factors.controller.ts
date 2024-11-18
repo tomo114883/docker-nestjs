@@ -15,6 +15,7 @@ import { CreateFactorDto } from './dto/create-factor.dto';
 import { BarChartData, BarChartInfo } from './dto/factor.dto';
 import { UpdateFactorDto } from './dto/update-factor.dto';
 import { FactorsBarChartService } from './factors-bar-chart.service';
+import { FactorsDashboardService } from './factors-dashboard.service';
 import { FactorsService } from './factors.service';
 
 @UseGuards(JwtAuthGuard)
@@ -23,6 +24,7 @@ export class FactorsController {
   constructor(
     private readonly factorsService: FactorsService,
     private readonly factorsBarChartService: FactorsBarChartService,
+    private readonly factorsDashboardService: FactorsDashboardService,
   ) {}
 
   @Post(':factor')
@@ -45,6 +47,13 @@ export class FactorsController {
       req.user.id,
     );
   }
+
+  // @Get('getMonthlyDashboardData')
+  // async getMonthlyDashboardData(@Req() req: Request): Promise<BarChartData[]> {
+  //   return await this.factorsDashboardService.getMonthlyDashboardData(
+  //     req.user.id,
+  //   );
+  // }
 
   @Get(':factor')
   async getTodayFactors(@Param('factor') factor: string, @Req() req: Request) {

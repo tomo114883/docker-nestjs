@@ -2,6 +2,7 @@
 
 import {
   ChartBarIcon,
+  ClipboardDocumentListIcon,
   HomeIcon,
   RectangleGroupIcon,
 } from '@heroicons/react/24/outline';
@@ -23,6 +24,11 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
       link: `${process.env.NEXT_PUBLIC_DOMAIN}/charts/monthly`,
       label: 'Monthly Chart',
       icon: <ChartBarIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/dashboard`,
+      label: 'Dashboard',
+      icon: <ClipboardDocumentListIcon className="w-6 h-6" />,
     },
     {
       link: `${process.env.NEXT_PUBLIC_DOMAIN}/cope`,

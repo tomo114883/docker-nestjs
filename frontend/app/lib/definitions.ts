@@ -8,6 +8,10 @@ export interface CreateFormProps {
   factors: string;
   state: () => void;
 }
+export interface DashboardCardProps {
+  title: string;
+  value: number;
+}
 
 export type AuthForm = {
   email: string;
