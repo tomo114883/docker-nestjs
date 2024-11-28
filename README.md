@@ -13,3 +13,13 @@ copy the `.env.example` file and create the `.env` file to setting environment v
 
 copy the `constants.example.ts` file and create the `constants.ts` file for setting JWT that is used for Authentication.
 - CMD: `cp /api/src/auth/constants.example.ts /api/src/auth/constants.ts`
+
+### Commit Prefix（[cz-cli](https://github.com/commitizen/cz-cli)）
+- feat:
+- fix:
+- docs:
+- style:
+- refactor:
+- perf:
+- test:
+- chore:
