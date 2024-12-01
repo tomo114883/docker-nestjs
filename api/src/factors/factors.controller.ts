@@ -12,14 +12,20 @@ import {
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateFactorDto } from './dto/create-factor.dto';
-import { DailyBarChartInfo } from './dto/factor.dto';
+import { BarChartData, BarChartInfo } from './dto/factor.dto';
 import { UpdateFactorDto } from './dto/update-factor.dto';
+import { FactorsBarChartService } from './factors-bar-chart.service';
+import { FactorsDashboardService } from './factors-dashboard.service';
 import { FactorsService } from './factors.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('factors')
 export class FactorsController {
-  constructor(private readonly factorsService: FactorsService) {}
+  constructor(
+    private readonly factorsService: FactorsService,
+    private readonly factorsBarChartService: FactorsBarChartService,
+    private readonly factorsDashboardService: FactorsDashboardService,
+  ) {}
 
   @Post(':factor')
   async create(
@@ -31,13 +37,32 @@ export class FactorsController {
   }
 
   @Get('getDailyBarChartInfo')
-  async getDailyBarChartInfo(@Req() req: Request): Promise<DailyBarChartInfo> {
-    return await this.factorsService.getDailyBarChartInfo(req.user.id);
+  async getDailyBarChartInfo(@Req() req: Request): Promise<BarChartInfo> {
+    return await this.factorsBarChartService.getDailyBarChartInfo(req.user.id);
   }
+
+  @Get('getMonthlyBarChartData')
+  async getMonthlyBarChartData(@Req() req: Request): Promise<BarChartData[]> {
+    return await this.factorsBarChartService.getMonthlyBarChartData(
+      req.user.id,
+    );
+  }
+
+  // @Get('getMonthlyDashboardData')
+  // async getMonthlyDashboardData(@Req() req: Request): Promise<BarChartData[]> {
+  //   return await this.factorsDashboardService.getMonthlyDashboardData(
+  //     req.user.id,
+  //   );
+  // }
 
   @Get(':factor')
   async getTodayFactors(@Param('factor') factor: string, @Req() req: Request) {
-    return await this.factorsService.getTodayFactors(factor, req.user.id);
+    const today = new Date();
+    return await this.factorsService.getDailyFactors(
+      factor,
+      req.user.id,
+      today,
+    );
   }
 
   @Get(':factor/:id')

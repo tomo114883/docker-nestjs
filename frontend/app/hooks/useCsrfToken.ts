@@ -5,18 +5,24 @@ import axios from 'axios';
 export const useCsrfToken = () => {
   useEffect(() => {
     let ignore = false;
+
     const getCsrfToken = async () => {
-      axios.defaults.withCredentials = true;
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
-      );
-      if (!ignore) {
-        axios.defaults.headers.common['csrf-token'] = res.data.csrfToken;
+      try {
+        axios.defaults.withCredentials = true;
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/csrf`,
+        );
+
+        if (!ignore) {
+          axios.defaults.headers.common['csrf-token'] = res.data.csrfToken;
+        }
+      } catch (error) {
+        console.error('CSRF token fetch failed:', error);
       }
     };
-    // Call above function.
+
     getCsrfToken();
-    // Clean up.
+
     return () => {
       ignore = true;
     };

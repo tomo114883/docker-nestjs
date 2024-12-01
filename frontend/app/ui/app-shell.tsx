@@ -1,33 +1,62 @@
 'use client';
 
-import { ChartBarIcon, HomeIcon } from '@heroicons/react/24/outline';
-import { AppShell, Burger, Group, NavLink } from '@mantine/core';
+import {
+  ArrowRightEndOnRectangleIcon,
+  ArrowRightStartOnRectangleIcon,
+  ChartBarIcon,
+  ClipboardDocumentListIcon,
+  HomeIcon,
+  RectangleGroupIcon,
+} from '@heroicons/react/24/outline';
+import { AppShell, Burger, Group, NavLink, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import Logout from './logout-button';
+import { IconSword } from '@tabler/icons-react';
+import { Logout } from './logout-button';
 
-export default function BasicAppShell({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function BasicAppShell({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
 
   const navInfo = [
     {
-      link: 'http://localhost:8081',
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}`,
       label: 'Home',
-      icon: <HomeIcon className="w-4 h-4" />,
+      icon: <HomeIcon className="w-6 h-6" />,
     },
     {
-      link: 'http://localhost:8081/charts/monthly',
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/charts/monthly`,
       label: 'Monthly Chart',
-      icon: <ChartBarIcon className="w-4 h-4" />,
+      icon: <ChartBarIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/dashboard`,
+      label: 'Dashboard',
+      icon: <ClipboardDocumentListIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/cope`,
+      label: 'Cope with AI',
+      icon: <IconSword className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/templates`,
+      label: 'Template',
+      icon: <RectangleGroupIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/auth`,
+      label: 'LogIn',
+      icon: <ArrowRightEndOnRectangleIcon className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/templates`,
+      label: 'LogOut',
+      icon: <ArrowRightStartOnRectangleIcon className="w-6 h-6" />,
     },
   ];
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: 70 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
     >
@@ -37,20 +66,25 @@ export default function BasicAppShell({
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        Navbar
-        {navInfo.map((e, i) => {
-          return (
-            <NavLink
-              key={i}
-              href={e.link}
-              label={e.label}
-              leftSection={e.icon}
-            />
-          );
-        })}
-        <div className="mx-auto">
-          <Logout />
-        </div>
+        <AppShell.Section grow my="md" component={ScrollArea}>
+          <div className="h-10"></div>
+          {navInfo.map((nav, i) => {
+            return (
+              <NavLink
+                h={60}
+                key={i}
+                href={nav.link}
+                label={<span className="text-lg">{nav.label}</span>}
+                leftSection={nav.icon}
+              />
+            );
+          })}
+        </AppShell.Section>
+        <AppShell.Section>
+          <div className="mx-auto mb-5">
+            <Logout />
+          </div>
+        </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
         <div className="flex flex-col min-h-screen">{children}</div>

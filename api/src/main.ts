@@ -7,7 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     credentials: true,
-    origin: 'http://localhost:8081', // accept requests from the browser.
+    origin: [
+      'http://localhost:8081',
+      'https://docker-nestjs-frontend-prod.vercel.app', // accept requests from the browser.
+    ],
   });
   app.use(cookieParser());
 
@@ -17,7 +20,7 @@ async function bootstrap() {
     cookieName: 'csrf-token', // '__Host-' prefix to set httpOnly true and secure true, so it's not accessible from postman.
     // and this prefix require https connection.
     cookieOptions: {
-      sameSite: 'strict', // if we want to use third party cookies, we should set it to 'none'.
+      sameSite: 'none', // if we want to use third party cookies, we should set it to 'none'.
       secure: true,
       path: '/',
     },

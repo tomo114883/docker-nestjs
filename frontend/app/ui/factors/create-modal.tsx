@@ -2,14 +2,21 @@
 
 import { Button, Modal, Tabs } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import CreateForm from './create-form';
+import { CreateForm } from './create-form';
 
-export default function CreateModal() {
+export function CreateModal() {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="要因の新規作成">
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="要因の新規作成"
+        padding="xl"
+        radius="md"
+        size="md"
+      >
         <Tabs defaultValue="motivator">
           <Tabs.List>
             <Tabs.Tab value="motivator">モチベーター</Tabs.Tab>

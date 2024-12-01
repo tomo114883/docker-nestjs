@@ -2,12 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useQueryFactor } from '@/app/hooks/useQueryFactor';
+import { CreateModal } from '@/app/ui/factors/create-modal';
+import { FactorsList } from '@/app/ui/factors/factors-list';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { ScrollArea } from '@mantine/core';
-import CreateModal from './create-modal';
-import FactorsList from './factors-list';
 
-export default function FactorsIndex() {
+export function FactorsIndex() {
   const router = useRouter();
   const motivators = useQueryFactor('motivator');
   const stressors = useQueryFactor('stressor');
