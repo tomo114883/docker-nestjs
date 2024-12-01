@@ -41,4 +41,62 @@ const monthlyData = [
   { date: 'Nov 31', motiv: 1, stress: 2 },
 ];
 
-export { users, monthlyData };
+const CopingMotivators = {
+  data: [
+    {
+      id: 1,
+      name: 'motivator1',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+    {
+      id: 1,
+      name: 'motivator2',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+  ],
+};
+const CopingStressors = {
+  data: [
+    {
+      id: 1,
+      name: 'stressor1',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+    {
+      id: 1,
+      name: 'stressor2',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+    {
+      id: 1,
+      name: 'stressor3',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+  ],
+};
+export { users, monthlyData, CopingMotivators, CopingStressors };

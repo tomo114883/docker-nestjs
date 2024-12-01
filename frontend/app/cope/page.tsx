@@ -1,3 +1,5 @@
+import CopingFactors from '../ui/cope/coping-factors';
+
 export const metadata = {
   title: 'Cope with AI',
   description: 'Cope page with AI',
@@ -6,7 +8,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <h1>Cope with AI</h1>
+      <CopingFactors />
     </>
   );
 }

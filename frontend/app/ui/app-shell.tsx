@@ -58,7 +58,6 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
     <AppShell
       header={{ height: 70 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      padding="md"
     >
       <AppShell.Header>
         <Group h="100%" px="md">
@@ -87,7 +86,7 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <div className="flex flex-col min-h-screen">{children}</div>
+        <div className="flex flex-col grow bg-gray-100">{children}</div>
       </AppShell.Main>
     </AppShell>
   );
