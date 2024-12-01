@@ -13,7 +13,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconSword } from '@tabler/icons-react';
 import { Logout } from './logout-button';
 
-export function BasicAppShell({ children }: { children: React.ReactNode }) {
+export const BasicAppShell = ({ children }: { children: React.ReactNode }) => {
   const [opened, { toggle }] = useDisclosure();
 
   const navInfo = [
@@ -86,8 +86,10 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
         </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
-        <div className="flex flex-col grow bg-gray-100">{children}</div>
+        <div className="flex flex-col min-h-screen bg-gray-100 px-3 py-4">
+          {children}
+        </div>
       </AppShell.Main>
     </AppShell>
   );
-}
+};

@@ -41,7 +41,7 @@ const monthlyData = [
   { date: 'Nov 31', motiv: 1, stress: 2 },
 ];
 
-const CopingMotivators = {
+const copingMotivators = {
   data: [
     {
       id: 1,
@@ -65,7 +65,7 @@ const CopingMotivators = {
     },
   ],
 };
-const CopingStressors = {
+const copingStressors = {
   data: [
     {
       id: 1,
@@ -99,4 +99,19 @@ const CopingStressors = {
     },
   ],
 };
-export { users, monthlyData, CopingMotivators, CopingStressors };
+const copingText: string =
+  'Lorem ipsum dolor amet, consectetur adipiscing elit. Vulputate mollis fames ante quis autem differed purulent sceleris well-fated tellus. Nis enim feugiat ipsum pellentesque lectus ipsum burna curatur Libero sagittis dictum egestas blandium magna facils.';
+const copeList: string[] = [
+  'Lorem ipsum dolor amet',
+  'Vulputate mollis fames ante',
+  'Que autem differed purulent',
+  'Sceleris well-fated tellus',
+];
+export {
+  users,
+  monthlyData,
+  copingMotivators,
+  copingStressors,
+  copingText,
+  copeList,
+};
