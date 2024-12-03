@@ -10,7 +10,7 @@ export const CopingFactorsIndex = () => {
   const stressors: { data: Factor[] | null } = copingStressors;
 
   return (
-    <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-white p-4 h-4/6">
+    <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-white p-4 h-full">
       <ScrollArea>
         <div className="flex flex-row">
           <div className="flex grow flex-1 flex-col justify-between p-4">
