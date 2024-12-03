@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <FactorsSetNameLabel factorsSetName={factorsSet.data.name} />
       <CopingFactors />
-      <CustomPagination factorsSetId={factorsSet.data.id} />
+      <CustomPagination />
     </>
   );
 }
