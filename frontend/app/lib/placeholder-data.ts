@@ -41,4 +41,77 @@ const monthlyData = [
   { date: 'Nov 31', motiv: 1, stress: 2 },
 ];
 
-export { users, monthlyData };
+const copingMotivators = {
+  data: [
+    {
+      id: 1,
+      name: 'motivator1',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+    {
+      id: 1,
+      name: 'motivator2',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+  ],
+};
+const copingStressors = {
+  data: [
+    {
+      id: 1,
+      name: 'stressor1',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+    {
+      id: 1,
+      name: 'stressor2',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+    {
+      id: 1,
+      name: 'stressor3',
+      weight: 1,
+      variable: null,
+      userId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    },
+  ],
+};
+const copingText: string =
+  'Lorem ipsum dolor amet, consectetur adipiscing elit. Vulputate mollis fames ante quis autem differed purulent sceleris well-fated tellus. Nis enim feugiat ipsum pellentesque lectus ipsum burna curatur Libero sagittis dictum egestas blandium magna facils.';
+const copeList: string[] = [
+  'Lorem ipsum dolor amet',
+  'Vulputate mollis fames ante',
+  'Que autem differed purulent',
+  'Sceleris well-fated tellus',
+];
+export {
+  users,
+  monthlyData,
+  copingMotivators,
+  copingStressors,
+  copingText,
+  copeList,
+};

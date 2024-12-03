@@ -4,7 +4,7 @@ import '@mantine/charts/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import './globals.css';
-import { BasicAppShell } from './ui/app-shell';
+import { CustomAppShell } from './ui/custom-app-shell';
 import { Provider } from './ui/provider';
 
 const geistSans = localFont({
@@ -45,7 +45,7 @@ export default function RootLayout({
       >
         <Provider>
           <MantineProvider theme={theme}>
-            <BasicAppShell>{children}</BasicAppShell>
+            <CustomAppShell>{children}</CustomAppShell>
           </MantineProvider>
         </Provider>
       </body>
