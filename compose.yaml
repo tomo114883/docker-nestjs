@@ -5,7 +5,7 @@ services:
       dockerfile: docker/api/Dockerfile
       target: dev
     volumes:
-      # This is a bind mount because it directry specifies the PATH on the host side.
+      # This is a bind mount because it directory specifies the PATH on the host side.
       - ./api:/api
     ports:
       - 3001:3000

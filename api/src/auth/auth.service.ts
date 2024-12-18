@@ -1,9 +1,9 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
-import { AuthDto } from './dto/auth.dto';
+import { Prisma, User } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { AuthDto } from './dto/auth.dto';
 import { Jwt, Payload } from './interface/auth.interface';
 
 // The AuthService has to retrieve a user and verify the password.

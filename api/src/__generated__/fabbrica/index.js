@@ -83,8 +83,8 @@ function defineUserFactoryInternal({ defaultData: defaultDataResolver, onAfterBu
             id: inputData.id
         });
         const create = async (inputData = {}) => {
+            const data = await build({ ...inputData }).then(screen);
             const [transientFields] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
-            const data = await build(inputData).then(screen);
             await handleBeforeCreate(data, transientFields);
             const createdData = await getClient().user.create({ data });
             await handleAfterCreate(createdData, transientFields);
@@ -171,8 +171,8 @@ function defineMotivatorFactoryInternal({ defaultData: defaultDataResolver, onAf
             id: inputData.id
         });
         const create = async (inputData = {}) => {
+            const data = await build({ ...inputData }).then(screen);
             const [transientFields] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
-            const data = await build(inputData).then(screen);
             await handleBeforeCreate(data, transientFields);
             const createdData = await getClient().motivator.create({ data });
             await handleAfterCreate(createdData, transientFields);
@@ -259,8 +259,8 @@ function defineStressorFactoryInternal({ defaultData: defaultDataResolver, onAft
             id: inputData.id
         });
         const create = async (inputData = {}) => {
+            const data = await build({ ...inputData }).then(screen);
             const [transientFields] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
-            const data = await build(inputData).then(screen);
             await handleBeforeCreate(data, transientFields);
             const createdData = await getClient().stressor.create({ data });
             await handleAfterCreate(createdData, transientFields);
