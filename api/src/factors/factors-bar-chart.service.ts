@@ -59,7 +59,7 @@ export class FactorsBarChartService {
       // Get dates for this month.
       const dates: Date[] = [];
       const today = new Date();
-      const month = today.getMonth();
+      const month = today.getMonth() + 1; // Plus 1 to month-index to get month.
       const year = today.getFullYear();
 
       const lastDay = new Date(year, month + 1, 0);
