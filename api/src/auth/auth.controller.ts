@@ -40,7 +40,7 @@ export class AuthController {
   ): Promise<Msg> {
     const jwt = await this.authService.login(dto);
     // Set a cookie as 'access_token' in the HTTP response.
-    res.cookie('access_token', jwt.accessToken, {
+    res.cookie('access-token', jwt.accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
@@ -52,7 +52,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response): Msg {
-    res.cookie('access_token', '', {
+    res.cookie('access-token', '', {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
