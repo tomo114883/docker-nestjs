@@ -16,13 +16,23 @@ entity users {
     deleted_at
 }
 
+entity factorsSets {
+  * id : number <<generated>>
+  --
+  * name : text
+  * user_id : number
+  * created_at
+  * updated_at
+    deleted_at
+}
+
 entity motivators {
   * id : number <<generated>>
   --
   * name : text
   * weight : text
     variable: boolean
-  * user_id : number
+  * factors_set_id : number
   * created_at
   * updated_at
     deleted_at
@@ -34,13 +44,14 @@ entity stressors {
   * name : text
   * weight : text
     variable: boolean
-  * user_id : number
+  * factors_set_id : number
   * created_at
   * updated_at
     deleted_at
 }
 
-users ||--o{ motivations : > "has"
-users ||--o{ stresses : > "has"
+users ||--o{ factorsSets : > "has"
+factorsSets ||--o{ motivators : > "has"
+factorsSets ||--o{ stressors : > "has"
 
 @enduml

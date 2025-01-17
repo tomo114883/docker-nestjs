@@ -1,4 +1,5 @@
 import type { User } from "@prisma/client";
+import type { FactorsSet } from "@prisma/client";
 import type { Motivator } from "@prisma/client";
 import type { Stressor } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
@@ -21,8 +22,7 @@ type UserFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    motivators?: Prisma.MotivatorCreateNestedManyWithoutUserInput;
-    stressors?: Prisma.StressorCreateNestedManyWithoutUserInput;
+    factorsSets?: Prisma.FactorsSetCreateNestedManyWithoutUserInput;
 };
 type UserTransientFields = Record<string, unknown> & Partial<Record<keyof UserFactoryDefineInput, never>>;
 type UserFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -55,9 +55,53 @@ interface UserFactoryBuilder {
     withTransientFields: <TTransients extends UserTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends UserFactoryDefineOptions<TTransients>>(options?: TOptions) => UserFactoryInterface<TTransients, UserTraitKeys<TOptions>>;
 }
 export declare const defineUserFactory: UserFactoryBuilder;
-type MotivatoruserFactory = {
+type FactorsSetuserFactory = {
     _factoryFor: "User";
-    build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutMotivatorsInput["create"]>;
+    build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutFactorsSetsInput["create"]>;
+};
+type FactorsSetFactoryDefineInput = {
+    name?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
+    user: FactorsSetuserFactory | Prisma.UserCreateNestedOneWithoutFactorsSetsInput;
+    motivators?: Prisma.MotivatorCreateNestedManyWithoutFactorsSetsInput;
+    stressors?: Prisma.StressorCreateNestedManyWithoutFactorsSetsInput;
+};
+type FactorsSetTransientFields = Record<string, unknown> & Partial<Record<keyof FactorsSetFactoryDefineInput, never>>;
+type FactorsSetFactoryTrait<TTransients extends Record<string, unknown>> = {
+    data?: Resolver<Partial<FactorsSetFactoryDefineInput>, BuildDataOptions<TTransients>>;
+} & CallbackDefineOptions<FactorsSet, Prisma.FactorsSetCreateInput, TTransients>;
+type FactorsSetFactoryDefineOptions<TTransients extends Record<string, unknown> = Record<string, unknown>> = {
+    defaultData: Resolver<FactorsSetFactoryDefineInput, BuildDataOptions<TTransients>>;
+    traits?: {
+        [traitName: string | symbol]: FactorsSetFactoryTrait<TTransients>;
+    };
+} & CallbackDefineOptions<FactorsSet, Prisma.FactorsSetCreateInput, TTransients>;
+type FactorsSetTraitKeys<TOptions extends FactorsSetFactoryDefineOptions<any>> = Exclude<keyof TOptions["traits"], number>;
+export interface FactorsSetFactoryInterfaceWithoutTraits<TTransients extends Record<string, unknown>> {
+    readonly _factoryFor: "FactorsSet";
+    build(inputData?: Partial<Prisma.FactorsSetCreateInput & TTransients>): PromiseLike<Prisma.FactorsSetCreateInput>;
+    buildCreateInput(inputData?: Partial<Prisma.FactorsSetCreateInput & TTransients>): PromiseLike<Prisma.FactorsSetCreateInput>;
+    buildList(list: readonly Partial<Prisma.FactorsSetCreateInput & TTransients>[]): PromiseLike<Prisma.FactorsSetCreateInput[]>;
+    buildList(count: number, item?: Partial<Prisma.FactorsSetCreateInput & TTransients>): PromiseLike<Prisma.FactorsSetCreateInput[]>;
+    pickForConnect(inputData: FactorsSet): Pick<FactorsSet, "id">;
+    create(inputData?: Partial<Prisma.FactorsSetCreateInput & TTransients>): PromiseLike<FactorsSet>;
+    createList(list: readonly Partial<Prisma.FactorsSetCreateInput & TTransients>[]): PromiseLike<FactorsSet[]>;
+    createList(count: number, item?: Partial<Prisma.FactorsSetCreateInput & TTransients>): PromiseLike<FactorsSet[]>;
+    createForConnect(inputData?: Partial<Prisma.FactorsSetCreateInput & TTransients>): PromiseLike<Pick<FactorsSet, "id">>;
+}
+export interface FactorsSetFactoryInterface<TTransients extends Record<string, unknown> = Record<string, unknown>, TTraitName extends TraitName = TraitName> extends FactorsSetFactoryInterfaceWithoutTraits<TTransients> {
+    use(name: TTraitName, ...names: readonly TTraitName[]): FactorsSetFactoryInterfaceWithoutTraits<TTransients>;
+}
+interface FactorsSetFactoryBuilder {
+    <TOptions extends FactorsSetFactoryDefineOptions>(options: TOptions): FactorsSetFactoryInterface<{}, FactorsSetTraitKeys<TOptions>>;
+    withTransientFields: <TTransients extends FactorsSetTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends FactorsSetFactoryDefineOptions<TTransients>>(options: TOptions) => FactorsSetFactoryInterface<TTransients, FactorsSetTraitKeys<TOptions>>;
+}
+export declare const defineFactorsSetFactory: FactorsSetFactoryBuilder;
+type MotivatorfactorsSetsFactory = {
+    _factoryFor: "FactorsSet";
+    build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutMotivatorsInput["create"]>;
 };
 type MotivatorFactoryDefineInput = {
     name?: string;
@@ -66,7 +110,7 @@ type MotivatorFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    user: MotivatoruserFactory | Prisma.UserCreateNestedOneWithoutMotivatorsInput;
+    factorsSets: MotivatorfactorsSetsFactory | Prisma.FactorsSetCreateNestedOneWithoutMotivatorsInput;
 };
 type MotivatorTransientFields = Record<string, unknown> & Partial<Record<keyof MotivatorFactoryDefineInput, never>>;
 type MotivatorFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -99,9 +143,9 @@ interface MotivatorFactoryBuilder {
     withTransientFields: <TTransients extends MotivatorTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends MotivatorFactoryDefineOptions<TTransients>>(options: TOptions) => MotivatorFactoryInterface<TTransients, MotivatorTraitKeys<TOptions>>;
 }
 export declare const defineMotivatorFactory: MotivatorFactoryBuilder;
-type StressoruserFactory = {
-    _factoryFor: "User";
-    build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutStressorsInput["create"]>;
+type StressorfactorsSetsFactory = {
+    _factoryFor: "FactorsSet";
+    build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutStressorsInput["create"]>;
 };
 type StressorFactoryDefineInput = {
     name?: string;
@@ -110,7 +154,7 @@ type StressorFactoryDefineInput = {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    user: StressoruserFactory | Prisma.UserCreateNestedOneWithoutStressorsInput;
+    factorsSets: StressorfactorsSetsFactory | Prisma.FactorsSetCreateNestedOneWithoutStressorsInput;
 };
 type StressorTransientFields = Record<string, unknown> & Partial<Record<keyof StressorFactoryDefineInput, never>>;
 type StressorFactoryTrait<TTransients extends Record<string, unknown>> = {

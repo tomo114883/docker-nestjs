@@ -1,7 +1,7 @@
 import { fakerJA as faker } from '@faker-js/faker';
 import {
+  defineFactorsSetFactory,
   defineMotivatorFactory,
-  defineStressorFactory,
   defineUserFactory,
 } from 'src/__generated__/fabbrica';
 
@@ -17,6 +17,17 @@ export const UserModelFactory = defineUserFactory({
   }),
 });
 
+export const FactorsSetModelFactory = defineFactorsSetFactory({
+  defaultData: () => ({
+    name: faker.word.noun(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
+    user: UserModelFactory,
+  }),
+});
+
+// Use defineMotivatorFactory instead of defineFactorFactory, because factor does not exist on the database.
 export const FactorModelFactory = defineMotivatorFactory({
   defaultData: () => ({
     name: faker.word.noun(),
@@ -24,17 +35,6 @@ export const FactorModelFactory = defineMotivatorFactory({
     createdAt: new Date(),
     updatedAt: new Date(),
     deletedAt: null,
-    user: UserModelFactory, // This part of the column is mandatory because I defined so.
+    factorsSets: FactorsSetModelFactory,
   }),
 });
-
-// export const StressorModelFactory = defineStressorFactory({
-//   defaultData: () => ({
-//     name: faker.word.noun(),
-//     weight: faker.number.int({ min: 1, max: 5 }),
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//     deletedAt: null,
-//     user: UserModelFactory,
-//   }),
-// });
