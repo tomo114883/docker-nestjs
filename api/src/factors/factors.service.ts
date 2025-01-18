@@ -8,7 +8,7 @@ export class FactorsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(
-    factorsSetId: string,
+    factorsSetId: number,
     factor: string,
     dto: CreateFactorDto,
   ): Promise<Motivator | Stressor> {
@@ -18,7 +18,7 @@ export class FactorsService {
           name: dto.name,
           weight: dto.weight,
           variable: dto.variable,
-          factorsSetId: Number(factorsSetId),
+          factorsSetId,
         },
       });
     } catch (error) {
@@ -27,13 +27,13 @@ export class FactorsService {
   }
 
   async findFactors(
-    factorsSetId: string,
+    factorsSetId: number,
     factor: string,
   ): Promise<Motivator[] | Stressor[] | null> {
     try {
       return await this.prismaService[factor].findMany({
         where: {
-          factorsSetId: Number(factorsSetId),
+          factorsSetId,
           deletedAt: null,
         },
       });
