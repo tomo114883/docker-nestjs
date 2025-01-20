@@ -13,6 +13,22 @@ export class FactorsController {
     private readonly factorsChartService: FactorsChartService,
   ) {}
 
+  @Get(':factorsSetId/bar-chart-info')
+  async getBarChartInfo(
+    @Param('factorsSetId') factorsSetId: string,
+  ): Promise<BarChartInfo> {
+    return await this.factorsChartService.getBarChartInfo(Number(factorsSetId));
+  }
+
+  @Get(':factorsSetId/get-monthly-chart-data')
+  async getMonthlyChartData(
+    @Param('factorsSetId') factorsSetId: string,
+  ): Promise<BarChartData[]> {
+    return await this.factorsChartService.getMonthlyChartData(
+      Number(factorsSetId),
+    );
+  }
+
   @Post(':factorsSetId/:factor')
   async create(
     @Param('factorsSetId') factorsSetId: string,
@@ -30,22 +46,6 @@ export class FactorsController {
     return await this.factorsService.findFactors(
       Number(factorsSetId),
       factor, // 'motivator' or 'stressor'
-    );
-  }
-
-  @Get(':factorsSetId/get-bar-chart-info')
-  async getDailyBarChartInfo(
-    @Param('factorsSetId') factorsSetId: string,
-  ): Promise<BarChartInfo> {
-    return await this.factorsChartService.getBarChartInfo(Number(factorsSetId));
-  }
-
-  @Get(':factorsSetId/get-monthly-chart-data')
-  async getMonthlyChartData(
-    @Param('factorsSetId') factorsSetId: string,
-  ): Promise<BarChartData[]> {
-    return await this.factorsChartService.getMonthlyChartData(
-      Number(factorsSetId),
     );
   }
 }

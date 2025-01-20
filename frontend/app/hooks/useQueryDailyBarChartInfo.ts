@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { BarChartInfo } from '../lib/definitions';
 
-export const useQueryDailyBarChartInfo = () => {
+export const useQueryBarChartInfo = (factorsSetId: number) => {
   const [data, setData] = useState<BarChartInfo>({
     data: [{ factor: 'モチベーション' }, { factor: 'ストレス' }],
     series: [{ name: '', color: '' }],
@@ -18,7 +18,7 @@ export const useQueryDailyBarChartInfo = () => {
     const fetchFactor = async (retryCount = 0) => {
       try {
         const { data } = await axios.get<BarChartInfo>(
-          `${process.env.NEXT_PUBLIC_API_URL}/factors/getDailyBarChartInfo`,
+          `${process.env.NEXT_PUBLIC_API_URL}/factors-sets/${factorsSetId}/bar-chart-info`,
         );
         setData(data);
         setStatus('success');
@@ -38,7 +38,7 @@ export const useQueryDailyBarChartInfo = () => {
       }
     };
     fetchFactor();
-  }, [router]);
+  }, [factorsSetId, router]);
 
   return { data, status, error };
 };
