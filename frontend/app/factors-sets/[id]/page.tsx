@@ -15,7 +15,7 @@ export default function Home({ params }: { params: { id: string } }) {
           <CustomBarChart factorsSetId={factorsSetId} />
         </div>
         <div className="flex-1">
-          <FactorsIndex />
+          <FactorsIndex factorsSetId={factorsSetId} />
         </div>
       </div>
     </>

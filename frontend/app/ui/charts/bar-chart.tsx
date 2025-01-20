@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryBarChartInfo } from '@/app/hooks/useQueryDailyBarChartInfo';
+import { useQueryBarChartInfo } from '@/app/hooks/useQueryBarChartInfo';
 import { BarChartInfo } from '@/app/lib/definitions';
 import { BarChart } from '@mantine/charts';
 

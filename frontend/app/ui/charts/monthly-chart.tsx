@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryMonthlyBarChartData } from '@/app/hooks/useQueryMonthlyBarChartData';
+import { useQueryMonthlyBarChartData } from '@/app/hooks/useQueryMonthlyChartData';
 import { BarChart, BarChartSeries } from '@mantine/charts';
 
 export const MonthlyBarChart = () => {
@@ -12,7 +12,7 @@ export const MonthlyBarChart = () => {
 
   return (
     <div className="">
-      <h1>Monthly Bar Chart</h1>
+      <h1>月次チャート</h1>
       <div className="flex flex-row">
         <BarChart
           h={300}
