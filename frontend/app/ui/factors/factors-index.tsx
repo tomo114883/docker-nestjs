@@ -7,15 +7,15 @@ import { FactorsList } from '@/app/ui/factors/factors-list';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { ScrollArea } from '@mantine/core';
 
-export function FactorsIndex() {
+export function FactorsIndex({ factorsSetId }: { factorsSetId: number }) {
   const router = useRouter();
-  const motivators = useQueryFactor('motivator');
-  const stressors = useQueryFactor('stressor');
+  const motivators = useQueryFactor(factorsSetId, 'motivator');
+  const stressors = useQueryFactor(factorsSetId, 'stressor');
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`mb-4 text-xl md:text-2xl`}>要因の一覧</h2>
-      <CreateModal />
+      <CreateModal factorsSetId={factorsSetId} />
       <div className="flex grow flex-1 flex-col justify-between rounded-xl bg-gray-50 p-4">
         <ScrollArea h={250}>
           <div className="flex flex-row">

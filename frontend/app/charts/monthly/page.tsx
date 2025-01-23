@@ -1,15 +1,15 @@
 import { Metadata } from 'next';
-import { FactorsSetsIndex } from './ui/factors-sets/factors-sets-index';
+import { FactorsSetsIndex } from '@/app/ui/factors-sets/factors-sets-index';
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Home page',
+  title: 'Monthly Chart',
+  description: 'Monthly Chart page',
 };
 
 export default function Home() {
   return (
     <>
-      <FactorsSetsIndex />
+      <FactorsSetsIndex title={metadata.title} />
     </>
   );
 }

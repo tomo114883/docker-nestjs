@@ -5,6 +5,7 @@ interface BarChartInfo {
   series: BarChartSeries[];
 }
 interface CreateFormProps {
+  factorsSetId: number;
   factors: string;
   state: () => void;
 }

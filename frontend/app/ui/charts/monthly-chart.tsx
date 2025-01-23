@@ -1,27 +1,26 @@
 'use client';
 
-import { useQueryMonthlyBarChartData } from '@/app/hooks/useQueryMonthlyChartData';
-import { BarChart, BarChartSeries } from '@mantine/charts';
+import { useQueryMonthlyChartData } from '@/app/hooks/useQueryMonthlyChartData';
+import { LineChart, LineChartSeries } from '@mantine/charts';
 
-export const MonthlyBarChart = () => {
-  const { data } = useQueryMonthlyBarChartData();
-  const series: BarChartSeries[] = [
-    { name: 'motiv', color: 'red.4', stackId: 'motiv' },
-    { name: 'stress', color: 'blue.4', stackId: 'stress' },
+export const MonthlyChart = ({ factorsSetId }: { factorsSetId: number }) => {
+  const { data } = useQueryMonthlyChartData(factorsSetId);
+  const series: LineChartSeries[] = [
+    { name: 'motiv', color: 'red.4' },
+    { name: 'stress', color: 'blue.4' },
   ];
 
   return (
     <div className="">
       <h1>月次チャート</h1>
       <div className="flex flex-row">
-        <BarChart
+        <LineChart
           h={300}
           w={800}
           data={data}
           dataKey="date"
           series={series}
-          tickLine="y"
-          gridAxis="x"
+          curveType="linear"
         />
       </div>
     </div>
