@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defineStressorFactory = exports.defineMotivatorFactory = exports.defineFactorsSetFactory = exports.defineUserFactory = exports.initialize = exports.resetScalarFieldValueGenerator = exports.registerScalarFieldValueGenerator = exports.resetSequence = void 0;
+exports.defineTemplateFactory = exports.defineStressorFactory = exports.defineMotivatorFactory = exports.defineFactorsSetFactory = exports.defineUserFactory = exports.initialize = exports.resetScalarFieldValueGenerator = exports.registerScalarFieldValueGenerator = exports.resetSequence = void 0;
 const internal_1 = require("@quramy/prisma-fabbrica/lib/internal");
 var internal_2 = require("@quramy/prisma-fabbrica/lib/internal");
 Object.defineProperty(exports, "resetSequence", { enumerable: true, get: function () { return internal_2.resetSequence; } });
@@ -30,6 +30,10 @@ const modelFieldDefinitions = [{
                 name: "stressors",
                 type: "Stressor",
                 relationName: "FactorsSetToStressor"
+            }, {
+                name: "templates",
+                type: "Template",
+                relationName: "FactorsSetToTemplate"
             }]
     }, {
         name: "Motivator",
@@ -44,6 +48,13 @@ const modelFieldDefinitions = [{
                 name: "factorsSets",
                 type: "FactorsSet",
                 relationName: "FactorsSetToStressor"
+            }]
+    }, {
+        name: "Template",
+        fields: [{
+                name: "factorsSets",
+                type: "FactorsSet",
+                relationName: "FactorsSetToTemplate"
             }]
     }];
 function autoGenerateUserScalarsOrEnums({ seq }) {
@@ -390,3 +401,90 @@ exports.defineStressorFactory = ((options) => {
     return defineStressorFactoryInternal(options, {});
 });
 exports.defineStressorFactory.withTransientFields = defaultTransientFieldValues => options => defineStressorFactoryInternal(options, defaultTransientFieldValues);
+function isTemplatefactorsSetsFactory(x) {
+    return x?._factoryFor === "FactorsSet";
+}
+function autoGenerateTemplateScalarsOrEnums({ seq }) {
+    return {
+        name: (0, internal_1.getScalarFieldValueGenerator)().String({ modelName: "Template", fieldName: "name", isId: false, isUnique: false, seq })
+    };
+}
+function defineTemplateFactoryInternal({ defaultData: defaultDataResolver, onAfterBuild, onBeforeCreate, onAfterCreate, traits: traitsDefs = {} }, defaultTransientFieldValues) {
+    const getFactoryWithTraits = (traitKeys = []) => {
+        const seqKey = {};
+        const getSeq = () => (0, internal_1.getSequenceCounter)(seqKey);
+        const screen = (0, internal_1.createScreener)("Template", modelFieldDefinitions);
+        const handleAfterBuild = (0, internal_1.createCallbackChain)([
+            onAfterBuild,
+            ...traitKeys.map(traitKey => traitsDefs[traitKey]?.onAfterBuild),
+        ]);
+        const handleBeforeCreate = (0, internal_1.createCallbackChain)([
+            ...traitKeys.slice().reverse().map(traitKey => traitsDefs[traitKey]?.onBeforeCreate),
+            onBeforeCreate,
+        ]);
+        const handleAfterCreate = (0, internal_1.createCallbackChain)([
+            onAfterCreate,
+            ...traitKeys.map(traitKey => traitsDefs[traitKey]?.onAfterCreate),
+        ]);
+        const build = async (inputData = {}) => {
+            const seq = getSeq();
+            const requiredScalarData = autoGenerateTemplateScalarsOrEnums({ seq });
+            const resolveValue = (0, internal_1.normalizeResolver)(defaultDataResolver);
+            const [transientFields, filteredInputData] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
+            const resolverInput = { seq, ...transientFields };
+            const defaultData = await traitKeys.reduce(async (queue, traitKey) => {
+                const acc = await queue;
+                const resolveTraitValue = (0, internal_1.normalizeResolver)(traitsDefs[traitKey]?.data ?? {});
+                const traitData = await resolveTraitValue(resolverInput);
+                return {
+                    ...acc,
+                    ...traitData,
+                };
+            }, resolveValue(resolverInput));
+            const defaultAssociations = {
+                factorsSets: isTemplatefactorsSetsFactory(defaultData.factorsSets) ? {
+                    create: await defaultData.factorsSets.build()
+                } : defaultData.factorsSets
+            };
+            const data = { ...requiredScalarData, ...defaultData, ...defaultAssociations, ...filteredInputData };
+            await handleAfterBuild(data, transientFields);
+            return data;
+        };
+        const buildList = (...args) => Promise.all((0, internal_1.normalizeList)(...args).map(data => build(data)));
+        const pickForConnect = (inputData) => ({
+            id: inputData.id
+        });
+        const create = async (inputData = {}) => {
+            const data = await build({ ...inputData }).then(screen);
+            const [transientFields] = (0, internal_1.destructure)(defaultTransientFieldValues, inputData);
+            await handleBeforeCreate(data, transientFields);
+            const createdData = await getClient().template.create({ data });
+            await handleAfterCreate(createdData, transientFields);
+            return createdData;
+        };
+        const createList = (...args) => Promise.all((0, internal_1.normalizeList)(...args).map(data => create(data)));
+        const createForConnect = (inputData = {}) => create(inputData).then(pickForConnect);
+        return {
+            _factoryFor: "Template",
+            build,
+            buildList,
+            buildCreateInput: build,
+            pickForConnect,
+            create,
+            createList,
+            createForConnect,
+        };
+    };
+    const factory = getFactoryWithTraits();
+    const useTraits = (name, ...names) => {
+        return getFactoryWithTraits([name, ...names]);
+    };
+    return {
+        ...factory,
+        use: useTraits,
+    };
+}
+exports.defineTemplateFactory = ((options) => {
+    return defineTemplateFactoryInternal(options, {});
+});
+exports.defineTemplateFactory.withTransientFields = defaultTransientFieldValues => options => defineTemplateFactoryInternal(options, defaultTransientFieldValues);

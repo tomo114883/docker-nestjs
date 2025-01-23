@@ -50,8 +50,19 @@ entity stressors {
     deleted_at
 }
 
-users ||--o{ factorsSets : > "has"
-factorsSets ||--o{ motivators : > "has"
-factorsSets ||--o{ stressors : > "has"
+entity templates {
+  * id : number <<generated>>
+  --
+  * name : text
+  * factors_set_id : number
+  * created_at
+  * updated_at
+    deleted_at
+}
+
+users ||--o{ factorsSets
+factorsSets ||--o{ motivators
+factorsSets ||--o{ stressors
+templates |o--|| factorsSets
 
 @enduml

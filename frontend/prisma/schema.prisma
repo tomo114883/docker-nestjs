@@ -52,4 +52,15 @@ model FactorsSet {
   User      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   Motivator Motivator[]
   Stressor  Stressor[]
+  Template  Template[]
+}
+
+model Template {
+  id           Int        @id @default(autoincrement())
+  name         String
+  factorsSetId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime
+  deletedAt    DateTime?
+  FactorsSet   FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
 }

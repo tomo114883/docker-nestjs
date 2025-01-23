@@ -2,6 +2,7 @@ import type { User } from "@prisma/client";
 import type { FactorsSet } from "@prisma/client";
 import type { Motivator } from "@prisma/client";
 import type { Stressor } from "@prisma/client";
+import type { Template } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 import type { Resolver } from "@quramy/prisma-fabbrica/lib/internal";
 export { resetSequence, registerScalarFieldValueGenerator, resetScalarFieldValueGenerator } from "@quramy/prisma-fabbrica/lib/internal";
@@ -67,6 +68,7 @@ type FactorsSetFactoryDefineInput = {
     user: FactorsSetuserFactory | Prisma.UserCreateNestedOneWithoutFactorsSetsInput;
     motivators?: Prisma.MotivatorCreateNestedManyWithoutFactorsSetsInput;
     stressors?: Prisma.StressorCreateNestedManyWithoutFactorsSetsInput;
+    templates?: Prisma.TemplateCreateNestedManyWithoutFactorsSetsInput;
 };
 type FactorsSetTransientFields = Record<string, unknown> & Partial<Record<keyof FactorsSetFactoryDefineInput, never>>;
 type FactorsSetFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -187,3 +189,45 @@ interface StressorFactoryBuilder {
     withTransientFields: <TTransients extends StressorTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends StressorFactoryDefineOptions<TTransients>>(options: TOptions) => StressorFactoryInterface<TTransients, StressorTraitKeys<TOptions>>;
 }
 export declare const defineStressorFactory: StressorFactoryBuilder;
+type TemplatefactorsSetsFactory = {
+    _factoryFor: "FactorsSet";
+    build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutTemplatesInput["create"]>;
+};
+type TemplateFactoryDefineInput = {
+    name?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
+    factorsSets: TemplatefactorsSetsFactory | Prisma.FactorsSetCreateNestedOneWithoutTemplatesInput;
+};
+type TemplateTransientFields = Record<string, unknown> & Partial<Record<keyof TemplateFactoryDefineInput, never>>;
+type TemplateFactoryTrait<TTransients extends Record<string, unknown>> = {
+    data?: Resolver<Partial<TemplateFactoryDefineInput>, BuildDataOptions<TTransients>>;
+} & CallbackDefineOptions<Template, Prisma.TemplateCreateInput, TTransients>;
+type TemplateFactoryDefineOptions<TTransients extends Record<string, unknown> = Record<string, unknown>> = {
+    defaultData: Resolver<TemplateFactoryDefineInput, BuildDataOptions<TTransients>>;
+    traits?: {
+        [traitName: string | symbol]: TemplateFactoryTrait<TTransients>;
+    };
+} & CallbackDefineOptions<Template, Prisma.TemplateCreateInput, TTransients>;
+type TemplateTraitKeys<TOptions extends TemplateFactoryDefineOptions<any>> = Exclude<keyof TOptions["traits"], number>;
+export interface TemplateFactoryInterfaceWithoutTraits<TTransients extends Record<string, unknown>> {
+    readonly _factoryFor: "Template";
+    build(inputData?: Partial<Prisma.TemplateCreateInput & TTransients>): PromiseLike<Prisma.TemplateCreateInput>;
+    buildCreateInput(inputData?: Partial<Prisma.TemplateCreateInput & TTransients>): PromiseLike<Prisma.TemplateCreateInput>;
+    buildList(list: readonly Partial<Prisma.TemplateCreateInput & TTransients>[]): PromiseLike<Prisma.TemplateCreateInput[]>;
+    buildList(count: number, item?: Partial<Prisma.TemplateCreateInput & TTransients>): PromiseLike<Prisma.TemplateCreateInput[]>;
+    pickForConnect(inputData: Template): Pick<Template, "id">;
+    create(inputData?: Partial<Prisma.TemplateCreateInput & TTransients>): PromiseLike<Template>;
+    createList(list: readonly Partial<Prisma.TemplateCreateInput & TTransients>[]): PromiseLike<Template[]>;
+    createList(count: number, item?: Partial<Prisma.TemplateCreateInput & TTransients>): PromiseLike<Template[]>;
+    createForConnect(inputData?: Partial<Prisma.TemplateCreateInput & TTransients>): PromiseLike<Pick<Template, "id">>;
+}
+export interface TemplateFactoryInterface<TTransients extends Record<string, unknown> = Record<string, unknown>, TTraitName extends TraitName = TraitName> extends TemplateFactoryInterfaceWithoutTraits<TTransients> {
+    use(name: TTraitName, ...names: readonly TTraitName[]): TemplateFactoryInterfaceWithoutTraits<TTransients>;
+}
+interface TemplateFactoryBuilder {
+    <TOptions extends TemplateFactoryDefineOptions>(options: TOptions): TemplateFactoryInterface<{}, TemplateTraitKeys<TOptions>>;
+    withTransientFields: <TTransients extends TemplateTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends TemplateFactoryDefineOptions<TTransients>>(options: TOptions) => TemplateFactoryInterface<TTransients, TemplateTraitKeys<TOptions>>;
+}
+export declare const defineTemplateFactory: TemplateFactoryBuilder;
