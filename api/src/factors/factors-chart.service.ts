@@ -59,12 +59,12 @@ export class FactorsChartService {
       // Get dates for this month.
       const dates: Date[] = [];
       const today = new Date();
-      const thisMonth = today.getMonth() + 1; // Plus 1 to month-index to get month.
+      const thisMonth = today.getMonth() + 1; // Plus 1 to month-index to get this month.
       const thisYear = today.getFullYear();
 
       const lastDay = new Date(thisYear, thisMonth, 0);
       for (let day = 1; day <= lastDay.getDate(); day++) {
-        dates.push(new Date(thisYear, thisMonth + 1, day));
+        dates.push(new Date(thisYear, thisMonth - 1, day)); // Minus 1 from this month to get month-index.
       }
 
       const data: BarChartData[] = await Promise.all(

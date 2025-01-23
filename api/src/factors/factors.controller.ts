@@ -20,7 +20,7 @@ export class FactorsController {
     return await this.factorsChartService.getBarChartInfo(Number(factorsSetId));
   }
 
-  @Get(':factorsSetId/get-monthly-chart-data')
+  @Get(':factorsSetId/monthly-chart-data')
   async getMonthlyChartData(
     @Param('factorsSetId') factorsSetId: string,
   ): Promise<BarChartData[]> {

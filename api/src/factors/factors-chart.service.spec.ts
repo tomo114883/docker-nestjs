@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -9,6 +10,7 @@ import { FactorsController } from './factors.controller';
 import { FactorsService } from './factors.service';
 
 describe('FactorsChartService', () => {
+  let factorsService: FactorsService;
   let factorsChartService: FactorsChartService;
   let prismaService: PrismaService;
 
@@ -31,6 +33,7 @@ describe('FactorsChartService', () => {
 
     factorsChartService =
       factorsBarChartModule.get<FactorsChartService>(FactorsChartService);
+    factorsService = factorsBarChartModule.get<FactorsService>(FactorsService);
     prismaService = factorsBarChartModule.get<PrismaService>(PrismaService);
   });
 
@@ -42,7 +45,6 @@ describe('FactorsChartService', () => {
         factorsSet.id,
       );
 
-      console.log('result: ', result);
       expect(result).toHaveProperty('data');
       expect(result).toHaveProperty('series');
     });
@@ -61,6 +63,39 @@ describe('FactorsChartService', () => {
       expect(result.at(-1).date).toBe(
         `${lastDay.getMonth() + 1}/${lastDay.getDate()}`,
       );
+    });
+
+    it('should return data is sum of each weights.', async () => {
+      const factorsSet = await FactorsSetModelFactory.create();
+      const date = new Date();
+      const today = date.getDate();
+
+      const motivatorDto = {
+        data: {
+          name: faker.word.noun(),
+          weight: faker.number.int({ min: 1, max: 5 }),
+          variable: faker.datatype.boolean(),
+          factorsSetId: factorsSet.id,
+        },
+      };
+      const stressorDto = {
+        data: {
+          name: faker.word.noun(),
+          weight: faker.number.int({ min: 1, max: 5 }),
+          variable: faker.datatype.boolean(),
+          factorsSetId: factorsSet.id,
+        },
+      };
+
+      await prismaService.motivator.create(motivatorDto);
+      await prismaService.stressor.create(stressorDto);
+
+      // Obtain monthly-chart-data from DB.
+      const result: BarChartData[] =
+        await factorsChartService.getMonthlyChartData(factorsSet.id);
+
+      expect(result.at(today - 1).motiv).toBe(motivatorDto.data.weight);
+      expect(result.at(today - 1).stress).toBe(stressorDto.data.weight);
     });
   });
 });
