@@ -4,43 +4,43 @@ import { BarChartData, BarChartInfo, BarChartSeries } from './dto/factor.dto';
 import { FactorsService } from './factors.service';
 
 @Injectable()
-export class FactorsBarChartService {
+export class FactorsChartService {
   constructor(private readonly factorsService: FactorsService) {}
 
   // Return information, data and series, for daily bar chart.
-  async getDailyBarChartInfo(userId: number): Promise<BarChartInfo | null> {
+  async getBarChartInfo(factorsSetId: number): Promise<BarChartInfo | null> {
     try {
-      const today = new Date();
-
-      const todayMotivators = await this.factorsService.getDailyFactors(
+      // Get motivators and stressors.
+      const motivators = await this.factorsService.findFactors(
+        factorsSetId,
         'motivator',
-        userId,
-        today,
       );
-      const todayStressors = await this.factorsService.getDailyFactors(
+      const stressors = await this.factorsService.findFactors(
+        factorsSetId,
         'stressor',
-        userId,
-        today,
       );
 
+      // Get bar chart data.
       const motivData: BarChartData = this.createBarChartData(
-        todayMotivators,
+        motivators,
         'モチベーション',
       );
       const stressData: BarChartData = this.createBarChartData(
-        todayStressors,
+        stressors,
         'ストレス',
       );
 
+      // Get bar chart series.
       const motivSeries: BarChartSeries[] = this.createBarChartSeries(
-        todayMotivators,
+        motivators,
         ['red.5', 'red.4'],
       );
       const stressSeries: BarChartSeries[] = this.createBarChartSeries(
-        todayStressors,
+        stressors,
         ['blue.5', 'blue.4'],
       );
 
+      // Organize data and series to return.
       const data: BarChartData[] = [motivData, stressData];
       const series: BarChartSeries[] = [...motivSeries, ...stressSeries];
 
@@ -54,53 +54,49 @@ export class FactorsBarChartService {
   }
 
   // Return information, data and series, for daily bar chart.
-  async getMonthlyBarChartData(userId: number): Promise<BarChartData[]> {
+  async getMonthlyChartData(factorsSetId: number): Promise<BarChartData[]> {
     try {
       // Get dates for this month.
       const dates: Date[] = [];
       const today = new Date();
-      const month = today.getMonth() + 1; // Plus 1 to month-index to get month.
-      const year = today.getFullYear();
+      const thisMonth = today.getMonth() + 1; // Plus 1 to month-index to get this month.
+      const thisYear = today.getFullYear();
 
-      const lastDay = new Date(year, month + 1, 0);
-
+      const lastDay = new Date(thisYear, thisMonth, 0);
       for (let day = 1; day <= lastDay.getDate(); day++) {
-        dates.push(new Date(year, month, day));
+        dates.push(new Date(thisYear, thisMonth - 1, day)); // Minus 1 from this month to get month-index.
       }
 
       const data: BarChartData[] = await Promise.all(
         dates.map(async (date) => {
-          let dailyMotivators: Motivator[] = [];
-          let dailyStressors: Stressor[] = [];
+          let motivators: Motivator[] = [];
+          let stressors: Stressor[] = [];
+          let sumOfMotivators = 0;
+          let sumOfStressors = 0;
 
+          // If the date is before today, get factors and sum them.
           if (date <= today) {
-            dailyMotivators = await this.factorsService.getDailyFactors(
+            motivators = await this.factorsService.findFactors(
+              factorsSetId,
               'motivator',
-              userId,
-              date,
+            );
+            stressors = await this.factorsService.findFactors(
+              factorsSetId,
+              'stressor',
             );
 
-            dailyStressors = await this.factorsService.getDailyFactors(
-              'stressor',
-              userId,
-              date,
-            );
-          } else {
-            dailyMotivators = [];
-            dailyStressors = [];
+            // Sum total each weights on this month.
+            sumOfMotivators = motivators.reduce((acc, curr) => {
+              return acc + curr.weight;
+            }, 0);
+
+            sumOfStressors = stressors.reduce((acc, curr) => {
+              return acc + curr.weight;
+            }, 0);
           }
 
-          // Sum total each weights on this month.
-          const sumOfMotivators = dailyMotivators.reduce((acc, curr) => {
-            return acc + curr.weight;
-          }, 0);
-
-          const sumOfStressors = dailyStressors.reduce((acc, curr) => {
-            return acc + curr.weight;
-          }, 0);
-
           return {
-            date: `${month}/${date.getDate()}`,
+            date: `${thisMonth}/${date.getDate()}`,
             motiv: sumOfMotivators,
             stress: sumOfStressors,
           };

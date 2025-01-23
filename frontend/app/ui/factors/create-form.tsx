@@ -21,7 +21,7 @@ const schema = z.object({
   variable: z.string(),
 });
 
-export function CreateForm({ factors, state }: CreateFormProps) {
+export function CreateForm({ factorsSetId, factors, state }: CreateFormProps) {
   const [error, setError] = useState('');
 
   const form = useForm({
@@ -50,7 +50,7 @@ export function CreateForm({ factors, state }: CreateFormProps) {
       const close = state;
       const variable = form.values.variable === 'variable';
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/factors/${factors}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/factors-sets/${factorsSetId}/${factors}`,
         {
           name: form.values.name,
           weight: form.values.weight,

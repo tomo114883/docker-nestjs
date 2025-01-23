@@ -18,37 +18,48 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique
-  password   String
-  name       String?
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  password    String
+  name        String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+  factorsSets FactorsSet[]
+}
+
+model FactorsSet {
+  id         Int         @id @default(autoincrement()) // Scalar Type
+  name       String
+  userId     Int
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   deletedAt  DateTime?
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   motivators Motivator[]
   stressors  Stressor[]
 }
 
 model Motivator {
-  id        Int       @id @default(autoincrement()) // Scalar Type
-  name      String
-  weight    Int
-  variable  Boolean?
-  userId    Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           Int        @id @default(autoincrement()) // Scalar Type
+  name         String
+  weight       Int
+  variable     Boolean?
+  factorsSetId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  factorsSets  FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
 }
 
 model Stressor {
-  id        Int       @id @default(autoincrement())
-  name      String
-  weight    Int
-  variable  Boolean?
-  userId    Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           Int        @id @default(autoincrement())
+  name         String
+  weight       Int
+  variable     Boolean?
+  factorsSetId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  factorsSets  FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
 }

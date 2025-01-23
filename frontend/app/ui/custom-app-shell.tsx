@@ -28,14 +28,14 @@ export const CustomAppShell = ({ children }: { children: React.ReactNode }) => {
       icon: <ChartBarIcon className="w-6 h-6" />,
     },
     {
-      link: `${process.env.NEXT_PUBLIC_DOMAIN}/dashboard`,
-      label: 'Dashboard',
-      icon: <ClipboardDocumentListIcon className="w-6 h-6" />,
-    },
-    {
       link: `${process.env.NEXT_PUBLIC_DOMAIN}/cope`,
       label: 'Cope with AI',
       icon: <IconSword className="w-6 h-6" />,
+    },
+    {
+      link: `${process.env.NEXT_PUBLIC_DOMAIN}/dashboard`,
+      label: 'Dashboard',
+      icon: <ClipboardDocumentListIcon className="w-6 h-6" />,
     },
     {
       link: `${process.env.NEXT_PUBLIC_DOMAIN}/templates`,

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { DailyBarChart } from './ui/charts/daily-bar-chart';
-import { FactorsIndex } from './ui/factors/factors-index';
+import { CreateFactorsSet } from './ui/factors-sets/create-factors-sets';
+import { FactorsSetsIndex } from './ui/factors-sets/factors-sets-index';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -10,14 +10,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <div className="flex flex-row">
-        <div className="flex-1">
-          <DailyBarChart />
-        </div>
-        <div className="flex-1">
-          <FactorsIndex />
-        </div>
-      </div>
+      <CreateFactorsSet />
+      <FactorsSetsIndex title={metadata.title} />
     </>
   );
 }

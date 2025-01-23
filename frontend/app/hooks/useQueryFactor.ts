@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Factor } from '../lib/definitions';
 
-export const useQueryFactor = (factor: string) => {
+export const useQueryFactor = (factorsSetId: number, factor: string) => {
   const [data, setData] = useState<Factor[] | null>(null);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export const useQueryFactor = (factor: string) => {
     const fetchFactor = async (retryCount = 0) => {
       try {
         const { data } = await axios.get<Factor[] | null>(
-          `${process.env.NEXT_PUBLIC_API_URL}/factors/${factor}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/factors-sets/${factorsSetId}/${factor}`,
         );
         setData(data);
         setStatus('success');
@@ -35,7 +35,7 @@ export const useQueryFactor = (factor: string) => {
       }
     };
     fetchFactor();
-  }, [factor, router]);
+  }, [factorsSetId, factor, router]);
 
   return { data, status, error };
 };

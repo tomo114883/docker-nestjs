@@ -4,7 +4,7 @@ import { Button, Modal, Tabs } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { CreateForm } from './create-form';
 
-export function CreateModal() {
+export function CreateModal({ factorsSetId }: { factorsSetId: number }) {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -24,10 +24,18 @@ export function CreateModal() {
           </Tabs.List>
 
           <Tabs.Panel value="motivator">
-            <CreateForm factors={'motivator'} state={close} />
+            <CreateForm
+              factorsSetId={factorsSetId}
+              factors={'motivator'}
+              state={close}
+            />
           </Tabs.Panel>
           <Tabs.Panel value="stressor">
-            <CreateForm factors={'stressor'} state={close} />
+            <CreateForm
+              factorsSetId={factorsSetId}
+              factors={'stressor'}
+              state={close}
+            />
           </Tabs.Panel>
         </Tabs>
       </Modal>

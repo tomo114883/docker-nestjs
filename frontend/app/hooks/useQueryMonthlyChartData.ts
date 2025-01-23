@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { BarChartData } from '../lib/definitions';
 
-export const useQueryMonthlyBarChartData = () => {
+export const useQueryMonthlyChartData = (factorsSetId: number) => {
   const [data, setData] = useState<BarChartData>([]);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export const useQueryMonthlyBarChartData = () => {
     const fetchFactor = async (retryCount = 0) => {
       try {
         const { data } = await axios.get<BarChartData>(
-          `${process.env.NEXT_PUBLIC_API_URL}/factors/getMonthlyBarChartData`,
+          `${process.env.NEXT_PUBLIC_API_URL}/factors-sets/${factorsSetId}/monthly-chart-data`,
         );
         setData(data);
         setStatus('success');
@@ -35,7 +35,7 @@ export const useQueryMonthlyBarChartData = () => {
       }
     };
     fetchFactor();
-  }, [router]);
+  }, [factorsSetId, router]);
 
   return { data, status, error };
 };

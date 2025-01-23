@@ -1,7 +1,7 @@
-import { MonthlyBarChart } from '@/app/ui/charts/monthly-bar-chart';
-import { DashboardCard } from '@/app/ui/dashboard/dashboard-card';
+import { Metadata } from 'next';
+import { FactorsSetsIndex } from '@/app/ui/factors-sets/factors-sets-index';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Monthly Chart',
   description: 'Monthly Chart page',
 };
@@ -9,11 +9,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <MonthlyBarChart />
-      <h2>Dash Board</h2>
-      <div className="flex flex-row">
-        <DashboardCard title={'投稿日数'} value={5} />
-      </div>
+      <FactorsSetsIndex title={metadata.title} />
     </>
   );
 }
