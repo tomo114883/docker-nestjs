@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { CreateFactorsSet } from './ui/factors-sets/create-factors-sets';
+import { CreateFormWithName } from './ui/factors-sets/create-factors-sets';
 import { FactorsSetsIndex } from './ui/factors-sets/factors-sets-index';
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <CreateFactorsSet />
+      <CreateFormWithName title={metadata.title} />
       <FactorsSetsIndex title={metadata.title} />
     </>
   );

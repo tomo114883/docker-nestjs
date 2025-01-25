@@ -1,19 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import axios from 'axios';
 import { FactorsSet } from '../lib/definitions';
 
-export const useQueryFactorsSets = () => {
+export const useQueryFactorsSets = (
+  title: string | TemplateString | null | undefined,
+) => {
   const [data, setData] = useState<FactorsSet[] | null>(null);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState<string | null>(null);
+  let link = `/factors-sets`;
+
+  if (title === 'Templates') {
+    link = `/templates`;
+  }
 
   useEffect(() => {
     const fetchFactorsSets = async (retryCount = 0) => {
       try {
         const { data } = await axios.get<FactorsSet[] | null>(
-          `${process.env.NEXT_PUBLIC_API_URL}/factors-sets`,
+          `${process.env.NEXT_PUBLIC_API_URL}${link}`,
         );
         setData(data);
         setStatus('success');
@@ -30,7 +38,7 @@ export const useQueryFactorsSets = () => {
       }
     };
     fetchFactorsSets();
-  }, []);
+  }, [title, link]);
 
   return { data, status, error };
 };
