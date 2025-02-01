@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Motivator, Prisma, Stressor } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateFactorsSetDto } from './dto/create-factors-set.dto';
 
@@ -17,6 +18,60 @@ export class FactorsSetsService {
           userId: userId,
         },
       });
+    } catch (error) {
+      throw new Error(`Failed to create factorsSet: ${error.message}`);
+    }
+  }
+
+  async createFromTemplate(userId: number, factorsSetId: number): Promise<any> {
+    try {
+      // Get a template to duplicate to a new factors-set.
+      const template = await this.prismaService.template.findUnique({
+        where: { factorsSetId },
+        include: {
+          factorsSet: { include: { motivators: true, stressors: true } },
+        },
+      });
+
+      // Get each factors to duplicate to new factors.
+      const motivators: Motivator[] = template.factorsSet.motivators;
+      const stressors: Stressor[] = template.factorsSet.stressors;
+
+      // Create a new factors-set.
+      const newFactorsSet = await this.prismaService.factorsSet.create({
+        data: { name: template.factorsSet.name, userId },
+      });
+
+      const motivatorsDto: Prisma.MotivatorCreateManyInput[] = motivators.map(
+        (motivator) => {
+          return {
+            name: motivator.name,
+            weight: motivator.weight,
+            variable: motivator.variable,
+            factorsSetId: newFactorsSet.id,
+          };
+        },
+      );
+      const stressorsDto: Prisma.StressorCreateManyInput[] = stressors.map(
+        (stressor) => {
+          return {
+            name: stressor.name,
+            weight: stressor.weight,
+            variable: stressor.variable,
+            factorsSetId: newFactorsSet.id,
+          };
+        },
+      );
+
+      // Create new factors.
+      await this.prismaService.motivator.createMany({
+        data: motivatorsDto,
+      });
+      await this.prismaService.stressor.createMany({
+        data: stressorsDto,
+      });
+
+      return { newFactorsSetId: newFactorsSet.id };
     } catch (error) {
       throw new Error(`Failed to create factorsSet: ${error.message}`);
     }
