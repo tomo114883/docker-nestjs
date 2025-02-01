@@ -31,7 +31,7 @@ type Factor = {
   id: number;
   name: string;
   weight: number;
-  variable: boolean | null;
+  variable: boolean;
   factorsSetId: number;
   createdAt: Date;
   updatedAt: Date;

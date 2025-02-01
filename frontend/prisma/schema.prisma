@@ -22,7 +22,7 @@ model Motivator {
   id           Int        @id @default(autoincrement())
   name         String
   weight       Int
-  variable     Boolean?
+  variable     Boolean
   factorsSetId Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime
@@ -34,7 +34,7 @@ model Stressor {
   id           Int        @id @default(autoincrement())
   name         String
   weight       Int
-  variable     Boolean?
+  variable     Boolean
   factorsSetId Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime
@@ -52,13 +52,12 @@ model FactorsSet {
   User      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   Motivator Motivator[]
   Stressor  Stressor[]
-  Template  Template[]
+  Template  Template?
 }
 
 model Template {
   id           Int        @id @default(autoincrement())
-  name         String
-  factorsSetId Int
+  factorsSetId Int        @unique
   createdAt    DateTime   @default(now())
   updatedAt    DateTime
   deletedAt    DateTime?

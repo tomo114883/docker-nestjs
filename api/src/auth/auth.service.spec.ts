@@ -7,7 +7,6 @@ import * as bcrypt from 'bcryptjs';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserModelFactory } from 'src/test.utils/factory';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { JwtStrategy } from './jwt.strategy';

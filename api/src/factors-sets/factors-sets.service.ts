@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Motivator, Prisma, Stressor } from '@prisma/client';
+import { FactorsSet, Motivator, Prisma, Stressor } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateFactorsSetDto } from './dto/create-factors-set.dto';
 
@@ -7,10 +7,7 @@ import { CreateFactorsSetDto } from './dto/create-factors-set.dto';
 export class FactorsSetsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(
-    userId: number,
-    dto: CreateFactorsSetDto,
-  ): Promise<CreateFactorsSetDto> {
+  async create(userId: number, dto: CreateFactorsSetDto): Promise<FactorsSet> {
     try {
       return await this.prismaService.factorsSet.create({
         data: {
@@ -23,7 +20,10 @@ export class FactorsSetsService {
     }
   }
 
-  async createFromTemplate(userId: number, factorsSetId: number): Promise<any> {
+  async createFromTemplate(
+    userId: number,
+    factorsSetId: number,
+  ): Promise<Record<string, number>> {
     try {
       // Get a template to duplicate to a new factors-set.
       const template = await this.prismaService.template.findUnique({
@@ -77,7 +77,7 @@ export class FactorsSetsService {
     }
   }
 
-  async findAllNames(userId: number) {
+  async findAllNames(userId: number): Promise<FactorsSet[]> {
     try {
       return await this.prismaService.factorsSet.findMany({
         where: { userId },
