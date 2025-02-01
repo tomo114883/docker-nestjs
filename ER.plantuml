@@ -54,7 +54,7 @@ entity templates {
   * id : number <<generated>>
   --
   * name : text
-  * factors_set_id : number
+  * factors_set_id : number <<unique>>
   * created_at
   * updated_at
     deleted_at

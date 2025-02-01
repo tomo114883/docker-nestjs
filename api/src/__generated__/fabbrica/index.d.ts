@@ -60,15 +60,19 @@ type FactorsSetuserFactory = {
     _factoryFor: "User";
     build: () => PromiseLike<Prisma.UserCreateNestedOneWithoutFactorsSetsInput["create"]>;
 };
+type FactorsSettemplateFactory = {
+    _factoryFor: "Template";
+    build: () => PromiseLike<Prisma.TemplateCreateNestedOneWithoutFactorsSetInput["create"]>;
+};
 type FactorsSetFactoryDefineInput = {
     name?: string;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
     user: FactorsSetuserFactory | Prisma.UserCreateNestedOneWithoutFactorsSetsInput;
-    motivators?: Prisma.MotivatorCreateNestedManyWithoutFactorsSetsInput;
-    stressors?: Prisma.StressorCreateNestedManyWithoutFactorsSetsInput;
-    templates?: Prisma.TemplateCreateNestedManyWithoutFactorsSetsInput;
+    motivators?: Prisma.MotivatorCreateNestedManyWithoutFactorsSetInput;
+    stressors?: Prisma.StressorCreateNestedManyWithoutFactorsSetInput;
+    template?: FactorsSettemplateFactory | Prisma.TemplateCreateNestedOneWithoutFactorsSetInput;
 };
 type FactorsSetTransientFields = Record<string, unknown> & Partial<Record<keyof FactorsSetFactoryDefineInput, never>>;
 type FactorsSetFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -101,18 +105,18 @@ interface FactorsSetFactoryBuilder {
     withTransientFields: <TTransients extends FactorsSetTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends FactorsSetFactoryDefineOptions<TTransients>>(options: TOptions) => FactorsSetFactoryInterface<TTransients, FactorsSetTraitKeys<TOptions>>;
 }
 export declare const defineFactorsSetFactory: FactorsSetFactoryBuilder;
-type MotivatorfactorsSetsFactory = {
+type MotivatorfactorsSetFactory = {
     _factoryFor: "FactorsSet";
     build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutMotivatorsInput["create"]>;
 };
 type MotivatorFactoryDefineInput = {
     name?: string;
     weight?: number;
-    variable?: boolean | null;
+    variable?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    factorsSets: MotivatorfactorsSetsFactory | Prisma.FactorsSetCreateNestedOneWithoutMotivatorsInput;
+    factorsSet: MotivatorfactorsSetFactory | Prisma.FactorsSetCreateNestedOneWithoutMotivatorsInput;
 };
 type MotivatorTransientFields = Record<string, unknown> & Partial<Record<keyof MotivatorFactoryDefineInput, never>>;
 type MotivatorFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -145,18 +149,18 @@ interface MotivatorFactoryBuilder {
     withTransientFields: <TTransients extends MotivatorTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends MotivatorFactoryDefineOptions<TTransients>>(options: TOptions) => MotivatorFactoryInterface<TTransients, MotivatorTraitKeys<TOptions>>;
 }
 export declare const defineMotivatorFactory: MotivatorFactoryBuilder;
-type StressorfactorsSetsFactory = {
+type StressorfactorsSetFactory = {
     _factoryFor: "FactorsSet";
     build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutStressorsInput["create"]>;
 };
 type StressorFactoryDefineInput = {
     name?: string;
     weight?: number;
-    variable?: boolean | null;
+    variable?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    factorsSets: StressorfactorsSetsFactory | Prisma.FactorsSetCreateNestedOneWithoutStressorsInput;
+    factorsSet: StressorfactorsSetFactory | Prisma.FactorsSetCreateNestedOneWithoutStressorsInput;
 };
 type StressorTransientFields = Record<string, unknown> & Partial<Record<keyof StressorFactoryDefineInput, never>>;
 type StressorFactoryTrait<TTransients extends Record<string, unknown>> = {
@@ -189,16 +193,15 @@ interface StressorFactoryBuilder {
     withTransientFields: <TTransients extends StressorTransientFields>(defaultTransientFieldValues: TTransients) => <TOptions extends StressorFactoryDefineOptions<TTransients>>(options: TOptions) => StressorFactoryInterface<TTransients, StressorTraitKeys<TOptions>>;
 }
 export declare const defineStressorFactory: StressorFactoryBuilder;
-type TemplatefactorsSetsFactory = {
+type TemplatefactorsSetFactory = {
     _factoryFor: "FactorsSet";
-    build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutTemplatesInput["create"]>;
+    build: () => PromiseLike<Prisma.FactorsSetCreateNestedOneWithoutTemplateInput["create"]>;
 };
 type TemplateFactoryDefineInput = {
-    name?: string;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-    factorsSets: TemplatefactorsSetsFactory | Prisma.FactorsSetCreateNestedOneWithoutTemplatesInput;
+    factorsSet: TemplatefactorsSetFactory | Prisma.FactorsSetCreateNestedOneWithoutTemplateInput;
 };
 type TemplateTransientFields = Record<string, unknown> & Partial<Record<keyof TemplateFactoryDefineInput, never>>;
 type TemplateFactoryTrait<TTransients extends Record<string, unknown>> = {
