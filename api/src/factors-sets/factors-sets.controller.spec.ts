@@ -36,11 +36,11 @@ describe('FactorsSetsController', () => {
     });
   });
 
-  describe('findAllNames', () => {
+  describe('findAll', () => {
     it('should call the appropriate method and use the input data.', async () => {
       const req = { user: { id: 1 } } as Request;
-      await factorsSetsController.findAllNames(req);
-      expect(factorsSetsService.findAllNames).toHaveBeenCalledWith(req.user.id);
+      await factorsSetsController.findAll(req);
+      expect(factorsSetsService.findAll).toHaveBeenCalledWith(req.user.id);
     });
   });
 });

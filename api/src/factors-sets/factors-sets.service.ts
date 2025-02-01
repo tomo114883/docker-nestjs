@@ -77,11 +77,13 @@ export class FactorsSetsService {
     }
   }
 
-  async findAllNames(userId: number): Promise<FactorsSet[]> {
+  async findAll(userId: number): Promise<FactorsSet[]> {
     try {
-      return await this.prismaService.factorsSet.findMany({
-        where: { userId },
+      const factorsSets = await this.prismaService.factorsSet.findMany({
+        where: { userId, AND: { template: null } },
       });
+
+      return factorsSets;
     } catch (error) {
       throw new Error(`Failed to create factorsSet: ${error.message}`);
     }

@@ -25,12 +25,89 @@ describe('TemplatesService', () => {
     prismaService = templateModule.get<PrismaService>(PrismaService);
   });
 
+  describe('createWithName', () => {
+    it('should create a new template with the given name and userId', async () => {
+      const user = await UserModelFactory.create();
+      const name = 'Test Template';
+
+      const result = await templateService.createWithName(user.id, name);
+
+      const factorsSet = await prismaService.factorsSet.findUnique({
+        where: { id: result.factorsSetId },
+      });
+
+      expect(result.factorsSetId).toBe(factorsSet.id);
+      expect(name).toBe(factorsSet.name);
+      expect(user.id).toBe(factorsSet.userId);
+    });
+  });
+
   describe('createFromFactorsSet', () => {
-    it('should create a new template to connect to a factors-set.', async () => {
+    it('should create a new template in the DB from a factors-set.', async () => {
       const factorsSet = await FactorsSetModelFactory.create();
 
-      const result = await templateService.createFromFactorsSet(factorsSet.id);
-      expect(result.factorsSetId).toBe(factorsSet.id);
+      const result = await templateService.createFromFactorsSet(
+        factorsSet.userId,
+        factorsSet.id,
+      );
+
+      const newFactorsSetId: number = result.newFactorsSetId;
+
+      const newTemplate = await prismaService.template.findUnique({
+        where: { factorsSetId: newFactorsSetId },
+      });
+
+      expect(newTemplate.factorsSetId).toBe(newFactorsSetId);
+      expect(newFactorsSetId).not.toBe(factorsSet.id);
+    });
+    it('should create new each factors in the DB from a template.', async () => {
+      const user = await UserModelFactory.create();
+      const factorsSet = await FactorsSetModelFactory.create({
+        user: { connect: user },
+      });
+
+      const motivator = await prismaService.motivator.create({
+        data: {
+          name: faker.word.noun(),
+          weight: faker.number.int({ min: 0, max: 5 }),
+          variable: faker.datatype.boolean(),
+          factorsSetId: factorsSet.id,
+        },
+      });
+      const stressor = await prismaService.stressor.create({
+        data: {
+          name: faker.word.noun(),
+          weight: faker.number.int({ min: 0, max: 5 }),
+          variable: faker.datatype.boolean(),
+          factorsSetId: factorsSet.id,
+        },
+      });
+
+      const result = await templateService.createFromFactorsSet(
+        user.id,
+        factorsSet.id,
+      );
+
+      const newFactorsSetId = result.newFactorsSetId;
+
+      // Get new each factors from the DB.
+      const newMotivators = await prismaService.motivator.findMany({
+        where: {
+          factorsSetId: newFactorsSetId,
+        },
+      });
+      const newStressors = await prismaService.stressor.findMany({
+        where: {
+          factorsSetId: newFactorsSetId,
+        },
+      });
+
+      expect(motivator.name).toBe(newMotivators[0].name);
+      expect(motivator.weight).toBe(newMotivators[0].weight);
+      expect(motivator.variable).toBe(newMotivators[0].variable);
+      expect(stressor.name).toBe(newStressors[0].name);
+      expect(stressor.weight).toBe(newStressors[0].weight);
+      expect(stressor.variable).toBe(newStressors[0].variable);
     });
   });
 

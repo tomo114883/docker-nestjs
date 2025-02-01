@@ -121,7 +121,7 @@ describe('FactorsSetsService', () => {
     });
   });
 
-  describe('findAllNames', () => {
+  describe('findAll', () => {
     it('should get all factors-sets names for a user.', async () => {
       const user = await UserModelFactory.create();
 
@@ -132,10 +132,28 @@ describe('FactorsSetsService', () => {
         },
       });
 
-      const gotFactorsSets = await factorsSetsService.findAllNames(user.id);
+      const gotFactorsSets = await factorsSetsService.findAll(user.id);
 
       expect(gotFactorsSets[0].id).toBe(factorsSet.id);
       expect(gotFactorsSets[0].name).toBe(factorsSet.name);
+    });
+    it('should get all factors-sets without templates.', async () => {
+      const user = await UserModelFactory.create();
+
+      const factorsSet = await prismaService.factorsSet.create({
+        data: {
+          name: 'Test Factors Set',
+          userId: user.id,
+        },
+      });
+
+      const template = await TemplateModelFactory.create({
+        factorsSet: { connect: factorsSet },
+      });
+
+      const gotFactorsSets = await factorsSetsService.findAll(user.id);
+
+      expect(gotFactorsSets[0]).toBeUndefined();
     });
   });
 });
