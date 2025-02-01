@@ -1,3 +1,4 @@
+import { ConvertButton } from '@/app/ui/factors-sets/convert-button';
 import { CustomBarChart } from '../../ui/charts/bar-chart';
 import { FactorsIndex } from '../../ui/factors/factors-index';
 
@@ -18,6 +19,7 @@ export default function Home({ params }: { params: { id: string } }) {
           <FactorsIndex factorsSetId={factorsSetId} />
         </div>
       </div>
+      <ConvertButton title={metadata.title} factorsSetId={factorsSetId} />
     </>
   );
 }
