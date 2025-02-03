@@ -7,10 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { FactorsModule } from './factors/factors.module';
 import { UsersModule } from './users/users.module';
 import { FactorsSetsModule } from './factors-sets/factors-sets.module';
+import { TemplatesModule } from './templates/templates.module';
 
 @Module({
   // Import all modules was created into the root module.
-  imports: [UsersModule, FactorsModule, AuthModule, FactorsSetsModule],
+  imports: [UsersModule, FactorsModule, AuthModule, FactorsSetsModule, TemplatesModule],
   controllers: [AppController],
   providers: [
     {

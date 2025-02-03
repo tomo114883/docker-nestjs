@@ -17,16 +17,14 @@ export class FactorsController {
   async getBarChartInfo(
     @Param('factorsSetId') factorsSetId: string,
   ): Promise<BarChartInfo> {
-    return await this.factorsChartService.getBarChartInfo(Number(factorsSetId));
+    return await this.factorsChartService.getBarChartInfo(+factorsSetId);
   }
 
   @Get(':factorsSetId/monthly-chart-data')
   async getMonthlyChartData(
     @Param('factorsSetId') factorsSetId: string,
   ): Promise<BarChartData[]> {
-    return await this.factorsChartService.getMonthlyChartData(
-      Number(factorsSetId),
-    );
+    return await this.factorsChartService.getMonthlyChartData(+factorsSetId);
   }
 
   @Post(':factorsSetId/:factor')
@@ -35,7 +33,7 @@ export class FactorsController {
     @Param('factor') factor: string, // the factor is "motivator" or "stressor".
     @Body() dto: CreateFactorDto,
   ) {
-    return await this.factorsService.create(Number(factorsSetId), factor, dto);
+    return await this.factorsService.create(+factorsSetId, factor, dto);
   }
 
   @Get(':factorsSetId/:factor')
@@ -44,7 +42,7 @@ export class FactorsController {
     @Param('factor') factor: string,
   ) {
     return await this.factorsService.findFactors(
-      Number(factorsSetId),
+      +factorsSetId,
       factor, // 'motivator' or 'stressor'
     );
   }

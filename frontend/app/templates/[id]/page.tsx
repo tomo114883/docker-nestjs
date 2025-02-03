@@ -4,8 +4,8 @@ import { CustomBarChart } from '../../ui/charts/bar-chart';
 import { FactorsIndex } from '../../ui/factors/factors-index';
 
 export const metadata = {
-  title: 'Factors Index',
-  description: 'Factors Index page',
+  title: 'Templates',
+  description: 'Templates page',
 };
 
 export default function Home() {

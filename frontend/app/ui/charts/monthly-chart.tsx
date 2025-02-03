@@ -1,9 +1,13 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { useQueryMonthlyChartData } from '@/app/hooks/useQueryMonthlyChartData';
 import { LineChart, LineChartSeries } from '@mantine/charts';
 
-export const MonthlyChart = ({ factorsSetId }: { factorsSetId: number }) => {
+export const MonthlyChart = () => {
+  const params = useParams<{ id: string }>();
+  const factorsSetId = Number(params.id);
+
   const { data } = useQueryMonthlyChartData(factorsSetId);
   const series: LineChartSeries[] = [
     { name: 'motiv', color: 'red.4' },

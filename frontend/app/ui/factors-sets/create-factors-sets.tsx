@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import axios from 'axios';
 import { z } from 'zod';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
@@ -11,8 +12,17 @@ const schema = z.object({
   name: z.string(),
 });
 
-export const CreateFactorsSet = () => {
+export const CreateFormWithName = ({
+  title,
+}: {
+  title: string | TemplateString | null | undefined;
+}) => {
   const [error, setError] = useState('');
+  let link = `/factors-sets`;
+
+  if (title === 'Templates') {
+    link = `/templates`;
+  }
 
   const form = useForm({
     initialValues: {
@@ -26,7 +36,7 @@ export const CreateFactorsSet = () => {
     e.preventDefault();
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/factors-sets`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}${link}`, {
         name: form.values.name,
       });
       form.reset();

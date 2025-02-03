@@ -2,13 +2,15 @@ import { faker } from '@faker-js/faker';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaModule } from 'src/prisma/prisma.module';
-import { FactorModelFactory, UserModelFactory } from 'src/test.utils/factory';
+import { CreateFactorDto } from './dto/create-factor.dto';
+import { FactorsChartService } from './factors-chart.service';
 import { FactorsController } from './factors.controller';
 import { FactorsService } from './factors.service';
 
 describe('FactorsController', () => {
   let factorsController: FactorsController;
   let factorsService: DeepMocked<FactorsService>;
+  let factorsChartService: DeepMocked<FactorsChartService>;
 
   beforeEach(async () => {
     const factorsModule: TestingModule = await Test.createTestingModule({
@@ -19,81 +21,75 @@ describe('FactorsController', () => {
           provide: FactorsService,
           useValue: createMock<FactorsService>(),
         },
+        {
+          provide: FactorsChartService,
+          useValue: createMock<FactorsChartService>(),
+        },
       ],
     }).compile();
 
     factorsController = factorsModule.get<FactorsController>(FactorsController);
     factorsService =
       factorsModule.get<DeepMocked<FactorsService>>(FactorsService);
+    factorsChartService =
+      factorsModule.get<DeepMocked<FactorsChartService>>(FactorsChartService);
+  });
+
+  describe('getBarChartInfo', () => {
+    it('should call getBarChartInfo() of the service with appropriate args.', async () => {
+      const factorsSetId = '1';
+
+      await factorsController.getBarChartInfo(factorsSetId);
+
+      expect(factorsChartService.getBarChartInfo).toHaveBeenCalledWith(
+        Number(factorsSetId),
+      );
+    });
+  });
+
+  describe('getMonthlyChartData', () => {
+    it('should call getMonthlyChartData() of the service with appropriate args.', async () => {
+      const factorsSetId = '1';
+
+      await factorsController.getMonthlyChartData(factorsSetId);
+
+      expect(factorsChartService.getMonthlyChartData).toHaveBeenCalledWith(
+        Number(factorsSetId),
+      );
+    });
   });
 
   describe('create', () => {
-    it('call the appropriate method and use the input data.', async () => {
-      const user = await UserModelFactory.create();
-      const type = await TypeModelFactory.create();
+    it('should call create() of the service with appropriate args.', async () => {
+      const factorsSetId = '1';
+      const factor = 'motivator';
 
-      // Create a input data.
-      const input = {
+      const dto: CreateFactorDto = {
         name: faker.word.noun(),
-        weight: faker.number.int({ min: 1, max: 5 }),
-        userId: user.id,
-        typeId: type.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null,
+        weight: faker.number.int(),
+        variable: faker.datatype.boolean(),
       };
 
-      // Trigger this Controller method to test its functionality.
-      // By calling this method, the mocked Service can be available.
-      await factorsController.create(input);
+      await factorsController.create(factorsSetId, factor, dto);
 
-      // Verify that the appropriate Service mothod is called and given the argument.
-      expect(factorsService.create).toHaveBeenCalledWith(input);
+      expect(factorsService.create).toHaveBeenCalledWith(
+        Number(factorsSetId),
+        factor,
+        dto,
+      );
     });
   });
 
-  describe('findAll', () => {
-    it('call the appropriate method and use the input data.', async () => {
-      await factorsController.findAll();
+  describe('findFactors', () => {
+    it('should call findFactors() of the service with appropriate args.', async () => {
+      const factorsSetId = '1';
+      const factor = 'motivator';
 
-      expect(factorsService.findAll).toHaveBeenCalledWith();
-    });
-  });
-
-  describe('findOne', () => {
-    it('call the appropriate method and use the input data.', async () => {
-      const factor = await FactorModelFactory.create();
-
-      await factorsController.findOne(factor.id);
-
-      expect(factorsService.findOne).toHaveBeenCalledWith(factor.id);
-    });
-  });
-
-  describe('update', () => {
-    it('call the appropriate method and use the input data.', async () => {
-      const factor = await FactorModelFactory.create();
-      const type = await TypeModelFactory.create();
-
-      const input = {
-        name: faker.word.noun(),
-        weight: faker.number.int({ min: 1, max: 5 }),
-        typeId: type.id,
-      };
-
-      await factorsController.update(factor.id, input);
-
-      expect(factorsService.update).toHaveBeenCalledWith(factor.id, input);
-    });
-  });
-
-  describe('remove', () => {
-    it('call the appropriate method and use the input data.', async () => {
-      const factor = await FactorModelFactory.create();
-
-      await factorsController.remove(factor.id);
-
-      expect(factorsService.remove).toHaveBeenCalledWith(factor.id);
+      await factorsController.findFactors(factorsSetId, factor);
+      expect(factorsService.findFactors).toHaveBeenCalledWith(
+        Number(factorsSetId),
+        factor,
+      );
     });
   });
 });

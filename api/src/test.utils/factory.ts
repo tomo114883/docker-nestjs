@@ -2,6 +2,7 @@ import { fakerJA as faker } from '@faker-js/faker';
 import {
   defineFactorsSetFactory,
   defineMotivatorFactory,
+  defineTemplateFactory,
   defineUserFactory,
 } from 'src/__generated__/fabbrica';
 
@@ -35,6 +36,15 @@ export const FactorModelFactory = defineMotivatorFactory({
     createdAt: new Date(),
     updatedAt: new Date(),
     deletedAt: null,
-    factorsSets: FactorsSetModelFactory,
+    factorsSet: FactorsSetModelFactory,
+  }),
+});
+
+export const TemplateModelFactory = defineTemplateFactory({
+  defaultData: () => ({
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
+    factorsSet: FactorsSetModelFactory,
   }),
 });

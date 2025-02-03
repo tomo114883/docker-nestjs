@@ -1,7 +1,11 @@
-import { Factor } from '@/app/lib/definitions';
 import { EllipsisMenu } from '@/app/ui/ellipsis-menu';
+import { Motivator, Stressor } from '@prisma/client';
 
-export function FactorsList({ factors }: { factors: Factor[] | null }) {
+export function FactorsList({
+  factors,
+}: {
+  factors: Motivator[] | Stressor[] | null;
+}) {
   return (
     <>
       {

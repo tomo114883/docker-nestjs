@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { Factor } from '../lib/definitions';
+import { Motivator, Stressor } from '@prisma/client';
 
 export const useQueryFactor = (factorsSetId: number, factor: string) => {
-  const [data, setData] = useState<Factor[] | null>(null);
+  const [data, setData] = useState<Motivator[] | Stressor[] | null>(null);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -14,7 +14,7 @@ export const useQueryFactor = (factorsSetId: number, factor: string) => {
   useEffect(() => {
     const fetchFactor = async (retryCount = 0) => {
       try {
-        const { data } = await axios.get<Factor[] | null>(
+        const { data } = await axios.get<Motivator[] | Stressor[] | null>(
           `${process.env.NEXT_PUBLIC_API_URL}/factors-sets/${factorsSetId}/${factor}`,
         );
         setData(data);

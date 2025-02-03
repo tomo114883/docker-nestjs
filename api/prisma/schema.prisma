@@ -38,28 +38,38 @@ model FactorsSet {
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   motivators Motivator[]
   stressors  Stressor[]
+  template   Template?
 }
 
 model Motivator {
   id           Int        @id @default(autoincrement()) // Scalar Type
   name         String
   weight       Int
-  variable     Boolean?
+  variable     Boolean
   factorsSetId Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   deletedAt    DateTime?
-  factorsSets  FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
+  factorsSet   FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
 }
 
 model Stressor {
   id           Int        @id @default(autoincrement())
   name         String
   weight       Int
-  variable     Boolean?
+  variable     Boolean
   factorsSetId Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   deletedAt    DateTime?
-  factorsSets  FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
+  factorsSet   FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
+}
+
+model Template {
+  id           Int        @id @default(autoincrement())
+  factorsSetId Int        @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+  factorsSet   FactorsSet @relation(fields: [factorsSetId], references: [id], onDelete: Cascade)
 }

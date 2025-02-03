@@ -1,14 +1,17 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useQueryFactor } from '@/app/hooks/useQueryFactor';
 import { CreateModal } from '@/app/ui/factors/create-modal';
 import { FactorsList } from '@/app/ui/factors/factors-list';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { ScrollArea } from '@mantine/core';
 
-export function FactorsIndex({ factorsSetId }: { factorsSetId: number }) {
+export function FactorsIndex() {
+  const params = useParams<{ id: string }>();
+  const factorsSetId = Number(params.id);
   const router = useRouter();
+
   const motivators = useQueryFactor(factorsSetId, 'motivator');
   const stressors = useQueryFactor(factorsSetId, 'stressor');
 

@@ -1,10 +1,14 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { useQueryBarChartInfo } from '@/app/hooks/useQueryBarChartInfo';
 import { BarChartInfo } from '@/app/lib/definitions';
 import { BarChart } from '@mantine/charts';
 
-export function CustomBarChart({ factorsSetId }: { factorsSetId: number }) {
+export function CustomBarChart() {
+  const params = useParams<{ id: string }>();
+  const factorsSetId = Number(params.id);
+
   const res = useQueryBarChartInfo(factorsSetId);
   const factors: BarChartInfo = res.data;
 
