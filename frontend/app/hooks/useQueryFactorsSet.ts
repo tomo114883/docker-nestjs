@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import axios from 'axios';
-import { FactorsSet } from '../lib/definitions';
+import { Motivator, Stressor } from '@prisma/client';
 
 export const useQueryFactorsSets = (
   title: string | TemplateString | null | undefined,
 ) => {
-  const [data, setData] = useState<FactorsSet[] | null>(null);
+  const [data, setData] = useState<Motivator[] | Stressor[] | null>(null);
   const [status, setStatus] = useState('pending');
   const [error, setError] = useState<string | null>(null);
   let link = `/factors-sets`;
@@ -20,7 +20,7 @@ export const useQueryFactorsSets = (
   useEffect(() => {
     const fetchFactorsSets = async (retryCount = 0) => {
       try {
-        const { data } = await axios.get<FactorsSet[] | null>(
+        const { data } = await axios.get<Motivator[] | Stressor[] | null>(
           `${process.env.NEXT_PUBLIC_API_URL}${link}`,
         );
         setData(data);

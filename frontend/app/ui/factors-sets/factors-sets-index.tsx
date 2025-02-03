@@ -16,13 +16,16 @@ export const FactorsSetsIndex = ({
         <h3>投稿一覧</h3>
 
         {res.data?.map((item, i) => {
-          let link = `/factors-sets/${item.id}`;
+          let link = `/factors-sets/${item.id}?name=${encodeURIComponent(item.name)}`;
 
           if (title === 'Monthly Chart') {
-            link = `/charts/monthly/factors-sets/${item.id}`;
+            link = `/charts/monthly/factors-sets/${item.id}?name=${encodeURIComponent(item.name)}`;
+          }
+          if (title === 'Cope with AI') {
+            link = `/cope/${item.id}?name=${encodeURIComponent(item.name)}`;
           }
           if (title === 'Templates') {
-            link = `/templates/${item.id}`;
+            link = `/templates/${item.id}?name=${encodeURIComponent(item.name)}`;
           }
 
           return (
