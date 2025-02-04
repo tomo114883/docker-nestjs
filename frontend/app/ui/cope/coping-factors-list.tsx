@@ -1,6 +1,13 @@
-import { Factor } from '@/app/lib/definitions';
+import { Button } from '@mantine/core';
+import { Motivator, Stressor } from '@prisma/client';
 
-export function CopingFactorsList({ factors }: { factors: Factor[] | null }) {
+export function CopingFactorsList({
+  factors,
+  onFactorSelect,
+}: {
+  factors: Motivator[] | Stressor[] | null;
+  onFactorSelect: (factor: Motivator | Stressor) => void;
+}) {
   return (
     <>
       {
@@ -8,18 +15,12 @@ export function CopingFactorsList({ factors }: { factors: Factor[] | null }) {
           {factors &&
             factors.map((factor) => {
               return (
-                <div key={factor.id} className="">
-                  <div className="flex items-center justify-between">
-                    <p className="truncate text-sm font-semibold md:text-base">
-                      {factor.name}
-                    </p>
-                    <div className="flex items-center">
-                      <p className="mx-auto text-sm text-gray-500">
-                        {factor.weight}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <Button
+                  key={factor.id}
+                  onClick={() => onFactorSelect(factor)}
+                  color="gray-100"
+                  c={'dark'}
+                >{`${factor.name} ${factor.weight}`}</Button>
               );
             })}
         </div>

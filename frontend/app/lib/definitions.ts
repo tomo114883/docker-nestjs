@@ -1,24 +1,30 @@
 import { BarChartSeries } from '@mantine/charts';
 
-interface BarChartInfo {
-  data: BarChartData;
-  series: BarChartSeries[];
-}
+// Interfaces
 interface CreateFormProps {
   factorsSetId: number;
   factors: string;
   state: () => void;
 }
-interface DashboardCardProps {
-  title: string;
-  value: number;
+interface BarChartInfo {
+  data: BarChartData;
+  series: BarChartSeries[];
 }
 
+// Types
 type AuthForm = {
   email: string;
   password: string;
 };
 type BarChartData = Record<string, string | number>[];
 
-export type { BarChartInfo, CreateFormProps, DashboardCardProps };
+// Props
+type CopingTextAreaProps = { text: string };
+type DashboardCardProps = {
+  title: string;
+  value: number;
+};
+
+export type { BarChartInfo, CreateFormProps };
 export type { AuthForm, BarChartData };
+export type { DashboardCardProps, CopingTextAreaProps };

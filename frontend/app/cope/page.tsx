@@ -1,19 +1,15 @@
-// import { CopingFactors } from '../ui/cope/coping-factors';
-// import { CustomPagination } from '../ui/custom-pagination';
-// import { FactorsSetNameLabel } from '../ui/factors/factors-set-name-label';
+import { Metadata } from 'next';
+import { FactorsSetsIndex } from '@/app/ui/factors-sets/factors-sets-index';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Cope with AI',
-  description: 'Cope page with AI',
+  description: 'Cope with AI page',
 };
 
 export default function Home() {
-  // const factorsSet = { data: { id: 1, name: '就活' } };
   return (
     <>
-      {/* <FactorsSetNameLabel factorsSetName={factorsSet.data.name} />
-      <CopingFactors />
-      <CustomPagination /> */}
+      <FactorsSetsIndex title={metadata.title} />
     </>
   );
 }
